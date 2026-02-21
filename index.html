@@ -1778,7 +1778,8 @@
             <option value="dividen">Dividen</option>
             <option value="bunga">Bunga (Interest)</option>
             <option value="royalti">Royalti</option>
-            <option value="jasa">Imbalan Jasa / Kegiatan</option>
+            <option value="jasa">Imbalan Jasa / Technical Services</option>
+            <option value="kapgain">Capital Gain / Keuntungan Penjualan Harta</option>
           </select>
         </div>
       </div>
@@ -3269,7 +3270,7 @@ const P3B_DB = {
   'Saudi Arabia':   { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
   'Serbia':         { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
   'Seychelles':     { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
-  'Singapura':      { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[8,10,'8% industrial; 10% lainnya'], jasa:[null,null,''] },
+  'Singapura':      { dividen:[10,15,'10% jika kepemilikan ≥25%; 15% lainnya — P3B diperbarui efektif 1 Jan 2022'], bunga:[10,null,'Bunga obligasi pemerintah mengikuti tarif domestik Indonesia (max 10%)'], royalti:[8,10,'8% peralatan industri/ilmiah; 10% karya sastra/seni/film — turun dari 15% per 2022'], jasa:[null,null,'Capital gain penjualan saham di bursa Indonesia dikenakan tarif domestik Indonesia'] },
   'Slovakia':       { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
   'Afrika Selatan': { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
   'Spanyol':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
@@ -3284,7 +3285,7 @@ const P3B_DB = {
   'Tunisia':        { dividen:[12,null,''],      bunga:[12,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
   'Turki':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
   'Ukraina':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
-  'Uni Emirat Arab':{ dividen:[10,null,''],      bunga:[5,null,''],   royalti:[5,null,''],   jasa:[null,null,''] },
+  'Uni Emirat Arab':{ dividen:[10,null,''],      bunga:[7,null,'PP 34 Tahun 2021 — tarif WHT bunga 7%'],   royalti:[5,null,'Royalti & imbalan jasa teknik 5%'],   jasa:[5,null,'Imbalan jasa teknik 5% (sama dengan royalti)'] },
   'Inggris (UK)':   { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
   'Amerika Serikat':{ dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
   'Uzbekistan':     { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
@@ -3355,9 +3356,34 @@ function lookupP3B() {
   if (!data) { nfEl.style.display = 'block'; return; }
 
   const d = data[jenis];
-  const jenisLabel = { dividen:'Dividen', bunga:'Bunga (Interest)', royalti:'Royalti', jasa:'Imbalan Jasa' }[jenis];
+  const jenisLabel = { dividen:'Dividen', bunga:'Bunga (Interest)', royalti:'Royalti', jasa:'Imbalan Jasa / Technical Services', kapgain:'Capital Gain / Penjualan Harta' }[jenis];
 
-  let html = `<strong>🌏 ${negara} — ${jenisLabel}</strong><br>`;
+  let html2 = `<strong>🌏 ${negara} — ${jenisLabel}</strong><br>`;
+
+  // Capital gain: umumnya mengikuti hukum domestik masing-masing negara
+  if (jenis === 'kapgain') {
+    const kapgainNotes = {
+      'Singapura': 'Berdasarkan P3B update 2022: capital gain atas penjualan saham di bursa Indonesia dikenakan tarif <strong>domestik Indonesia (0,1%)</strong>. Indirect transfer juga diatur.',
+      'Australia': 'Capital gain atas alienasi properti tetap dan saham perusahaan properti dikenakan di Indonesia sesuai ketentuan domestik.',
+      'Amerika Serikat': 'Capital gain umumnya dikenakan di negara domisili, kecuali untuk real property dan saham perusahaan properti.',
+      'Belanda': 'Capital gain atas real property dikenakan di Indonesia. Saham umum di negara domisili.',
+    };
+    const note = kapgainNotes[negara] || null;
+    html2 += note
+      ? `<span style="color:var(--accent2);">${note}</span><br><span style="color:#94a3b8;font-size:0.88rem;">ℹ️ Untuk capital gain lainnya — umumnya hak pemajakan ada di negara domisili WPLN atau mengikuti hukum domestik Indonesia. Konsultasikan teks P3B untuk detail.</span>`
+      : `<span style="color:#94a3b8;">Capital gain umumnya tidak diatur secara khusus dalam P3B ini — hak pemajakan mengikuti <b>hukum domestik Indonesia</b> (PPh 26 20%) atau negara domisili tergantung jenis aset. Baca teks P3B untuk ketentuan spesifik.</span>`;
+    infoEl.innerHTML = html2;
+    resEl.style.display = 'block';
+    _p3bTarifSuggested = null; // tidak ada tarif spesifik utk dipakai
+    // Hide tombol "pakai tarif" untuk kapgain
+    resEl.querySelector('button') && (resEl.querySelector('button').style.display = 'none');
+    return;
+  }
+
+  // Reset tombol untuk jenis non-kapgain
+  resEl.querySelector('button') && (resEl.querySelector('button').style.display = '');
+
+  let html = html2;
 
   if (d[0] === null) {
     html += `<span style="color:#94a3b8;">Tarif PPh 26 untuk jenis ini tidak diatur khusus dalam P3B — berlaku ketentuan domestik negara masing-masing atau tarif umum 20%.</span>`;
@@ -3383,7 +3409,7 @@ function p3bPakaiTarif() {
   if (_p3bTarifSuggested === null) return;
   const negara = document.getElementById('p3b_negara').value;
   const jenis  = document.getElementById('p3b_jenis').value;
-  const jenisLabel = { dividen:'Dividen', bunga:'Bunga/Royalti/Hadiah', royalti:'Royalti', jasa:'Imbalan Jasa' }[jenis];
+  const jenisLabel = { dividen:'Dividen', bunga:'Bunga/Royalti/Hadiah', royalti:'Royalti', jasa:'Imbalan Jasa', kapgain:'Capital Gain' }[jenis];
 
   // Pilih opsi custom di dropdown
   document.getElementById('p26_jenis').value = 'custom';
