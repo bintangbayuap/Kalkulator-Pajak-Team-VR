@@ -623,6 +623,53 @@
     color: var(--accent2);
     letter-spacing: -0.04em;
   }
+  /* ── SEARCHABLE KOP DROPDOWN ── */
+  .kop-wrap { position: relative; }
+  .kop-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; color: var(--text);
+    font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box;
+    cursor: pointer;
+  }
+  .kop-input:focus { border-color: var(--accent); }
+  .kop-dropdown {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; max-height: 260px; overflow-y: auto;
+    z-index: 300; box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .kop-search {
+    position: sticky; top: 0; background: var(--surface2);
+    padding: 8px 10px 6px; border-bottom: 1px solid var(--border);
+  }
+  .kop-search input {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 7px; padding: 7px 10px; color: var(--text);
+    font-size: 0.82rem; font-family: inherit; outline: none; box-sizing: border-box;
+  }
+  .kop-search input:focus { border-color: var(--accent); }
+  .kop-group-label {
+    padding: 6px 12px 3px; font-size: 0.7rem; font-weight: 600;
+    color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .kop-item {
+    padding: 8px 14px; font-size: 0.85rem; color: var(--text);
+    cursor: pointer; line-height: 1.4; border-radius: 0;
+  }
+  .kop-item:hover, .kop-item.active { background: rgba(124,58,237,0.15); color: var(--accent); }
+  .kop-item .kop-code { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--accent); }
+  .kop-item .kop-desc { font-size: 0.82rem; color: var(--text); }
+  .kop-empty { padding: 12px 14px; color: var(--text-muted); font-size: 0.85rem; }
+  /* ── PPh 29 result ── */
+  .pph29-box {
+    margin-top: 0.5rem; padding: 14px 18px; border-radius: 12px;
+    border: 1px solid rgba(245,158,11,0.4); background: rgba(245,158,11,0.07);
+  }
+  .pph29-box.lebih { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.07); }
+  .pph29-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+  .pph29-amount { font-size: 1.6rem; font-weight: 800; font-family: 'DM Mono', monospace; }
+  .pph29-box .pph29-amount { color: #fbbf24; }
+  .pph29-box.lebih .pph29-amount { color: #34d399; }
 </style>
 </head>
 <body>
@@ -712,18 +759,18 @@
         </button>
         <div class="acc-body" id="body_ter" style="display:block">
 <div class="card">
-        <div class="card-title">Data Pegawai & PTKP</div>
+        <div class="card-title">Data Pegawai & PTKP <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted);margin-left:6px;">· PMK 168/2023 (PP 58/2023)</span></div>
         <div class="grid-2">
           <div class="field">
-            <label>Status PTKP</label>
+            <label>Status PTKP <span style="font-size:0.72rem;color:var(--text-muted);">(PMK 101/PMK.010/2016)</span></label>
             <select id="ter_ptkp" onchange="hitungTER()">
               <option value="A_54000000">TK/0 — Rp 54.000.000 (Kategori A)</option>
-              <option value="B_58500000">TK/1 — Rp 58.500.000 (Kategori B)</option>
-              <option value="B_63000000">TK/2 — Rp 63.000.000 (Kategori B)</option>
-              <option value="B_67500000">TK/3 — Rp 67.500.000 (Kategori B)</option>
+              <option value="A_58500000">TK/1 — Rp 58.500.000 (Kategori A)</option>
+              <option value="A_63000000">TK/2 — Rp 63.000.000 (Kategori A)</option>
+              <option value="A_67500000">TK/3 — Rp 67.500.000 (Kategori A)</option>
               <option value="B_58500000_k0">K/0 — Rp 58.500.000 (Kategori B)</option>
-              <option value="C_63000000">K/1 — Rp 63.000.000 (Kategori C)</option>
-              <option value="C_67500000">K/2 — Rp 67.500.000 (Kategori C)</option>
+              <option value="B_63000000_k1">K/1 — Rp 63.000.000 (Kategori B)</option>
+              <option value="B_67500000_k2">K/2 — Rp 67.500.000 (Kategori B)</option>
               <option value="C_72000000">K/3 — Rp 72.000.000 (Kategori C)</option>
             </select>
           </div>
@@ -838,7 +885,7 @@
           <span class="acc-chevron" id="chev_umum">▼</span>
         </button>
         <div class="acc-body" id="body_umum" style="display:none">
-<div class="ter-note" style="margin-bottom:1rem;">
+      <div class="ter-note" style="margin-bottom:1rem;">
         📋 <strong>Masa Pajak Terakhir (PMK 168/2023):</strong> Khusus <b>Pegawai Tetap</b>. Berlaku untuk masa Desember (full year) atau masa terakhir jika pegawai resign/pensiun/meninggal di tengah tahun. PPh dihitung ulang secara tahunan menggunakan Tarif Pasal 17, dikurangi PPh yang sudah dipotong via TER bulan-bulan sebelumnya.
       </div>
 
@@ -1066,18 +1113,12 @@
       <!-- Upah Bulanan -->
       <div class="card" id="nt_card_bulanan" style="display:none">
         <div class="card-title">Data Upah Bulanan — Kode Coretax 21-100-35</div>
-        <div class="grid-2">
-          <div class="field">
-            <label>Penghasilan Bruto Sebulan (Rp)</label>
-            <input type="number" id="nt_upah_bulanan" placeholder="0" oninput="hitungNonTetap()">
-          </div>
-          <div class="field">
-            <label>Iuran Pensiun / JHT per Bulan (Rp)</label>
-            <input type="number" id="nt_iuran_bulanan" placeholder="0" oninput="hitungNonTetap()">
-          </div>
+        <div class="field">
+          <label>Penghasilan Bruto Sebulan (Rp)</label>
+          <input type="number" id="nt_upah_bulanan" placeholder="0" oninput="hitungNonTetap()">
         </div>
         <div class="ter-note" style="margin-top:0.75rem; margin-bottom:0">
-          ℹ️ <b>21-100-35 — Upah PTT Bulanan:</b> Dipotong menggunakan <b>TER Bulanan</b> setiap bulan (kategori A/B/C berdasarkan PTKP). Tidak ada rekonsiliasi tahunan oleh pemotong. DPP = penghasilan bruto sebulan.
+          ℹ️ <b>21-100-35 — Upah PTT Bulanan (TER Bulanan):</b> DPP = <b>penghasilan bruto sebulan penuh</b> — tidak ada pengurangan biaya jabatan, iuran, maupun PTKP. TER dikalikan langsung ke bruto. Kategori A/B/C berdasarkan PTKP yang dipilih.
         </div>
       </div>
 
@@ -1109,31 +1150,12 @@
         <div class="grid-2">
           <div class="field">
             <label>Jenis Bukan Pegawai (Kode Objek Pajak Coretax)</label>
-            <select id="bp_jenis" onchange="hitungBP()">
-              <optgroup label="── Deemed 50% × Bruto (DPP = 50%) ──">
-                <option value="21-100-07">21-100-07 | Tenaga Ahli (Pengacara, Akuntan, Arsitek, Dokter, Konsultan, Notaris, PPAT, Penilai, Aktuaris)</option>
-                <option value="21-100-07-rs">21-100-07 | Dokter — Jasa dari RS/Klinik (bruto = jasa sebelum dipotong RS)</option>
-                <option value="21-100-33">21-100-33 | Seniman, Artis, Presenter, Sutradara, Kru Film, Influencer, Selebgram, Vlogger, Blogger</option>
-                <option value="21-100-34">21-100-34 | Olahragawan</option>
-                <option value="21-100-18">21-100-18 | Penasihat, Pengajar, Pelatih, Penceramah, Penyuluh, Moderator</option>
-                <option value="21-100-19">21-100-19 | Pengarang, Peneliti, Penerjemah</option>
-                <option value="21-100-20">21-100-20 | Pemberi Jasa dalam Segala Bidang</option>
-                <option value="21-100-21">21-100-21 | Agen Iklan</option>
-                <option value="21-100-22">21-100-22 | Pengawas atau Pengelola Proyek</option>
-                <option value="21-100-23">21-100-23 | Pembawa Pesanan / Perantara / Makelar</option>
-                <option value="21-100-06">21-100-06 | Petugas Penjaja Barang Dagangan</option>
-                <option value="21-100-05">21-100-05 | Agen Asuransi</option>
-                <option value="21-100-04">21-100-04 | Distributor Pemasaran Berjenjang / Penjualan Langsung</option>
-              </optgroup>
-              <optgroup label="── Deemed 100% × Bruto (DPP = 100%) ──">
-                <option value="21-100-36">21-100-36 | Peserta Perlombaan (Olahraga, Seni, Ketangkasan, IPTEK, dll)</option>
-                <option value="21-100-14">21-100-14 | Peserta Rapat, Konferensi, Sidang, Seminar, Lokakarya, Kunjungan Kerja</option>
-                <option value="21-100-15">21-100-15 | Peserta / Anggota Kepanitiaan Penyelenggara Kegiatan</option>
-                <option value="21-100-16">21-100-16 | Peserta Pendidikan, Pelatihan, dan Magang</option>
-                <option value="21-100-17">21-100-17 | Peserta Kegiatan Lainnya</option>
-                <option value="21-100-12">21-100-12 | Peserta Program Pensiun (Masih Pegawai) — Penarikan Dana Pensiun Sebagian</option>
-              </optgroup>
-            </select>
+            <div class="kop-wrap">
+              <input type="hidden" id="bp_kop_val">
+              <input type="text" class="kop-input" id="bp_kop_search" placeholder="🔍 Ketik kode atau nama jenis..." autocomplete="off"
+                oninput="kop_bp_filter()" onfocus="kop_bp_show()" onblur="kop_bp_hide()">
+              <div class="kop-dropdown" id="bp_kop_drop"></div>
+            </div>
           </div>
 
           <div class="field">
@@ -1205,92 +1227,12 @@
       <div class="grid-2">
         <div class="field">
           <label>Jenis Penghasilan</label>
-          <select id="pph23_jenis" onchange="hitung23()">
-            <optgroup label="── 15% — Dividen / Bunga / Royalti / Hadiah ──">
-              <option value="24-101-01|15">24-101-01 | Dividen</option>
-              <option value="24-102-01|15">24-102-01 | Bunga (selain PPh 4(2))</option>
-              <option value="24-103-01|15">24-103-01 | Royalti</option>
-              <option value="24-100-01|15">24-100-01 | Hadiah / Penghargaan / Bonus</option>
-            </optgroup>
-            <optgroup label="── 2% — Sewa Harta ──">
-              <option value="24-100-02|2">24-100-02 | Sewa Harta (selain Tanah/Bangunan)</option>
-            </optgroup>
-            <optgroup label="── 2% — Jasa ──">
-              <option value="24-104-01|2">24-104-01 | Jasa Teknik</option>
-              <option value="24-104-02|2">24-104-02 | Jasa Manajemen</option>
-              <option value="24-104-03|2">24-104-03 | Jasa Konsultan</option>
-              <option value="24-104-04|2">24-104-04 | Jasa Penilai (Appraisal)</option>
-              <option value="24-104-05|2">24-104-05 | Jasa Aktuaris</option>
-              <option value="24-104-06|2">24-104-06 | Jasa Akuntansi / Pembukuan / Atestasi</option>
-              <option value="24-104-07|2">24-104-07 | Jasa Hukum</option>
-              <option value="24-104-08|2">24-104-08 | Jasa Arsitektur</option>
-              <option value="24-104-09|2">24-104-09 | Jasa Perencanaan Kota &amp; Arsitektur Landscape</option>
-              <option value="24-104-10|2">24-104-10 | Jasa Perancang (Design)</option>
-              <option value="24-104-11|2">24-104-11 | Jasa Pengeboran (Drilling) — Migas, bukan BUT</option>
-              <option value="24-104-12|2">24-104-12 | Jasa Penunjang — Panas Bumi &amp; Migas</option>
-              <option value="24-104-13|2">24-104-13 | Jasa Penambangan &amp; Penunjang Panas Bumi/Migas</option>
-              <option value="24-104-14|2">24-104-14 | Jasa Penunjang Penerbangan &amp; Bandar Udara</option>
-              <option value="24-104-15|2">24-104-15 | Jasa Penebangan Hutan</option>
-              <option value="24-104-16|2">24-104-16 | Jasa Pengolahan Limbah</option>
-              <option value="24-104-17|2">24-104-17 | Jasa Penyedia Tenaga Kerja / Outsourcing</option>
-              <option value="24-104-18|2">24-104-18 | Jasa Perantara / Keagenan</option>
-              <option value="24-104-19|2">24-104-19 | Jasa Perdagangan Surat Berharga (selain Bursa)</option>
-              <option value="24-104-20|2">24-104-20 | Jasa Kustodian / Penyimpanan / Penitipan</option>
-              <option value="24-104-21|2">24-104-21 | Jasa Pengisian Suara (Dubbing) / Sulih Suara</option>
-              <option value="24-104-22|2">24-104-22 | Jasa Mixing Film</option>
-              <option value="24-104-23|2">24-104-23 | Jasa Pembuatan Sarana Promosi (Film, Iklan, Poster, Banner)</option>
-              <option value="24-104-24|2">24-104-24 | Jasa Software / Hardware / Sistem Komputer</option>
-              <option value="24-104-25|2">24-104-25 | Jasa Pembuatan / Pengelolaan Website</option>
-              <option value="24-104-26|2">24-104-26 | Jasa Internet</option>
-              <option value="24-104-27|2">24-104-27 | Jasa Penyimpanan / Pengolahan / Penyaluran Data</option>
-              <option value="24-104-28|2">24-104-28 | Jasa Instalasi/Pemasangan Mesin, Listrik, Telepon (non-konstruksi)</option>
-              <option value="24-104-29|2">24-104-29 | Jasa Perawatan/Perbaikan Mesin, Listrik, AC, TV Kabel (non-konstruksi)</option>
-              <option value="24-104-30|2">24-104-30 | Jasa Perawatan Kendaraan / Alat Transportasi</option>
-              <option value="24-104-31|2">24-104-31 | Jasa Maklon</option>
-              <option value="24-104-32|2">24-104-32 | Jasa Penyelidikan &amp; Keamanan</option>
-              <option value="24-104-33|2">24-104-33 | Jasa Penyelenggara Kegiatan / Event Organizer</option>
-              <option value="24-104-34|2">24-104-34 | Jasa Penyediaan Tempat/Waktu di Media / Jasa Periklanan</option>
-              <option value="24-104-35|2">24-104-35 | Jasa Pembasmian Hama</option>
-              <option value="24-104-36|2">24-104-36 | Jasa Kebersihan / Cleaning Service</option>
-              <option value="24-104-37|2">24-104-37 | Jasa Sedot Septic Tank</option>
-              <option value="24-104-38|2">24-104-38 | Jasa Pemeliharaan Kolam</option>
-              <option value="24-104-39|2">24-104-39 | Jasa Katering / Tata Boga</option>
-              <option value="24-104-40|2">24-104-40 | Jasa Freight Forwarding</option>
-              <option value="24-104-41|2">24-104-41 | Jasa Logistik</option>
-              <option value="24-104-42|2">24-104-42 | Jasa Pengurusan Dokumen</option>
-              <option value="24-104-43|2">24-104-43 | Jasa Pengepakan</option>
-              <option value="24-104-44|2">24-104-44 | Jasa Loading &amp; Unloading</option>
-              <option value="24-104-45|2">24-104-45 | Jasa Laboratorium / Pengujian</option>
-              <option value="24-104-46|2">24-104-46 | Jasa Pengelolaan Parkir</option>
-              <option value="24-104-47|2">24-104-47 | Jasa Penyondiran Tanah</option>
-              <option value="24-104-48|2">24-104-48 | Jasa Penyiapan / Pengolahan Lahan</option>
-              <option value="24-104-49|2">24-104-49 | Jasa Pembibitan / Penanaman Bibit</option>
-              <option value="24-104-50|2">24-104-50 | Jasa Pemeliharaan Tanaman</option>
-              <option value="24-104-51|2">24-104-51 | Jasa Pemanenan</option>
-              <option value="24-104-52|2">24-104-52 | Jasa Pengolahan Hasil Pertanian / Perkebunan / Perikanan</option>
-              <option value="24-104-53|2">24-104-53 | Jasa Dekorasi</option>
-              <option value="24-104-54|2">24-104-54 | Jasa Pencetakan / Penerbitan</option>
-              <option value="24-104-55|2">24-104-55 | Jasa Penerjemahan</option>
-              <option value="24-104-56|2">24-104-56 | Jasa Pengangkutan / Ekspedisi (selain PPh 15)</option>
-              <option value="24-104-57|2">24-104-57 | Jasa Pelayanan Pelabuhan</option>
-              <option value="24-104-58|2">24-104-58 | Jasa Pengangkutan Melalui Jalur Pipa</option>
-              <option value="24-104-59|2">24-104-59 | Jasa Pengelolaan Penitipan Anak</option>
-              <option value="24-104-60|2">24-104-60 | Jasa Pelatihan / Kursus</option>
-              <option value="24-104-61|2">24-104-61 | Jasa Pengiriman &amp; Pengisian Uang ke ATM</option>
-              <option value="24-104-62|2">24-104-62 | Jasa Sertifikasi</option>
-              <option value="24-104-63|2">24-104-63 | Jasa Survey</option>
-              <option value="24-104-64|2">24-104-64 | Jasa Tester</option>
-              <option value="24-104-65|2">24-104-65 | Jasa Lainnya dibebanka pada APBN/APBD</option>
-              <option value="24-104-66|2">24-104-66 | Jasa Penyelenggaraan Layanan Distribusi Token</option>
-              <option value="24-104-67|2">24-104-67 | Jasa Pemasaran dengan Media Voucher</option>
-              <option value="24-104-68|2">24-104-68 | Jasa Distribusi Voucher (Penyelenggara &amp; Distributor)</option>
-              <option value="24-104-69|2">24-104-69 | Jasa Program Loyalitas / Reward Pelanggan</option>
-            </optgroup>
-            <optgroup label="── 0% (Bebas / Dikecualikan) ──">
-              <option value="24-105-01|0">24-105-01 | Bunga Pinjaman P2P Lending (dikecualikan)</option>
-              <option value="24-106-01|0">24-106-01 | Kontraktor Utama — Proyek Pemerintah Hibah/PLN</option>
-            </optgroup>
-          </select>
+          <div class="kop-wrap">
+              <input type="hidden" id="pph23_kop_val">
+              <input type="text" class="kop-input" id="pph23_kop_search" placeholder="🔍 Ketik kode atau nama jenis..." autocomplete="off"
+                oninput="kop_pph23_filter()" onfocus="kop_pph23_show()" onblur="kop_pph23_hide()">
+              <div class="kop-dropdown" id="pph23_kop_drop"></div>
+            </div>
         </div>
         <div class="field">
           <label class="label-with-info">
@@ -1333,7 +1275,7 @@
   <div id="pph4" class="panel">
     <div class="section-header">
       <h2>PPh Pasal 4 Ayat (2)</h2>
-      <p>Pajak bersifat final atas penghasilan tertentu seperti sewa, bunga deposito, dan konstruksi.</p>
+      <p>Pajak bersifat final atas penghasilan tertentu seperti sewa, bunga deposito, dan konstruksi. Tarif DHE mengacu pada <b>PMK 123/2023</b>.</p>
     </div>
 
     <div class="card">
@@ -1341,61 +1283,12 @@
       <div class="grid-2">
         <div class="field">
           <label>Jenis Penghasilan</label>
-          <select id="pph4_jenis" onchange="hitung4()">
-            <optgroup label="── Sewa &amp; Pengalihan Tanah/Bangunan ──">
-              <option value="28-403-02|10">28-403-02 | Sewa Tanah dan/atau Bangunan (10%)</option>
-              <option value="28-402-01|2.5">28-402-01 | Pengalihan Hak atas Tanah/Bangunan (2,5%)</option>
-              <option value="28-402-02|1">28-402-02 | Pengalihan Rumah Sederhana / Rusun Sederhana (1%)</option>
-            </optgroup>
-            <optgroup label="── Bunga Deposito &amp; Tabungan ──">
-              <option value="28-404-01|20">28-404-01 | Bunga Tabungan &amp; Deposito — Selain DHE (20%)</option>
-              <option value="28-404-09|20">28-404-09 | Bunga Deposito/Tabungan — Ditempatkan di LN (20%)</option>
-              <option value="28-404-02|7.5">28-404-02 | Bunga Deposito IDR dari DHE — tenor 1 bulan (7,5%)</option>
-              <option value="28-404-03|5">28-404-03 | Bunga Deposito IDR dari DHE — tenor 3 bulan (5%)</option>
-              <option value="28-404-04|0">28-404-04 | Bunga Deposito IDR dari DHE — tenor ≥ 6 bulan (0%)</option>
-              <option value="28-404-05|10">28-404-05 | Bunga Deposito USD dari DHE — tenor 1 bulan (10%)</option>
-              <option value="28-404-06|7.5">28-404-06 | Bunga Deposito USD dari DHE — tenor 3 bulan (7,5%)</option>
-              <option value="28-404-07|2.5">28-404-07 | Bunga Deposito USD dari DHE — tenor 6 bulan (2,5%)</option>
-              <option value="28-404-08|0">28-404-08 | Bunga Deposito USD dari DHE — tenor &gt; 6 bulan (0%)</option>
-              <option value="28-404-10|20">28-404-10 | Diskonto Sertifikat Bank Indonesia (20%)</option>
-              <option value="28-404-11|20">28-404-11 | Jasa Giro (20%)</option>
-            </optgroup>
-            <optgroup label="── Obligasi &amp; Surat Utang ──">
-              <option value="28-401-01|15">28-401-01 | Bunga Obligasi / SUN / Obligasi Daerah — WPDN &amp; BUT (15%)</option>
-              <option value="28-401-03|10">28-401-03 | Bunga Obligasi WPDN &amp; BUT — diadministrasikan BI (10%)</option>
-              <option value="28-401-06|10">28-401-06 | Bunga Obligasi WPDN &amp; BUT (10%)</option>
-              <option value="28-401-04|20">28-401-04 | Diskonto SPN — WPDN &amp; BUT (20%)</option>
-              <option value="28-401-05|20">28-401-05 | Diskonto SPN — WP LN (20%)</option>
-            </optgroup>
-            <optgroup label="── Saham ──">
-              <option value="28-406-01|0.1">28-406-01 | Penjualan Saham di Bursa (Bukan Pendiri) (0,1%)</option>
-              <option value="28-407-01|0.5">28-407-01 | Penjualan Saham Pendiri di Bursa (0,5%)</option>
-              <option value="28-408-01|0.1">28-408-01 | Penjualan Saham Modal Ventura — Tidak di Bursa (0,1%)</option>
-            </optgroup>
-            <optgroup label="── Dividen &amp; Hadiah ──">
-              <option value="28-419-01|10">28-419-01 | Dividen yang Diterima WP OP Dalam Negeri (10%)</option>
-              <option value="28-405-01|25">28-405-01 | Hadiah Undian (25%)</option>
-              <option value="28-417-01|10">28-417-01 | Bunga Simpanan Koperasi — WP OP (10%)</option>
-            </optgroup>
-            <optgroup label="── Jasa Konstruksi (PP 9/2022) ──">
-              <option value="28-409-22|1.75">28-409-22 | Konstruksi — Pelaksanaan, Kualifikasi Kecil / Sertifikat OP (1,75%)</option>
-              <option value="28-409-24|2.65">28-409-24 | Konstruksi — Pelaksanaan, Kualifikasi Selain Kecil (2,65%)</option>
-              <option value="28-409-23|4">28-409-23 | Konstruksi — Pelaksanaan, Tanpa Sertifikat (4%)</option>
-              <option value="28-409-25|2.65">28-409-25 | Konstruksi Terintegrasi — Dengan Sertifikat BU (2,65%)</option>
-              <option value="28-409-26|4">28-409-26 | Konstruksi Terintegrasi — Tanpa Sertifikat (4%)</option>
-              <option value="28-409-27|3.5">28-409-27 | Konsultansi Konstruksi — Dengan Sertifikat (3,5%)</option>
-              <option value="28-409-28|6">28-409-28 | Konsultansi Konstruksi — Tanpa Sertifikat (6%)</option>
-            </optgroup>
-            <optgroup label="── PPh Final UMKM — PP 55/2022 ──">
-              <option value="28-423-01|0.5">28-423-01 | UMKM — Peredaran Bruto Tertentu, tarif 0,5% (PP 23/2018 / PP 55/2022)</option>
-              <option value="28-423-03|0.5">28-423-03 | UMKM OP — s.d. Rp 500 Juta: tarif 0,5% atas kelebihan 500 Juta</option>
-              <option value="28-423-14|0.5">28-423-14 | UMKM — Proyek Pemerintah dibiayai Hibah / PLN (0,5%)</option>
-            </optgroup>
-            <optgroup label="── Lainnya ──">
-              <option value="28-499-02|7.5">28-499-02 | Kerja Sama dengan LPI (7,5%)</option>
-              <option value="28-421-01|20">28-421-01 | Uplift Hulu Migas (20%)</option>
-            </optgroup>
-          </select>
+          <div class="kop-wrap">
+              <input type="hidden" id="pph4_kop_val">
+              <input type="text" class="kop-input" id="pph4_kop_search" placeholder="🔍 Ketik kode atau nama jenis..." autocomplete="off"
+                oninput="kop_pph4_filter()" onfocus="kop_pph4_show()" onblur="kop_pph4_hide()">
+              <div class="kop-dropdown" id="pph4_kop_drop"></div>
+            </div>
         </div>
         <div class="field">
           <label class="label-with-info">
@@ -1458,25 +1351,12 @@
       <div class="grid-2">
         <div class="field">
           <label>Jenis WP / Usaha</label>
-          <select id="p15_jenis" onchange="hitungP15()">
-            <optgroup label="── Pelayaran Dalam Negeri (1,2%) ──">
-              <option value="28-410-01|1.2">28-410-01 | Pelayaran DN — Pengangkutan Orang/Barang / Sewa Kapal (disetor sendiri)</option>
-              <option value="28-410-02|1.2">28-410-02 | Pelayaran DN — Imbalan dari Pemotong Pihak Lain</option>
-            </optgroup>
-            <optgroup label="── Pelayaran / Penerbangan Luar Negeri ──">
-              <option value="28-411-02|2.64">28-411-02 | Charter Kapal Laut / Pesawat — Perusahaan LN melalui BUT (2,64%)</option>
-              <option value="28-411-01|0">28-411-01 | Pelayaran / Penerbangan LN — Pengangkutan Orang/Barang Reguler (0%)</option>
-            </optgroup>
-            <optgroup label="── Penerbangan Dalam Negeri (1,8%) ──">
-              <option value="penerbangan_dn|1.8">PPh 15 | Penerbangan Dalam Negeri / Charter (1,8%) — norma 6% × tarif PPh</option>
-            </optgroup>
-            <optgroup label="── Perwakilan Dagang Luar Negeri (0,44%) ──">
-              <option value="28-413-01|0.44">28-413-01 | Kantor Perwakilan Dagang WPLN di Indonesia (0,44%)</option>
-            </optgroup>
-            <optgroup label="── Jasa Maklon Internasional (1,75%) ──">
-              <option value="maklon|1.75">PPh 15 | Jasa Maklon Internasional — Mainan Anak (7% × 25% = 1,75%)</option>
-            </optgroup>
-          </select>
+          <div class="kop-wrap">
+              <input type="hidden" id="p15_kop_val">
+              <input type="text" class="kop-input" id="p15_kop_search" placeholder="🔍 Ketik kode atau nama jenis..." autocomplete="off"
+                oninput="kop_p15_filter()" onfocus="kop_p15_show()" onblur="kop_p15_hide()">
+              <div class="kop-dropdown" id="p15_kop_drop"></div>
+            </div>
         </div>
         <div class="field">
           <label class="label-with-info">
@@ -1555,9 +1435,49 @@
       </div>
     </div>
 
+    <div class="card">
+      <div class="card-title">Kredit Pajak &amp; PPh 29</div>
+      <div class="grid-2">
+        <div class="field">
+          <label class="label-with-info">PPh 22 Dipungut Pihak Lain (Rp)
+            <i class="info-icon">i<div class="tooltip-box"><strong>PPh Pasal 22</strong>PPh yang dipungut atas impor barang, pembelian dari instansi pemerintah, atau transaksi tertentu lainnya. Dikreditkan terhadap PPh Badan terutang.</div></i>
+          </label>
+          <input type="number" id="pb_kredit22" placeholder="0" oninput="hitungBadan()">
+        </div>
+        <div class="field">
+          <label class="label-with-info">PPh 23 Dipotong Pihak Lain (Rp)
+            <i class="info-icon">i<div class="tooltip-box"><strong>PPh Pasal 23</strong>PPh yang dipotong atas penghasilan badan dari dividen, bunga, royalti, jasa dll. Dikreditkan terhadap PPh Badan terutang.</div></i>
+          </label>
+          <input type="number" id="pb_kredit23" placeholder="0" oninput="hitungBadan()">
+        </div>
+        <div class="field">
+          <label class="label-with-info">PPh 24 Kredit Pajak Luar Negeri (Rp)
+            <i class="info-icon">i<div class="tooltip-box"><strong>PPh Pasal 24</strong>Kredit pajak atas penghasilan dari luar negeri yang sudah dipajaki di sana. Batas kredit = proporsional PPh Indonesia atas penghasilan LN tersebut.</div></i>
+          </label>
+          <input type="number" id="pb_kredit24" placeholder="0" oninput="hitungBadan()">
+        </div>
+        <div class="field">
+          <label class="label-with-info">Angsuran PPh 25 Dibayar (Rp)
+            <i class="info-icon">i<div class="tooltip-box"><strong>PPh Pasal 25</strong>Angsuran pajak yang dibayar sendiri tiap bulan (biasanya 1/12 × PPh terutang tahun lalu). Total setahun = 12 × angsuran bulanan. Dikreditkan penuh terhadap PPh terutang.</div></i>
+          </label>
+          <input type="number" id="pb_kredit25" placeholder="0" oninput="hitungBadan()">
+        </div>
+        <div class="field">
+          <label class="label-with-info">PPh Ditanggung Pemerintah / Lainnya (Rp)
+            <i class="info-icon">i<div class="tooltip-box"><strong>Kredit Lainnya</strong>Termasuk PPh DTP (ditanggung pemerintah), STP yang sudah dibayar, atau kredit lain yang diperbolehkan.</div></i>
+          </label>
+          <input type="number" id="pb_kreditlain" placeholder="0" oninput="hitungBadan()">
+        </div>
+      </div>
+    </div>
+
     <div class="result-box" id="resultBadan" style="display:none">
       <div class="result-title">📊 Hasil Perhitungan PPh Badan</div>
       <table class="result-table" id="tableBadan"></table>
+      <div id="pph29Box" class="pph29-box" style="display:none;margin-top:1rem;">
+        <div class="pph29-label" id="pph29Label"></div>
+        <div class="pph29-amount" id="pph29Amount"></div>
+      </div>
     </div>
   </div>
 
@@ -1594,33 +1514,24 @@
 
         <div class="field" id="ppn_nilailain_field" style="display:none">
           <label>Jenis Transaksi (PMK 11/2025)</label>
-          <select id="ppn_nilailain_jenis" onchange="hitungPPN()">
-            <optgroup label="── Jasa KP Tertentu — Efektif 1,1% ──">
-              <option value="jasa_pengiriman">Jasa Pengiriman Paket — 10% × 11/12 × 12%</option>
-              <option value="biro_perjalanan">Jasa Biro/Agen Perjalanan Wisata — 10% × 11/12 × 12%</option>
-              <option value="freight_forwarding">Jasa Pengurusan Transportasi / Freight Forwarding — 10% × 11/12 × 12%</option>
-              <option value="voucher_marketing">Jasa Penyelenggaraan Pemasaran dg Voucer — 10% × 11/12 × 12%</option>
-              <option value="ibadah_dirinci">Jasa Perjalanan Ibadah (Tagihan Dirinci) — 10% × 11/12 × 12%</option>
-              <option value="ibadah_tidakdirinci">Jasa Perjalanan Ibadah (Tagihan Tidak Dirinci) — 5% × 11/12 × 12%</option>
-            </optgroup>
-            <optgroup label="── Emas Perhiasan (PMK 48/2023) ──">
-              <option value="emas_konsumen">Emas ke Konsumen Akhir (Pabrikan/Pedagang) — 15% × 11/12 × 12% = efektif 1,65%</option>
-              <option value="emas_antar_pkp">Emas Antar PKP (Pabrikan↔Pedagang) — 10% × 11/12 × 12% = efektif 1,1%</option>
-            </optgroup>
-            <optgroup label="── BKP Tertentu ──">
-              <option value="pertanian">Barang Hasil Pertanian Tertentu — 10% × 11/12 × 12% = efektif 1,1%</option>
-              <option value="kendaraan_bekas">Kendaraan Bermotor Bekas — 10% × 11/12 × 12% = efektif 1,1%</option>
-              <option value="ayda">Agunan yang Diambil Alih (AYDA) — 10% × 11/12 × 12% = efektif 1,1%</option>
-            </optgroup>
-            <optgroup label="── Lainnya ──">
-              <option value="kms">Kegiatan Membangun Sendiri (KMS) — 20% × 11/12 × 12% = efektif 2,2%</option>
-              <option value="pemakaian_sendiri">Pemakaian Sendiri / Pemberian Cuma-Cuma — 12% × 11/12 × HPP = efektif 11% dari HPP</option>
-            </optgroup>
+          <div class="kop-wrap">
+            <input type="hidden" id="ppn_nilailain_kop_val">
+            <input type="text" class="kop-input" id="ppn_nilailain_kop_search" placeholder="🔍 Ketik jenis transaksi..." autocomplete="off"
+              oninput="kop_ppn_nilailain_filter()" onfocus="kop_ppn_nilailain_show()" onblur="kop_ppn_nilailain_hide()">
+            <div class="kop-dropdown" id="ppn_nilailain_kop_drop"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Arah Perhitungan</label>
+          <select id="ppn_arah" onchange="hitungPPN()">
+            <option value="dari_harga">Harga Belum Termasuk PPN → Hitung PPN</option>
+            <option value="dari_total">Harga Sudah Termasuk PPN → Pisahkan PPN</option>
           </select>
         </div>
 
         <div class="field">
-          <label id="ppn_input_label">Harga / Nilai Transaksi Sudah Termasuk PPN (Rp)</label>
+          <label id="ppn_input_label">Harga Jual / Nilai Transaksi (Rp)</label>
           <input type="number" id="ppn_dpp" placeholder="0" oninput="hitungPPN()">
         </div>
       </div>
@@ -1649,36 +1560,21 @@
       <div class="grid-2">
         <div class="field">
           <label>Jenis Barang Mewah</label>
-          <select id="ppnbm_jenis" onchange="hitungPPnBM()">
-            <optgroup label="── Kendaraan Bermotor (PP 73/2019 jo PP 74/2021) ──">
-              <option value="3">LCGC / Kendaraan Hemat Energi &amp; Emisi Rendah (3%)</option>
-              <option value="6">Sedan / Wagon / Hatchback ≤ 1.500cc Bensin (6%)</option>
-              <option value="10">Sedan / Wagon ≤ 1.500cc 4WD Bensin (10%)</option>
-              <option value="15">MPV / Pick-Up / SUV ≤ 1.500cc Bensin (15%)</option>
-              <option value="20">Kendaraan 1.500–2.500cc Bensin (20%)</option>
-              <option value="25">Kendaraan 1.500–2.500cc 4WD Bensin (25%)</option>
-              <option value="40">Kendaraan 2.500–3.000cc Bensin (40%)</option>
-              <option value="50">Kendaraan &gt; 3.000cc Bensin (50%)</option>
-              <option value="60">Kendaraan CBU Impor — Kategori Tertentu (60%)</option>
-              <option value="70">Kendaraan CBU Impor Mewah &gt; 3.000cc 4WD (70%)</option>
-            </optgroup>
-            <optgroup label="── Non-Kendaraan ──">
-              <option value="20">Hunian / Properti Mewah ≥ Rp 20 Miliar (20%)</option>
-              <option value="50">Kapal Pesiar / Yacht / Hovercraft (50%)</option>
-              <option value="75">Pesawat Terbang Pribadi / Helikopter (75%)</option>
-              <option value="75">Senjata Api (kecuali keperluan negara) (75%)</option>
-              <option value="95">Rumah &amp; Tanah Sangat Mewah ≥ Rp 30 Miliar (95%)</option>
-            </optgroup>
-          </select>
+          <div class="kop-wrap">
+            <input type="hidden" id="ppnbm_kop_val">
+            <input type="text" class="kop-input" id="ppnbm_kop_search" placeholder="🔍 Ketik jenis kendaraan / barang mewah..." autocomplete="off"
+              oninput="kop_ppnbm_filter()" onfocus="kop_ppnbm_show()" onblur="kop_ppnbm_hide()">
+            <div class="kop-dropdown" id="ppnbm_kop_drop"></div>
+          </div>
         </div>
         <div class="field">
           <label>Harga Jual / DPP (Rp)</label>
           <input type="number" id="ppnbm_dpp" placeholder="0" oninput="hitungPPnBM()">
         </div>
       </div>
-      <div class="tarif-info" id="ppnbm_tarif_info">Tarif PPnBM: 3%</div>
+      <div class="tarif-info" id="ppnbm_tarif_info">Tarif PPnBM: —</div>
       <div class="grossup-info" style="border-color:rgba(250,204,21,0.3);background:rgba(250,204,21,0.06);color:#fde68a;">
-        ℹ️ <b>PP 73/2019 jo PP 74/2021:</b> Tarif kendaraan bermotor ditentukan oleh kapasitas mesin, jenis bahan bakar, dan tipe kendaraan. Konsultasikan dengan tabel resmi untuk kepastian tarif spesifik kendaraan Anda.
+        ℹ️ <b>PP 73/2019 jo PP 74/2021:</b> Tarif kendaraan ditentukan oleh jenis propulsi, kapasitas mesin, dan tipe kendaraan. Kendaraan listrik BEV = 0%. Konsultasikan tabel resmi untuk kepastian tarif spesifik.
       </div>
     </div>
 
@@ -2090,7 +1986,7 @@ function hitung21() {
       { label: 'Masa Pajak Terakhir', value: bulanNames[bulanTerakhir] },
       { label: `Jumlah Bulan Kerja (${bulanNames[bulanMulai]}–${bulanNames[bulanTerakhir]})`, value: N + ' bulan' },
       { label: 'Penghasilan Bruto Aktual (total)' + modeLabel, value: fmt(brutoAktual) },
-      { label: 'Biaya Jabatan', value: fmt(skenario === 'A' ? Math.min(brutoAktual * 0.05, N * 500000) : Math.min(brutoAktual * (12/N) * 0.05, 6000000)) },
+      { label: 'Biaya Jabatan (5%, maks 500rb/bln · PMK 250/2008)', value: fmt(skenario === 'A' ? Math.min(brutoAktual * 0.05, N * 500000) : Math.min(brutoAktual * (12/N) * 0.05, 6000000)) },
       { label: 'Iuran Pensiun / JHT', value: fmt(skenario === 'A' ? iuranPB * N : iuranPB * 12) },
       ...(skenario === 'B' ? [
         { label: 'Penghasilan Bruto Disetahunkan', value: fmt(brutoAktual * 12 / N) },
@@ -2451,10 +2347,13 @@ function hitungNonTetap() {
     const brutoAsli = parseFloat(document.getElementById('nt_upah_bulanan').value) || 0;
     if (!brutoAsli) { hide(); return; }
 
-    // Derive TER kategori dari PTKP
+    // Derive TER kategori dari PTKP (PMK 168/2023 Lampiran A/B/C)
+    // Kategori A: TK/0–3  (ptkpRaw = angka tanpa _k)
+    // Kategori B: K/0–2   (ptkpRaw ends with _k, bukan 72000000_k)
+    // Kategori C: K/3     (ptkpRaw === '72000000_k')
     let terKat = 'A';
-    if (ptkpRaw.includes('63000000_k') || ptkpRaw.includes('67500000_k') || ptkpRaw.startsWith('72000000')) terKat = 'C';
-    else if (ptkpRaw.includes('_k') || ptkpRaw.startsWith('58500000') || ptkpRaw.startsWith('63000000') || ptkpRaw.startsWith('67500000')) terKat = 'B';
+    if (ptkpRaw === '72000000_k') terKat = 'C';
+    else if (ptkpRaw.endsWith('_k')) terKat = 'B';
 
     if (skema === 'gross_up') {
       let T = 0;
@@ -2523,7 +2422,7 @@ const BP_DEEMED = {
 };
 
 function hitungBP() {
-  const jenis  = document.getElementById('bp_jenis').value;
+  const jenis  = document.getElementById('bp_kop_val').value;
   const skema  = document.getElementById('bp_skema').value;
   const bruto  = parseFloat(document.getElementById('bp_bruto').value)    || 0;
 
@@ -2607,7 +2506,7 @@ function hitungBP() {
 // ── PPH 23 ─────────────────────────────────────────────
 function hitung23() {
   const input  = parseFloat(document.getElementById('pph23_bruto').value) || 0;
-  const jenisVal = document.getElementById('pph23_jenis').value;
+  const jenisVal = document.getElementById('pph23_kop_val').value;
   const skema  = document.getElementById('pph23_skema').value;
 
   const [kode, tarifStr] = jenisVal.split('|');
@@ -2615,8 +2514,7 @@ function hitung23() {
   const tarif    = tarifPct / 100;
   const tarifLabel = tarifPct + '%';
 
-  const sel = document.getElementById('pph23_jenis');
-  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| /, '');
+  const namaJenis = (document.getElementById('pph23_kop_search').value || '').replace(/^[\d-]+ \| /, '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
@@ -2687,7 +2585,7 @@ function hitung23() {
 // ── PPH 4(2) ───────────────────────────────────────────
 function hitung4() {
   const input  = parseFloat(document.getElementById('pph4_bruto').value) || 0;
-  const jenisVal = document.getElementById('pph4_jenis').value;
+  const jenisVal = document.getElementById('pph4_kop_val').value;
   const skema  = document.getElementById('pph4_skema').value;
 
   const [kode, tarifStr] = jenisVal.split('|');
@@ -2695,8 +2593,7 @@ function hitung4() {
   const tarif     = tarifPct / 100;
   const tarifLabel = tarifPct + '%';
 
-  const sel = document.getElementById('pph4_jenis');
-  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| /, '');
+  const namaJenis = (document.getElementById('pph4_kop_search').value || '').replace(/^[\d-]+ \| /, '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
@@ -2766,9 +2663,16 @@ function hitung4() {
 
 // ── PPH BADAN ──────────────────────────────────────────
 function hitungBadan() {
-  const pb = parseFloat(document.getElementById('pb_peredaran').value) || 0;
-  const pkp = parseFloat(document.getElementById('pb_pkp').value) || 0;
+  const pb    = parseFloat(document.getElementById('pb_peredaran').value) || 0;
+  const pkp   = parseFloat(document.getElementById('pb_pkp').value) || 0;
   const jenis = document.getElementById('pb_jenis').value;
+
+  // Kredit pajak
+  const k22    = parseFloat(document.getElementById('pb_kredit22').value) || 0;
+  const k23    = parseFloat(document.getElementById('pb_kredit23').value) || 0;
+  const k24    = parseFloat(document.getElementById('pb_kredit24').value) || 0;
+  const k25    = parseFloat(document.getElementById('pb_kredit25').value) || 0;
+  const klain  = parseFloat(document.getElementById('pb_kreditlain').value) || 0;
 
   if (pb === 0 || pkp === 0) { document.getElementById('resultBadan').style.display = 'none'; return; }
 
@@ -2777,15 +2681,12 @@ function hitungBadan() {
   let tarif1 = 0, tarif2 = 0, pkpFasilitas = 0, pkpNonFasilitas = 0;
 
   if (jenis === 'tbk') {
-    // Perusahaan Tbk: 19%
     pph = pkp * 0.19;
     keterangan = '19% (Perusahaan Tbk)';
   } else if (pb <= 4800000000) {
-    // Seluruh PKP dapat fasilitas 50% pengurangan tarif → 11%
     pph = pkp * 0.11;
     keterangan = '11% (Fasilitas Pasal 31E — Peredaran Bruto ≤ Rp 4,8 M)';
   } else if (pb <= 50000000000) {
-    // Proporsional: sebagian 11%, sebagian 22%
     pkpFasilitas = (4800000000 / pb) * pkp;
     pkpNonFasilitas = pkp - pkpFasilitas;
     tarif1 = pkpFasilitas * 0.11;
@@ -2793,10 +2694,12 @@ function hitungBadan() {
     pph = tarif1 + tarif2;
     keterangan = 'Proporsional 11% + 22%';
   } else {
-    // Semua 22%
     pph = pkp * 0.22;
     keterangan = '22% (Peredaran Bruto > Rp 50 M)';
   }
+
+  const totalKredit = k22 + k23 + k24 + k25 + klain;
+  const pph29 = pph - totalKredit;   // positif = kurang bayar, negatif = lebih bayar
 
   const rows = [];
   rows.push({ label: 'Peredaran Bruto', value: fmt(pb) });
@@ -2804,16 +2707,41 @@ function hitungBadan() {
   rows.push({ label: 'Skema Tarif', value: keterangan });
 
   if (pkpFasilitas > 0) {
-    rows.push({ label: `PKP Dapat Fasilitas (11%)`, value: fmt(pkpFasilitas) });
-    rows.push({ label: `PPh atas PKP Fasilitas`, value: fmt(tarif1) });
-    rows.push({ label: `PKP Non-Fasilitas (22%)`, value: fmt(pkpNonFasilitas) });
-    rows.push({ label: `PPh atas PKP Non-Fasilitas`, value: fmt(tarif2) });
+    rows.push({ label: 'PKP Dapat Fasilitas (11%)',   value: fmt(pkpFasilitas) });
+    rows.push({ label: 'PPh atas PKP Fasilitas',      value: fmt(tarif1) });
+    rows.push({ label: 'PKP Non-Fasilitas (22%)',     value: fmt(pkpNonFasilitas) });
+    rows.push({ label: 'PPh atas PKP Non-Fasilitas',  value: fmt(tarif2) });
   }
 
   rows.push({ label: 'PPh Badan Terutang', value: fmt(pph), total: true });
 
+  if (totalKredit > 0) {
+    rows.push({ label: '─────────────── Kredit Pajak', value: '' });
+    if (k22   > 0) rows.push({ label: '(-) PPh Pasal 22 dipungut',        value: fmt(k22) });
+    if (k23   > 0) rows.push({ label: '(-) PPh Pasal 23 dipotong',        value: fmt(k23) });
+    if (k24   > 0) rows.push({ label: '(-) PPh Pasal 24 kredit pajak LN', value: fmt(k24) });
+    if (k25   > 0) rows.push({ label: '(-) PPh Pasal 25 angsuran',        value: fmt(k25) });
+    if (klain > 0) rows.push({ label: '(-) Kredit Lainnya / DTP',         value: fmt(klain) });
+    rows.push({ label: 'Total Kredit Pajak', value: fmt(totalKredit), total: true });
+  }
+
   renderTable('tableBadan', rows);
   document.getElementById('resultBadan').style.display = 'block';
+
+  // ── PPh 29 / PPh 28 result box ──
+  const box29 = document.getElementById('pph29Box');
+  if (totalKredit > 0) {
+    box29.style.display = 'block';
+    const lebih = pph29 < 0;
+    box29.className = 'pph29-box' + (lebih ? ' lebih' : '');
+    document.getElementById('pph29Label').textContent = lebih
+      ? '🟢 PPh 28 — Lebih Bayar (dapat direstitusi atau dikompensasikan)'
+      : '🟡 PPh 29 — Kurang Bayar (harus dilunasi sebelum SPT Tahunan disampaikan)';
+    document.getElementById('pph29Amount').textContent = fmt(Math.abs(pph29));
+    document.getElementById('pph29Amount').style.color = lebih ? '#34d399' : '#fbbf24';
+  } else {
+    box29.style.display = 'none';
+  }
 }
 
 // ── PPN (PMK 131/2024 + PMK 11/2025) ───────────────────
@@ -2846,12 +2774,22 @@ const PPN_BESARAN = {
 };
 
 function switchPPNSkema() {
-  const skema = document.getElementById('ppn_skema').value;
+  const skema    = document.getElementById('ppn_skema').value;
   const nilLainField = document.getElementById('ppn_nilailain_field');
-  const infoBox      = document.getElementById('ppn_info_box');
-  const inputLbl     = document.getElementById('ppn_input_label');
+  const infoBox  = document.getElementById('ppn_info_box');
+  const arahSel  = document.getElementById('ppn_arah');
+  const inputLbl = document.getElementById('ppn_input_label');
 
   nilLainField.style.display = skema === 'nilai_lain' ? 'block' : 'none';
+
+  // Ekspor: PPN 0% → opsi "sudah termasuk PPN" tidak relevan, disable
+  if (skema === 'ekspor' || skema === 'nilai_lain') {
+    // nilai_lain & ekspor: selalu dari_harga / nilai transaksi
+    arahSel.options[1].disabled = (skema === 'ekspor');
+    if (skema === 'ekspor' && arahSel.value === 'dari_total') arahSel.value = 'dari_harga';
+  } else {
+    arahSel.options[1].disabled = false;
+  }
 
   const infoMap = {
     non_mewah:  '⚖️ <b>PMK 131/2024 Pasal 3:</b> BKP/JKP Non-Mewah → <b>DPP Nilai Lain = 11/12 × Harga Jual</b><br>PPN = 12% × 11/12 × Harga = <b>efektif 11%</b>. Tarif UU 12%, beban nyata tetap 11%.',
@@ -2861,16 +2799,28 @@ function switchPPNSkema() {
   };
   infoBox.innerHTML = 'ℹ️ ' + (infoMap[skema] || '');
 
-  inputLbl.textContent = skema === 'ekspor'     ? 'Nilai Ekspor (Rp)'
-    : skema === 'nilai_lain' ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)'
-    : skema === 'mewah'      ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)'
-    : 'Harga / Nilai Transaksi Sudah Termasuk PPN (Rp)';
+  const arah = arahSel.value;
 
-  document.getElementById('ppn_dpp').placeholder = skema === 'nilai_lain'
-    ? '0  (isi nilai transaksi/tagihan penuh termasuk PPN)'
-    : skema === 'mewah' ? '0  (harga jual penuh sudah termasuk PPN)'
-    : skema === 'ekspor' ? '0'
-    : '0  (isi harga sudah termasuk PPN)';
+  // Update label input
+  if (skema === 'ekspor') {
+    inputLbl.textContent = 'Nilai Ekspor (Rp)';
+  } else if (skema === 'nilai_lain') {
+    inputLbl.textContent = arah === 'dari_total'
+      ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)'
+      : 'Nilai Transaksi / Tagihan (Rp)';
+  } else if (skema === 'mewah') {
+    inputLbl.textContent = arah === 'dari_total'
+      ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)'
+      : 'Harga Jual BKP Mewah (Rp)';
+  } else {
+    inputLbl.textContent = arah === 'dari_total'
+      ? 'Harga Sudah Termasuk PPN (Rp)'
+      : 'Harga Jual / Nilai Transaksi (Rp)';
+  }
+
+  document.getElementById('ppn_dpp').placeholder = skema === 'ekspor' ? '0'
+    : arah === 'dari_total' ? '0  (isi harga/nilai sudah termasuk PPN)'
+    : '0  (isi harga/nilai belum termasuk PPN)';
 
   hitungPPN();
 }
@@ -2878,48 +2828,88 @@ function switchPPNSkema() {
 function hitungPPN() {
   const nilaiInput = parseFloat(document.getElementById('ppn_dpp').value) || 0;
   const skema = document.getElementById('ppn_skema').value;
+  const arah  = document.getElementById('ppn_arah').value;
   const hide  = () => { document.getElementById('resultPPN').style.display = 'none'; };
+
+  // Sync label saat arah berubah (tanpa reload skema)
+  const inputLbl = document.getElementById('ppn_input_label');
+  if (skema === 'non_mewah' || skema === 'mewah') {
+    inputLbl.textContent = arah === 'dari_total'
+      ? (skema === 'mewah' ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)' : 'Harga Sudah Termasuk PPN (Rp)')
+      : (skema === 'mewah' ? 'Harga Jual BKP Mewah (Rp)' : 'Harga Jual / Nilai Transaksi (Rp)');
+  } else if (skema === 'nilai_lain') {
+    inputLbl.textContent = arah === 'dari_total'
+      ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)'
+      : 'Nilai Transaksi / Tagihan (Rp)';
+  }
 
   if (!nilaiInput) { hide(); return; }
 
-  // Semua mode: input = harga SUDAH TERMASUK PPN (pisahkan PPN)
   let rows = [];
 
   // ── 1. BKP/JKP Non-Mewah (PMK 131/2024 Pasal 3) ──────
   if (skema === 'non_mewah') {
-    // total = H × 1.11 → H = total / 1.11
-    const total        = nilaiInput;
-    const hargaJual    = total / 1.11;
-    const dppNilaiLain = hargaJual * (11 / 12);
-    const ppn          = total - hargaJual;
-    const efektifPct   = (ppn / hargaJual * 100).toFixed(2);
+    let hargaJual, dppNilaiLain, ppn, total;
 
+    if (arah === 'dari_harga') {
+      // Input = harga jual (belum termasuk PPN)
+      hargaJual    = nilaiInput;
+      dppNilaiLain = hargaJual * (11 / 12);
+      ppn          = dppNilaiLain * 0.12;   // = 11% × harga
+      total        = hargaJual + ppn;
+    } else {
+      // Input = total sudah termasuk PPN efektif 11%
+      // total = H + 11%H = 1.11H → H = total / 1.11
+      total        = nilaiInput;
+      hargaJual    = total / 1.11;
+      dppNilaiLain = hargaJual * (11 / 12);
+      ppn          = total - hargaJual;
+    }
+
+    const efektifPct = (ppn / hargaJual * 100).toFixed(2);
     rows = [
-      { label: 'Dasar Regulasi',                          value: 'PMK 131/2024 Pasal 3 — BKP/JKP Non-Mewah' },
-      { label: 'Total Harga Input (include PPN)',          value: fmt(total) },
-      { label: 'Harga Jual (ekskl. PPN)',                  value: fmt(hargaJual) },
-      { label: 'DPP Nilai Lain (11/12 × Harga)',          value: fmt(dppNilaiLain) },
-      { label: 'Tarif PPN (sesuai UU)',                   value: '12%' },
-      { label: 'PPN Terutang (12% × DPP Nilai Lain)',     value: fmt(ppn), total: true },
-      { label: 'Tarif Efektif PPN',                       value: efektifPct + '% ≈ 11%' },
+      { label: 'Dasar Regulasi',                             value: 'PMK 131/2024 Pasal 3 — BKP/JKP Non-Mewah' },
+      ...(arah === 'dari_total' ? [
+        { label: 'Total Harga Input (include PPN)',           value: fmt(total) },
+        { label: 'Harga Jual (ekskl. PPN)',                   value: fmt(hargaJual) },
+      ] : [
+        { label: 'Harga Jual / Nilai Transaksi',             value: fmt(hargaJual) },
+      ]),
+      { label: 'DPP Nilai Lain (11/12 × Harga)',             value: fmt(dppNilaiLain) },
+      { label: 'Tarif PPN (sesuai UU)',                      value: '12%' },
+      { label: 'PPN Terutang (12% × DPP Nilai Lain)',        value: fmt(ppn), total: true },
+      { label: 'Tarif Efektif PPN',                          value: efektifPct + '% ≈ 11%' },
+      { label: 'Total Harga (termasuk PPN)',                  value: fmt(total) },
       { label: 'Selisih vs PPN 12% atas harga penuh (penghematan)', value: fmt(hargaJual * 0.12 - ppn) },
     ];
 
   // ── 2. BKP Mewah — PMK 131/2024 Pasal 2 ──────────────
   } else if (skema === 'mewah') {
-    // total = H × 1.12 → H = total / 1.12
-    const total     = nilaiInput;
-    const hargaJual = total / 1.12;
-    const ppn       = total - hargaJual;
+    let hargaJual, ppn, total;
+
+    if (arah === 'dari_harga') {
+      hargaJual = nilaiInput;
+      ppn       = hargaJual * 0.12;
+      total     = hargaJual + ppn;
+    } else {
+      // total = H × 1.12 → H = total / 1.12
+      total     = nilaiInput;
+      hargaJual = total / 1.12;
+      ppn       = total - hargaJual;
+    }
 
     rows = [
-      { label: 'Dasar Regulasi',                        value: 'PMK 131/2024 Pasal 2 — BKP Mewah (PPnBM)' },
-      { label: 'Total Harga Input (include PPN)',        value: fmt(total) },
-      { label: 'Harga Jual BKP Mewah (ekskl. PPN)',     value: fmt(hargaJual) },
-      { label: 'DPP',                                   value: 'Harga Jual Penuh (tanpa diskon nilai lain)' },
-      { label: 'Tarif PPN',                             value: '12%' },
-      { label: 'PPN Terutang (12% × Harga Jual)',       value: fmt(ppn) },
-      { label: 'Total Harga (termasuk PPN)',             value: fmt(total), total: true },
+      { label: 'Dasar Regulasi',                             value: 'PMK 131/2024 Pasal 2 — BKP Mewah (PPnBM)' },
+      ...(arah === 'dari_total' ? [
+        { label: 'Total Harga Input (include PPN)',           value: fmt(total) },
+        { label: 'Harga Jual BKP Mewah (ekskl. PPN)',        value: fmt(hargaJual) },
+      ] : [
+        { label: 'Harga Jual BKP Mewah',                     value: fmt(hargaJual) },
+      ]),
+      { label: 'DPP',                                        value: 'Harga Jual Penuh (tanpa diskon nilai lain)' },
+      { label: 'Tarif PPN',                                  value: '12%' },
+      { label: 'PPN Terutang (12% × Harga Jual)',            value: fmt(ppn) },
+      { label: 'Total Harga (termasuk PPN)',                  value: fmt(total), total: true },
     ];
 
   // ── 3. Ekspor ─────────────────────────────────────────
@@ -2933,45 +2923,53 @@ function hitungPPN() {
 
   // ── 4. Besaran Tertentu (PMK 11/2025) ─────────────────
   } else if (skema === 'nilai_lain') {
-    const jenisKey = document.getElementById('ppn_nilailain_jenis').value;
+    const jenisKey = document.getElementById('ppn_nilailain_kop_val').value;
     const cfg      = PPN_BESARAN[jenisKey];
 
     if (jenisKey === 'pemakaian_sendiri') {
-      // total = HPP × 1.11 → HPP = total / 1.11
-      const hpp   = nilaiInput / 1.11;
+      // DPP = HPP; PPN = 12% × 11/12 × HPP = 11% × HPP
+      // dari_total: total = HPP + 11%HPP = 1.11 × HPP → HPP = total / 1.11
+      const hpp   = arah === 'dari_total' ? nilaiInput / 1.11 : nilaiInput;
       const dppNL = hpp * (11 / 12);
       const ppn   = dppNL * 0.12;
       rows = [
-        { label: 'Dasar Regulasi',                  value: cfg.dasar },
-        { label: 'Jenis',                           value: cfg.label },
-        { label: 'Total Input (include PPN)',        value: fmt(nilaiInput) },
-        { label: 'DPP (= HPP / Harga Perolehan)',   value: fmt(hpp) },
-        { label: 'DPP Nilai Lain (11/12 × HPP)',    value: fmt(dppNL) },
-        { label: 'Formula PPN',                     value: '12% × (11/12) × HPP = 11% × HPP' },
-        { label: 'PPN Terutang',                    value: fmt(ppn), total: true },
-        { label: 'Total (HPP + PPN)',                value: fmt(hpp + ppn) },
-        { label: 'Tarif Efektif (atas HPP)',         value: '11%' },
+        { label: 'Dasar Regulasi',                           value: cfg.dasar },
+        { label: 'Jenis',                                    value: cfg.label },
+        ...(arah === 'dari_total' ? [
+          { label: 'Total Input (include PPN)',               value: fmt(nilaiInput) },
+        ] : []),
+        { label: 'DPP (= HPP / Harga Perolehan)',            value: fmt(hpp) },
+        { label: 'DPP Nilai Lain (11/12 × HPP)',             value: fmt(dppNL) },
+        { label: 'Formula PPN',                              value: '12% × (11/12) × HPP = 11% × HPP' },
+        { label: 'PPN Terutang',                             value: fmt(ppn), total: true },
+        { label: 'Total (HPP + PPN)',                        value: fmt(hpp + ppn) },
+        { label: 'Tarif Efektif (atas HPP)',                  value: '11%' },
       ];
     } else {
-      // total = nilai × (1 + f×11%) → nilai = total / (1 + f×11%)
+      // PPN = f% × 11/12 × 12% × nilai = f% × 11% × nilai
+      // dari_total: total = nilai × (1 + efRate) → nilai = total / (1 + efRate)
       const f       = cfg.faktor / 100;
       const efRate  = f * (11 / 12) * 0.12;
-      const nilai   = nilaiInput / (1 + efRate);
+      const nilai   = arah === 'dari_total' ? nilaiInput / (1 + efRate) : nilaiInput;
       const dppNL   = nilai * f;
       const ppn     = nilai * efRate;
       const total   = nilai + ppn;
       const efektif = (efRate * 100).toFixed(2);
 
       rows = [
-        { label: 'Dasar Regulasi',                                        value: cfg.dasar },
-        { label: 'Jenis',                                                 value: cfg.label },
-        { label: 'Total Input (termasuk PPN)',                            value: fmt(nilaiInput) },
-        { label: 'Nilai Transaksi (DPP)',                                 value: fmt(nilai) },
-        { label: `DPP Nilai Lain (${cfg.faktor}% × Nilai Transaksi)`,    value: fmt(dppNL) },
-        { label: 'Formula PPN Besaran Tertentu',                          value: `${cfg.faktor}% × 11/12 × 12% × Nilai` },
-        { label: 'PPN Terutang',                                          value: fmt(ppn), total: true },
-        { label: 'Total (Nilai + PPN)',                                   value: fmt(total) },
-        { label: 'Tarif Efektif PPN (atas Nilai Transaksi)',               value: `${efektif}%  = ${cfg.faktor}% × 11%` },
+        { label: 'Dasar Regulasi',                                     value: cfg.dasar },
+        { label: 'Jenis',                                              value: cfg.label },
+        ...(arah === 'dari_total' ? [
+          { label: 'Total Input (termasuk PPN)',                        value: fmt(nilaiInput) },
+          { label: 'Nilai Transaksi (DPP)',                             value: fmt(nilai) },
+        ] : [
+          { label: 'DPP (Nilai Transaksi / Tagihan)',                   value: fmt(nilai) },
+        ]),
+        { label: `DPP Nilai Lain (${cfg.faktor}% × Nilai Transaksi)`,  value: fmt(dppNL) },
+        { label: 'Formula PPN Besaran Tertentu',                        value: `${cfg.faktor}% × 11/12 × 12% × Nilai` },
+        { label: 'PPN Terutang',                                        value: fmt(ppn), total: true },
+        { label: 'Total (Nilai + PPN)',                                  value: fmt(total) },
+        { label: 'Tarif Efektif PPN (atas Nilai Transaksi)',             value: `${efektif}%  = ${cfg.faktor}% × 11%` },
       ];
     }
   }
@@ -2983,7 +2981,8 @@ function hitungPPN() {
 // ── PPnBM ──────────────────────────────────────────────
 function hitungPPnBM() {
   const dpp = parseFloat(document.getElementById('ppnbm_dpp').value) || 0;
-  const jenis = document.getElementById('ppnbm_jenis').value;
+  const jenis = document.getElementById('ppnbm_kop_val').value;
+  if (!jenis) { document.getElementById('resultPPnBM').style.display = 'none'; return; }
   const tarif = parseFloat(jenis) / 100;
 
   document.getElementById('ppnbm_tarif_info').textContent = `Tarif PPnBM: ${jenis}%`;
@@ -3147,7 +3146,7 @@ const P15_TARIF = {
 
 function hitungP15() {
   const input  = parseFloat(document.getElementById('p15_bruto').value) || 0;
-  const jenisVal = document.getElementById('p15_jenis').value;
+  const jenisVal = document.getElementById('p15_kop_val').value;
   const skema  = document.getElementById('p15_skema').value;
 
   const [kode, tarifStr] = jenisVal.split('|');
@@ -3160,8 +3159,7 @@ function hitungP15() {
     ? P15_TARIF[kode].label
     : tarifPct.toFixed(2).replace('.', ',').replace(/,?0+$/, '') + '% (efektif)';
 
-  const sel = document.getElementById('p15_jenis');
-  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| |^PPh 15 \| /, '');
+  const namaJenis = (document.getElementById('p15_kop_search').value || '').replace(/^[\d-]+ \| |^PPh 15 \| /, '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
@@ -3500,6 +3498,98 @@ function hitungP26() {
   renderTable('tableP26', rows);
   document.getElementById('resultP26').style.display = 'block';
 }
+
+
+// ── SEARCHABLE KOP DROPDOWNS ────────────────────────────
+const _KOP_BP = [{"v": "21-100-07", "t": "21-100-07 | Tenaga Ahli (Pengacara, Akuntan, Arsitek, Dokter, Konsultan, Notaris, PPAT, Penilai, Aktuaris)", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-07-rs", "t": "21-100-07 | Dokter — Jasa dari RS/Klinik (bruto = jasa sebelum dipotong RS)", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-33", "t": "21-100-33 | Seniman, Artis, Presenter, Sutradara, Kru Film, Influencer, Selebgram, Vlogger, Blogger", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-34", "t": "21-100-34 | Olahragawan", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-18", "t": "21-100-18 | Penasihat, Pengajar, Pelatih, Penceramah, Penyuluh, Moderator", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-19", "t": "21-100-19 | Pengarang, Peneliti, Penerjemah", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-20", "t": "21-100-20 | Pemberi Jasa dalam Segala Bidang", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-21", "t": "21-100-21 | Agen Iklan", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-22", "t": "21-100-22 | Pengawas atau Pengelola Proyek", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-23", "t": "21-100-23 | Pembawa Pesanan / Perantara / Makelar", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-06", "t": "21-100-06 | Petugas Penjaja Barang Dagangan", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-05", "t": "21-100-05 | Agen Asuransi", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-04", "t": "21-100-04 | Distributor Pemasaran Berjenjang / Penjualan Langsung", "g": "Deemed 50% × Bruto (DPP = 50%)"}, {"v": "21-100-36", "t": "21-100-36 | Peserta Perlombaan (Olahraga, Seni, Ketangkasan, IPTEK, dll)", "g": "Deemed 100% × Bruto (DPP = 100%)"}, {"v": "21-100-14", "t": "21-100-14 | Peserta Rapat, Konferensi, Sidang, Seminar, Lokakarya, Kunjungan Kerja", "g": "Deemed 100% × Bruto (DPP = 100%)"}, {"v": "21-100-15", "t": "21-100-15 | Peserta / Anggota Kepanitiaan Penyelenggara Kegiatan", "g": "Deemed 100% × Bruto (DPP = 100%)"}, {"v": "21-100-16", "t": "21-100-16 | Peserta Pendidikan, Pelatihan, dan Magang", "g": "Deemed 100% × Bruto (DPP = 100%)"}, {"v": "21-100-17", "t": "21-100-17 | Peserta Kegiatan Lainnya", "g": "Deemed 100% × Bruto (DPP = 100%)"}, {"v": "21-100-12", "t": "21-100-12 | Peserta Program Pensiun (Masih Pegawai) — Penarikan Dana Pensiun Sebagian", "g": "Deemed 100% × Bruto (DPP = 100%)"}];
+const _KOP_P23 = [{"v": "24-101-01|15", "t": "24-101-01 | Dividen", "g": "15% — Dividen / Bunga / Royalti / Hadiah"}, {"v": "24-102-01|15", "t": "24-102-01 | Bunga (selain PPh 4(2))", "g": "15% — Dividen / Bunga / Royalti / Hadiah"}, {"v": "24-103-01|15", "t": "24-103-01 | Royalti", "g": "15% — Dividen / Bunga / Royalti / Hadiah"}, {"v": "24-100-01|15", "t": "24-100-01 | Hadiah / Penghargaan / Bonus", "g": "15% — Dividen / Bunga / Royalti / Hadiah"}, {"v": "24-100-02|2", "t": "24-100-02 | Sewa Harta (selain Tanah/Bangunan)", "g": "2% — Sewa Harta"}, {"v": "24-104-01|2", "t": "24-104-01 | Jasa Teknik", "g": "2% — Jasa"}, {"v": "24-104-02|2", "t": "24-104-02 | Jasa Manajemen", "g": "2% — Jasa"}, {"v": "24-104-03|2", "t": "24-104-03 | Jasa Konsultan", "g": "2% — Jasa"}, {"v": "24-104-04|2", "t": "24-104-04 | Jasa Penilai (Appraisal)", "g": "2% — Jasa"}, {"v": "24-104-05|2", "t": "24-104-05 | Jasa Aktuaris", "g": "2% — Jasa"}, {"v": "24-104-06|2", "t": "24-104-06 | Jasa Akuntansi / Pembukuan / Atestasi", "g": "2% — Jasa"}, {"v": "24-104-07|2", "t": "24-104-07 | Jasa Hukum", "g": "2% — Jasa"}, {"v": "24-104-08|2", "t": "24-104-08 | Jasa Arsitektur", "g": "2% — Jasa"}, {"v": "24-104-09|2", "t": "24-104-09 | Jasa Perencanaan Kota & Arsitektur Landscape", "g": "2% — Jasa"}, {"v": "24-104-10|2", "t": "24-104-10 | Jasa Perancang (Design)", "g": "2% — Jasa"}, {"v": "24-104-11|2", "t": "24-104-11 | Jasa Pengeboran (Drilling) — Migas, bukan BUT", "g": "2% — Jasa"}, {"v": "24-104-12|2", "t": "24-104-12 | Jasa Penunjang — Panas Bumi & Migas", "g": "2% — Jasa"}, {"v": "24-104-13|2", "t": "24-104-13 | Jasa Penambangan & Penunjang Panas Bumi/Migas", "g": "2% — Jasa"}, {"v": "24-104-14|2", "t": "24-104-14 | Jasa Penunjang Penerbangan & Bandar Udara", "g": "2% — Jasa"}, {"v": "24-104-15|2", "t": "24-104-15 | Jasa Penebangan Hutan", "g": "2% — Jasa"}, {"v": "24-104-16|2", "t": "24-104-16 | Jasa Pengolahan Limbah", "g": "2% — Jasa"}, {"v": "24-104-17|2", "t": "24-104-17 | Jasa Penyedia Tenaga Kerja / Outsourcing", "g": "2% — Jasa"}, {"v": "24-104-18|2", "t": "24-104-18 | Jasa Perantara / Keagenan", "g": "2% — Jasa"}, {"v": "24-104-19|2", "t": "24-104-19 | Jasa Perdagangan Surat Berharga (selain Bursa)", "g": "2% — Jasa"}, {"v": "24-104-20|2", "t": "24-104-20 | Jasa Kustodian / Penyimpanan / Penitipan", "g": "2% — Jasa"}, {"v": "24-104-21|2", "t": "24-104-21 | Jasa Pengisian Suara (Dubbing) / Sulih Suara", "g": "2% — Jasa"}, {"v": "24-104-22|2", "t": "24-104-22 | Jasa Mixing Film", "g": "2% — Jasa"}, {"v": "24-104-23|2", "t": "24-104-23 | Jasa Pembuatan Sarana Promosi (Film, Iklan, Poster, Banner)", "g": "2% — Jasa"}, {"v": "24-104-24|2", "t": "24-104-24 | Jasa Software / Hardware / Sistem Komputer", "g": "2% — Jasa"}, {"v": "24-104-25|2", "t": "24-104-25 | Jasa Pembuatan / Pengelolaan Website", "g": "2% — Jasa"}, {"v": "24-104-26|2", "t": "24-104-26 | Jasa Internet", "g": "2% — Jasa"}, {"v": "24-104-27|2", "t": "24-104-27 | Jasa Penyimpanan / Pengolahan / Penyaluran Data", "g": "2% — Jasa"}, {"v": "24-104-28|2", "t": "24-104-28 | Jasa Instalasi/Pemasangan Mesin, Listrik, Telepon (non-konstruksi)", "g": "2% — Jasa"}, {"v": "24-104-29|2", "t": "24-104-29 | Jasa Perawatan/Perbaikan Mesin, Listrik, AC, TV Kabel (non-konstruksi)", "g": "2% — Jasa"}, {"v": "24-104-30|2", "t": "24-104-30 | Jasa Perawatan Kendaraan / Alat Transportasi", "g": "2% — Jasa"}, {"v": "24-104-31|2", "t": "24-104-31 | Jasa Maklon", "g": "2% — Jasa"}, {"v": "24-104-32|2", "t": "24-104-32 | Jasa Penyelidikan & Keamanan", "g": "2% — Jasa"}, {"v": "24-104-33|2", "t": "24-104-33 | Jasa Penyelenggara Kegiatan / Event Organizer", "g": "2% — Jasa"}, {"v": "24-104-34|2", "t": "24-104-34 | Jasa Penyediaan Tempat/Waktu di Media / Jasa Periklanan", "g": "2% — Jasa"}, {"v": "24-104-35|2", "t": "24-104-35 | Jasa Pembasmian Hama", "g": "2% — Jasa"}, {"v": "24-104-36|2", "t": "24-104-36 | Jasa Kebersihan / Cleaning Service", "g": "2% — Jasa"}, {"v": "24-104-37|2", "t": "24-104-37 | Jasa Sedot Septic Tank", "g": "2% — Jasa"}, {"v": "24-104-38|2", "t": "24-104-38 | Jasa Pemeliharaan Kolam", "g": "2% — Jasa"}, {"v": "24-104-39|2", "t": "24-104-39 | Jasa Katering / Tata Boga", "g": "2% — Jasa"}, {"v": "24-104-40|2", "t": "24-104-40 | Jasa Freight Forwarding", "g": "2% — Jasa"}, {"v": "24-104-41|2", "t": "24-104-41 | Jasa Logistik", "g": "2% — Jasa"}, {"v": "24-104-42|2", "t": "24-104-42 | Jasa Pengurusan Dokumen", "g": "2% — Jasa"}, {"v": "24-104-43|2", "t": "24-104-43 | Jasa Pengepakan", "g": "2% — Jasa"}, {"v": "24-104-44|2", "t": "24-104-44 | Jasa Loading & Unloading", "g": "2% — Jasa"}, {"v": "24-104-45|2", "t": "24-104-45 | Jasa Laboratorium / Pengujian", "g": "2% — Jasa"}, {"v": "24-104-46|2", "t": "24-104-46 | Jasa Pengelolaan Parkir", "g": "2% — Jasa"}, {"v": "24-104-47|2", "t": "24-104-47 | Jasa Penyondiran Tanah", "g": "2% — Jasa"}, {"v": "24-104-48|2", "t": "24-104-48 | Jasa Penyiapan / Pengolahan Lahan", "g": "2% — Jasa"}, {"v": "24-104-49|2", "t": "24-104-49 | Jasa Pembibitan / Penanaman Bibit", "g": "2% — Jasa"}, {"v": "24-104-50|2", "t": "24-104-50 | Jasa Pemeliharaan Tanaman", "g": "2% — Jasa"}, {"v": "24-104-51|2", "t": "24-104-51 | Jasa Pemanenan", "g": "2% — Jasa"}, {"v": "24-104-52|2", "t": "24-104-52 | Jasa Pengolahan Hasil Pertanian / Perkebunan / Perikanan", "g": "2% — Jasa"}, {"v": "24-104-53|2", "t": "24-104-53 | Jasa Dekorasi", "g": "2% — Jasa"}, {"v": "24-104-54|2", "t": "24-104-54 | Jasa Pencetakan / Penerbitan", "g": "2% — Jasa"}, {"v": "24-104-55|2", "t": "24-104-55 | Jasa Penerjemahan", "g": "2% — Jasa"}, {"v": "24-104-56|2", "t": "24-104-56 | Jasa Pengangkutan / Ekspedisi (selain PPh 15)", "g": "2% — Jasa"}, {"v": "24-104-57|2", "t": "24-104-57 | Jasa Pelayanan Pelabuhan", "g": "2% — Jasa"}, {"v": "24-104-58|2", "t": "24-104-58 | Jasa Pengangkutan Melalui Jalur Pipa", "g": "2% — Jasa"}, {"v": "24-104-59|2", "t": "24-104-59 | Jasa Pengelolaan Penitipan Anak", "g": "2% — Jasa"}, {"v": "24-104-60|2", "t": "24-104-60 | Jasa Pelatihan / Kursus", "g": "2% — Jasa"}, {"v": "24-104-61|2", "t": "24-104-61 | Jasa Pengiriman & Pengisian Uang ke ATM", "g": "2% — Jasa"}, {"v": "24-104-62|2", "t": "24-104-62 | Jasa Sertifikasi", "g": "2% — Jasa"}, {"v": "24-104-63|2", "t": "24-104-63 | Jasa Survey", "g": "2% — Jasa"}, {"v": "24-104-64|2", "t": "24-104-64 | Jasa Tester", "g": "2% — Jasa"}, {"v": "24-104-65|2", "t": "24-104-65 | Jasa Lainnya dibebanka pada APBN/APBD", "g": "2% — Jasa"}, {"v": "24-104-66|2", "t": "24-104-66 | Jasa Penyelenggaraan Layanan Distribusi Token", "g": "2% — Jasa"}, {"v": "24-104-67|2", "t": "24-104-67 | Jasa Pemasaran dengan Media Voucher", "g": "2% — Jasa"}, {"v": "24-104-68|2", "t": "24-104-68 | Jasa Distribusi Voucher (Penyelenggara & Distributor)", "g": "2% — Jasa"}, {"v": "24-104-69|2", "t": "24-104-69 | Jasa Program Loyalitas / Reward Pelanggan", "g": "2% — Jasa"}, {"v": "24-105-01|0", "t": "24-105-01 | Bunga Pinjaman P2P Lending (dikecualikan)", "g": "0% (Bebas / Dikecualikan)"}, {"v": "24-106-01|0", "t": "24-106-01 | Kontraktor Utama — Proyek Pemerintah Hibah/PLN", "g": "0% (Bebas / Dikecualikan)"}];
+const _KOP_P4 = [{"v": "28-403-02|10", "t": "28-403-02 | Sewa Tanah dan/atau Bangunan (10%)", "g": "Sewa & Pengalihan Tanah/Bangunan"}, {"v": "28-402-01|2.5", "t": "28-402-01 | Pengalihan Hak atas Tanah/Bangunan (2,5%)", "g": "Sewa & Pengalihan Tanah/Bangunan"}, {"v": "28-402-02|1", "t": "28-402-02 | Pengalihan Rumah Sederhana / Rusun Sederhana (1%)", "g": "Sewa & Pengalihan Tanah/Bangunan"}, {"v": "28-404-01|20", "t": "28-404-01 | Bunga Tabungan & Deposito — Selain DHE (20%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-09|20", "t": "28-404-09 | Bunga Deposito/Tabungan — Ditempatkan di LN (20%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-02|7.5", "t": "28-404-02 | Bunga Deposito IDR dari DHE — tenor 1 bulan (7,5%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-03|5", "t": "28-404-03 | Bunga Deposito IDR dari DHE — tenor 3 bulan (5%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-04|0", "t": "28-404-04 | Bunga Deposito IDR dari DHE — tenor ≥ 6 bulan (0%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-05|10", "t": "28-404-05 | Bunga Deposito USD dari DHE — tenor 1 bulan (10%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-06|7.5", "t": "28-404-06 | Bunga Deposito USD dari DHE — tenor 3 bulan (7,5%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-07|2.5", "t": "28-404-07 | Bunga Deposito USD dari DHE — tenor 6 bulan (2,5%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-08|0", "t": "28-404-08 | Bunga Deposito USD dari DHE — tenor > 6 bulan (0%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-10|20", "t": "28-404-10 | Diskonto Sertifikat Bank Indonesia (20%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-404-11|20", "t": "28-404-11 | Jasa Giro (20%)", "g": "Bunga Deposito & Tabungan"}, {"v": "28-401-01|15", "t": "28-401-01 | Bunga Obligasi / SUN / Obligasi Daerah — WPDN & BUT (15%)", "g": "Obligasi & Surat Utang"}, {"v": "28-401-03|10", "t": "28-401-03 | Bunga Obligasi WPDN & BUT — diadministrasikan BI (10%)", "g": "Obligasi & Surat Utang"}, {"v": "28-401-06|10", "t": "28-401-06 | Bunga Obligasi WPDN & BUT (10%)", "g": "Obligasi & Surat Utang"}, {"v": "28-401-04|20", "t": "28-401-04 | Diskonto SPN — WPDN & BUT (20%)", "g": "Obligasi & Surat Utang"}, {"v": "28-401-05|20", "t": "28-401-05 | Diskonto SPN — WP LN (20%)", "g": "Obligasi & Surat Utang"}, {"v": "28-406-01|0.1", "t": "28-406-01 | Penjualan Saham di Bursa (Bukan Pendiri) (0,1%)", "g": "Saham"}, {"v": "28-407-01|0.5", "t": "28-407-01 | Penjualan Saham Pendiri di Bursa (0,5%)", "g": "Saham"}, {"v": "28-408-01|0.1", "t": "28-408-01 | Penjualan Saham Modal Ventura — Tidak di Bursa (0,1%)", "g": "Saham"}, {"v": "28-419-01|10", "t": "28-419-01 | Dividen yang Diterima WP OP Dalam Negeri (10%)", "g": "Dividen & Hadiah"}, {"v": "28-405-01|25", "t": "28-405-01 | Hadiah Undian (25%)", "g": "Dividen & Hadiah"}, {"v": "28-417-01|10", "t": "28-417-01 | Bunga Simpanan Koperasi — WP OP (10%)", "g": "Dividen & Hadiah"}, {"v": "28-409-22|1.75", "t": "28-409-22 | Konstruksi — Pelaksanaan, Kualifikasi Kecil / Sertifikat OP (1,75%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-24|2.65", "t": "28-409-24 | Konstruksi — Pelaksanaan, Kualifikasi Selain Kecil (2,65%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-23|4", "t": "28-409-23 | Konstruksi — Pelaksanaan, Tanpa Sertifikat (4%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-25|2.65", "t": "28-409-25 | Konstruksi Terintegrasi — Dengan Sertifikat BU (2,65%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-26|4", "t": "28-409-26 | Konstruksi Terintegrasi — Tanpa Sertifikat (4%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-27|3.5", "t": "28-409-27 | Konsultansi Konstruksi — Dengan Sertifikat (3,5%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-409-28|6", "t": "28-409-28 | Konsultansi Konstruksi — Tanpa Sertifikat (6%)", "g": "Jasa Konstruksi (PP 9/2022)"}, {"v": "28-423-01|0.5", "t": "28-423-01 | UMKM — Peredaran Bruto Tertentu, tarif 0,5% (PP 23/2018 / PP 55/2022)", "g": "PPh Final UMKM — PP 55/2022"}, {"v": "28-423-03|0.5", "t": "28-423-03 | UMKM OP — s.d. Rp 500 Juta: tarif 0,5% atas kelebihan 500 Juta", "g": "PPh Final UMKM — PP 55/2022"}, {"v": "28-423-14|0.5", "t": "28-423-14 | UMKM — Proyek Pemerintah dibiayai Hibah / PLN (0,5%)", "g": "PPh Final UMKM — PP 55/2022"}, {"v": "28-499-02|7.5", "t": "28-499-02 | Kerja Sama dengan LPI (7,5%)", "g": "Lainnya"}, {"v": "28-421-01|20", "t": "28-421-01 | Uplift Hulu Migas (20%)", "g": "Lainnya"}];
+const _KOP_P15 = [{"v": "28-410-01|1.2", "t": "28-410-01 | Pelayaran DN — Pengangkutan Orang/Barang / Sewa Kapal (disetor sendiri)", "g": "Pelayaran Dalam Negeri (1,2%)"}, {"v": "28-410-02|1.2", "t": "28-410-02 | Pelayaran DN — Imbalan dari Pemotong Pihak Lain", "g": "Pelayaran Dalam Negeri (1,2%)"}, {"v": "28-411-02|2.64", "t": "28-411-02 | Charter Kapal Laut / Pesawat — Perusahaan LN melalui BUT (2,64%)", "g": "Pelayaran / Penerbangan Luar Negeri"}, {"v": "28-411-01|0", "t": "28-411-01 | Pelayaran / Penerbangan LN — Pengangkutan Orang/Barang Reguler (0%)", "g": "Pelayaran / Penerbangan Luar Negeri"}, {"v": "penerbangan_dn|1.8", "t": "PPh 15 | Penerbangan Dalam Negeri / Charter (1,8%) — norma 6% × tarif PPh", "g": "Penerbangan Dalam Negeri (1,8%)"}, {"v": "28-413-01|0.44", "t": "28-413-01 | Kantor Perwakilan Dagang WPLN di Indonesia (0,44%)", "g": "Perwakilan Dagang Luar Negeri (0,44%)"}, {"v": "maklon|1.75", "t": "PPh 15 | Jasa Maklon Internasional — Mainan Anak (7% × 25% = 1,75%)", "g": "Jasa Maklon Internasional (1,75%)"}];
+
+function _kopRender(dropId, searchId, hiddenId, arr, fn) {
+  const q = (document.getElementById(searchId).value || '').toLowerCase();
+  const drop = document.getElementById(dropId);
+  const groups = {};
+  arr.forEach(item => {
+    if (!q || item.t.toLowerCase().includes(q) || (item.g||'').toLowerCase().includes(q)) {
+      (groups[item.g||''] = groups[item.g||''] || []).push(item);
+    }
+  });
+  const keys = Object.keys(groups);
+  if (!keys.length) {
+    drop.innerHTML = '<div class="kop-empty">Tidak ditemukan — coba kata kunci lain</div>';
+    return;
+  }
+  let html = '';
+  keys.forEach(g => {
+    if (g) html += `<div class="kop-group-label">${g}</div>`;
+    groups[g].forEach(item => {
+      const parts = item.t.split('|');
+      const code = parts[0].trim();
+      const desc = parts.slice(1).join('|').trim();
+      html += `<div class="kop-item" data-val="${item.v}" onclick="_kopSelect('${dropId}','${searchId}','${hiddenId}',this,'${fn}')">`
+            + `<span class="kop-code">${code}</span>`
+            + (desc ? ` <span class="kop-desc">— ${desc}</span>` : '')
+            + `</div>`;
+    });
+  });
+  drop.innerHTML = html;
+}
+
+function _kopSelect(dropId, searchId, hiddenId, el, fn) {
+  const val = el.getAttribute('data-val');
+  const text = el.textContent.trim();
+  document.getElementById(hiddenId).value = val;
+  document.getElementById(searchId).value = text.replace(/\s+/g,' ').trim();
+  document.getElementById(dropId).style.display = 'none';
+  window[fn] && window[fn]();
+}
+
+function _kopShow(dropId, searchId, hiddenId, arr, fn) {
+  const drop = document.getElementById(dropId);
+  drop.style.display = 'block';
+  _kopRender(dropId, searchId, hiddenId, arr, fn);
+}
+
+function _kopHide(dropId) {
+  setTimeout(() => { document.getElementById(dropId).style.display = 'none'; }, 180);
+}
+
+function kop_bp_show()  { _kopShow('bp_kop_drop','bp_kop_search','bp_kop_val',_KOP_BP,'hitungBP'); }
+function kop_bp_hide()  { _kopHide('bp_kop_drop'); }
+function kop_bp_filter(){ _kopRender('bp_kop_drop','bp_kop_search','bp_kop_val',_KOP_BP,'hitungBP'); document.getElementById('bp_kop_drop').style.display='block'; }
+
+function kop_pph23_show()  { _kopShow('pph23_kop_drop','pph23_kop_search','pph23_kop_val',_KOP_P23,'hitung23'); }
+function kop_pph23_hide()  { _kopHide('pph23_kop_drop'); }
+function kop_pph23_filter(){ _kopRender('pph23_kop_drop','pph23_kop_search','pph23_kop_val',_KOP_P23,'hitung23'); document.getElementById('pph23_kop_drop').style.display='block'; }
+
+function kop_pph4_show()  { _kopShow('pph4_kop_drop','pph4_kop_search','pph4_kop_val',_KOP_P4,'hitung4'); }
+function kop_pph4_hide()  { _kopHide('pph4_kop_drop'); }
+function kop_pph4_filter(){ _kopRender('pph4_kop_drop','pph4_kop_search','pph4_kop_val',_KOP_P4,'hitung4'); document.getElementById('pph4_kop_drop').style.display='block'; }
+
+function kop_p15_show()  { _kopShow('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitung15'); }
+function kop_p15_hide()  { _kopHide('p15_kop_drop'); }
+function kop_p15_filter(){ _kopRender('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitung15'); document.getElementById('p15_kop_drop').style.display='block'; }
+
+// ── getValue helpers: read from hidden KOP input or normal select ──
+function _kopVal(pfx) {
+  const el = document.getElementById(pfx + '_kop_val');
+  return el ? el.value : '';
+}
+
+
+// ── PPN Nilai Lain & PPnBM searchable KOP ───────────────
+const _KOP_PPNNL = [{"v": "jasa_pengiriman", "t": "Jasa Pengiriman Paket — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "biro_perjalanan", "t": "Jasa Biro/Agen Perjalanan Wisata — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "freight_forwarding", "t": "Jasa Pengurusan Transportasi / Freight Forwarding — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "voucher_marketing", "t": "Jasa Penyelenggaraan Pemasaran dengan Voucer — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_dirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Dirinci — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_tidakdirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Tidak Dirinci — faktor 5% → efektif 0,55%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "emas_konsumen", "t": "Emas ke Konsumen Akhir (Pabrikan/Pedagang) — faktor 15% → efektif 1,65%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "emas_antar_pkp", "t": "Emas Antar PKP (Pabrikan ↔ Pedagang) — faktor 10% → efektif 1,1%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "pertanian", "t": "Barang Hasil Pertanian Tertentu — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kendaraan_bekas", "t": "Kendaraan Bermotor Bekas — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "ayda", "t": "Agunan yang Diambil Alih (AYDA) — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kms", "t": "Kegiatan Membangun Sendiri (KMS) — faktor 20% → efektif 2,2%", "g": "Lainnya"}, {"v": "pemakaian_sendiri", "t": "Pemakaian Sendiri / Pemberian Cuma-Cuma — 12% × 11/12 × HPP = efektif 11% dari HPP", "g": "Lainnya"}];
+const _KOP_PPNBM = [{"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 4 (0%) — PP 73/2019", "g": "Kendaraan Listrik Baterai / BEV (PP 73/2019 jo PP 74/2021)"}, {"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 2 & 3 (0%) — PP 73/2019", "g": "Kendaraan Listrik Baterai / BEV (PP 73/2019 jo PP 74/2021)"}, {"v": "2", "t": "Full Hybrid ≤ 1.500cc — emisi rendah (2%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "5", "t": "Full Hybrid 1.500–2.500cc / PHEV ≤ 1.500cc (5%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "6", "t": "Mild Hybrid / HEV ≤ 1.500cc Bensin (6%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "8", "t": "Full Hybrid 2.500–3.000cc / PHEV 1.500–2.500cc (8%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "10", "t": "Mild Hybrid ≤ 1.500cc 4WD (10%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "12", "t": "Full Hybrid > 3.000cc / PHEV > 2.500cc (12%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Mild Hybrid 1.500–2.500cc Bensin (20%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "25", "t": "Mild Hybrid 1.500–2.500cc 4WD (25%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "30", "t": "Mild Hybrid 2.500–3.000cc Bensin (30%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "3", "t": "LCGC / Kendaraan Hemat Energi & Emisi Rendah (3%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "6", "t": "Sedan / Wagon / Hatchback ≤ 1.500cc Bensin (6%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "10", "t": "Sedan / Wagon ≤ 1.500cc 4WD Bensin (10%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "15", "t": "MPV / Pick-Up / SUV ≤ 1.500cc Bensin (15%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Kendaraan 1.500–2.500cc Bensin (20%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "25", "t": "Kendaraan 1.500–2.500cc 4WD Bensin (25%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "40", "t": "Kendaraan 2.500–3.000cc Bensin (40%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "50", "t": "Kendaraan > 3.000cc Bensin (50%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "60", "t": "Kendaraan CBU Impor — Kategori Tertentu (60%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "70", "t": "Kendaraan CBU Impor Mewah > 3.000cc 4WD (70%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Hunian / Properti Mewah ≥ Rp 20 Miliar (20%)", "g": "Non-Kendaraan"}, {"v": "50", "t": "Kapal Pesiar / Yacht / Hovercraft (50%)", "g": "Non-Kendaraan"}, {"v": "75", "t": "Pesawat Terbang Pribadi / Helikopter (75%)", "g": "Non-Kendaraan"}, {"v": "75", "t": "Senjata Api (kecuali keperluan negara) (75%)", "g": "Non-Kendaraan"}, {"v": "95", "t": "Rumah & Tanah Sangat Mewah ≥ Rp 30 Miliar (95%)", "g": "Non-Kendaraan"}];
+
+function kop_ppn_nilailain_show()  { _kopShow('ppn_nilailain_kop_drop','ppn_nilailain_kop_search','ppn_nilailain_kop_val',_KOP_PPNNL,'hitungPPN'); }
+function kop_ppn_nilailain_hide()  { _kopHide('ppn_nilailain_kop_drop'); }
+function kop_ppn_nilailain_filter(){ _kopRender('ppn_nilailain_kop_drop','ppn_nilailain_kop_search','ppn_nilailain_kop_val',_KOP_PPNNL,'hitungPPN'); document.getElementById('ppn_nilailain_kop_drop').style.display='block'; }
+
+function kop_ppnbm_show()  { _kopShow('ppnbm_kop_drop','ppnbm_kop_search','ppnbm_kop_val',_KOP_PPNBM,'hitungPPnBM'); }
+function kop_ppnbm_hide()  { _kopHide('ppnbm_kop_drop'); }
+function kop_ppnbm_filter(){ _kopRender('ppnbm_kop_drop','ppnbm_kop_search','ppnbm_kop_val',_KOP_PPNBM,'hitungPPnBM'); document.getElementById('ppnbm_kop_drop').style.display='block'; }
+
 </script>
 
 </body>
