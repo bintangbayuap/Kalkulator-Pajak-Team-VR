@@ -1169,17 +1169,6 @@
             <label id="bp_bruto_label">Penghasilan Bruto (Rp)</label>
             <input type="number" id="bp_bruto" placeholder="0" oninput="hitungBP()">
           </div>
-          <div class="field" id="bp_material_field">
-            <label class="label-with-info">
-              Pembelian Material / Upah Pihak Lain (Rp)
-              <i class="info-icon">i
-                <div class="tooltip-box">
-                  Jika dalam penyerahan jasa terdapat pembelian material atau mempekerjakan pihak lain, penghasilan bruto dapat dikurangi dengan nilai tersebut <b>sepanjang dapat diidentifikasi dari kontrak/perjanjian.</b>
-                </div>
-              </i>
-            </label>
-            <input type="number" id="bp_material" placeholder="0" oninput="hitungBP()">
-          </div>
         </div>
 
         <div class="card" id="bp_dokter_note" style="display:none; background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.3); margin-top:1rem;">
@@ -1631,15 +1620,7 @@
         </div>
 
         <div class="field">
-          <label>Arah Hitung</label>
-          <select id="ppn_arah" onchange="hitungPPN()">
-            <option value="dari_harga">Harga / Nilai Transaksi → Hitung PPN</option>
-            <option value="dari_total">Harga Sudah Termasuk PPN → Pisahkan PPN</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label id="ppn_input_label">Harga Jual / Nilai Transaksi (Rp)</label>
+          <label id="ppn_input_label">Harga / Nilai Transaksi Sudah Termasuk PPN (Rp)</label>
           <input type="number" id="ppn_dpp" placeholder="0" oninput="hitungPPN()">
         </div>
       </div>
@@ -1783,9 +1764,13 @@
       <div class="grid-2">
         <div class="field">
           <label>Negara Domisili WPLN</label>
-          <select id="p3b_negara" onchange="lookupP3B()">
-            <option value="">— Pilih Negara —</option>
-          </select>
+          <div id="p3b_negara_wrap" style="position:relative;">
+            <input type="text" id="p3b_negara_input" placeholder="🔍 Ketik nama negara..." autocomplete="off"
+              oninput="filterNegaraP3B()" onfocus="showNegaraDropdown()" onblur="setTimeout(hideNegaraDropdown,180)"
+              style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:inherit;font-size:0.9rem;outline:none;box-sizing:border-box;">
+            <div id="p3b_negara_list" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface2);border:1px solid var(--border);border-radius:10px;max-height:220px;overflow-y:auto;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,0.4);"></div>
+            <input type="hidden" id="p3b_negara" value="">
+          </div>
         </div>
         <div class="field">
           <label>Jenis Penghasilan</label>
@@ -2540,7 +2525,6 @@ function hitungBP() {
   const jenis  = document.getElementById('bp_jenis').value;
   const skema  = document.getElementById('bp_skema').value;
   const bruto  = parseFloat(document.getElementById('bp_bruto').value)    || 0;
-  const mat    = parseFloat(document.getElementById('bp_material').value) || 0;
 
   // Info notes per jenis
   document.getElementById('bp_dokter_note').style.display  = jenis === '21-100-07-rs' ? 'block' : 'none';
@@ -2555,8 +2539,7 @@ function hitungBP() {
   const hide = () => document.getElementById('resultBP').style.display = 'none';
   if (!bruto) { hide(); return; }
 
-  // Material hanya berlaku untuk deemed 50% (jasa)
-  const brutoBersihAsli = deemed === 50 ? Math.max(bruto - mat, 0) : bruto;
+  const brutoBersihAsli = bruto;
   const deemedLabel = deemed === 50 ? '50%' : '100%';
 
   // Helper: hitung PPh BP atas bruto bersih tertentu
@@ -2586,16 +2569,12 @@ function hitungBP() {
       { label: 'Kode Objek Pajak Coretax', value: jenisKode },
       { label: 'Deemed / DPP',             value: `${deemedLabel} × Bruto` },
       { label: '1. Honorarium Asli',       value: fmt(bruto) },
-      ...(deemed === 50 && mat > 0 ? [
-        { label: '2. Material / Upah Pihak Lain',  value: fmt(mat) },
-        { label: '3. Bruto Bersih Asli (1 − 2)',   value: fmt(brutoBersihAsli) },
-      ] : []),
       { label: `✦ Tambahan Honorarium Gross Up`,   value: fmt(tambahanHonorar) },
       { label: 'Honorarium Baru (Bruto Gross Up)', value: fmt(brutoBaru) },
       { label: `DPP (${deemedLabel} × Bruto Baru)`, value: fmt(dppBaru) },
       { label: 'PPh 21 Dipotong (= Tambahan Honorarium)', value: fmt(pphAkhir), total: true },
-      { label: 'Diterima Bukan Pegawai (= honorarium asli)', value: fmt(bruto - (deemed===50 ? mat : 0)) },
-      { label: 'Total Biaya Pemberi Kerja', value: fmt(brutoBaru + (deemed===50 && mat>0 ? mat : 0)) },
+      { label: 'Diterima Bukan Pegawai (= honorarium asli)', value: fmt(bruto) },
+      { label: 'Total Biaya Pemberi Kerja', value: fmt(brutoBaru) },
     ];
 
   } else {
@@ -2607,13 +2586,7 @@ function hitungBP() {
       { label: 'Kode Objek Pajak Coretax',         value: jenisKode },
       { label: 'Deemed / DPP',                     value: `${deemedLabel} × Bruto` },
       { label: '1. Penghasilan Bruto',             value: fmt(bruto) },
-      ...(deemed === 50 && mat > 0 ? [
-        { label: '2. Pembelian Material / Upah Pihak Lain', value: fmt(mat) },
-        { label: '3. Penghasilan Bruto Bersih (1 − 2)',    value: fmt(brutoBersihAsli) },
-        { label: `4. DPP (${deemedLabel} × Bruto Bersih)`, value: fmt(dpp) },
-      ] : [
-        { label: `2. DPP (${deemedLabel} × Penghasilan Bruto)`, value: fmt(dpp) },
-      ]),
+      { label: `2. DPP (${deemedLabel} × Penghasilan Bruto)`, value: fmt(dpp) },
       { label: 'Tarif',         value: 'Tarif Progresif Psl 17 UU PPh' },
       { label: 'PPh 21 Terutang', value: fmt(pphAkhir), total: true },
       ...(skema === 'netto' ? [
@@ -2875,19 +2848,9 @@ function switchPPNSkema() {
   const skema = document.getElementById('ppn_skema').value;
   const nilLainField = document.getElementById('ppn_nilailain_field');
   const infoBox      = document.getElementById('ppn_info_box');
-  const arahSel      = document.getElementById('ppn_arah');
   const inputLbl     = document.getElementById('ppn_input_label');
 
   nilLainField.style.display = skema === 'nilai_lain' ? 'block' : 'none';
-
-  // Ekspor: PPN 0%, opsi "sudah termasuk PPN" tidak relevan — disable
-  if (skema === 'ekspor') {
-    arahSel.options[1].disabled = true;
-    if (arahSel.value === 'dari_total') arahSel.value = 'dari_harga';
-  } else {
-    arahSel.options[1].disabled = false;
-  }
-  arahSel.options[1].text = 'Harga Sudah Termasuk PPN → Pisahkan';
 
   const infoMap = {
     non_mewah:  '⚖️ <b>PMK 131/2024 Pasal 3:</b> BKP/JKP Non-Mewah → <b>DPP Nilai Lain = 11/12 × Harga Jual</b><br>PPN = 12% × 11/12 × Harga = <b>efektif 11%</b>. Tarif UU 12%, beban nyata tetap 11%.',
@@ -2897,16 +2860,16 @@ function switchPPNSkema() {
   };
   infoBox.innerHTML = 'ℹ️ ' + (infoMap[skema] || '');
 
-  inputLbl.textContent = skema === 'ekspor' ? 'Nilai Ekspor (Rp)'
-    : skema === 'nilai_lain' ? 'Nilai Transaksi / Tagihan (Rp)'
-    : skema === 'mewah' ? 'Harga Jual BKP Mewah (Rp)'
-    : arahSel.value === 'dari_total' ? 'Harga Sudah Termasuk PPN (Rp)'
-    : 'Harga Jual / Nilai Transaksi (Rp)';
+  inputLbl.textContent = skema === 'ekspor'     ? 'Nilai Ekspor (Rp)'
+    : skema === 'nilai_lain' ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)'
+    : skema === 'mewah'      ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)'
+    : 'Harga / Nilai Transaksi Sudah Termasuk PPN (Rp)';
 
   document.getElementById('ppn_dpp').placeholder = skema === 'nilai_lain'
-    ? '0  (isi nilai transaksi/tagihan penuh)'
-    : skema === 'mewah' ? '0  (harga jual penuh sebelum PPN)'
-    : '0';
+    ? '0  (isi nilai transaksi/tagihan penuh termasuk PPN)'
+    : skema === 'mewah' ? '0  (harga jual penuh sudah termasuk PPN)'
+    : skema === 'ekspor' ? '0'
+    : '0  (isi harga sudah termasuk PPN)';
 
   hitungPPN();
 }
@@ -2914,93 +2877,55 @@ function switchPPNSkema() {
 function hitungPPN() {
   const nilaiInput = parseFloat(document.getElementById('ppn_dpp').value) || 0;
   const skema = document.getElementById('ppn_skema').value;
-  const arah  = document.getElementById('ppn_arah').value;
   const hide  = () => { document.getElementById('resultPPN').style.display = 'none'; };
-
-  // Update label input setiap kali hitungPPN dipanggil (termasuk saat arah berubah)
-  const inputLbl = document.getElementById('ppn_input_label');
-  if (skema !== 'ekspor' && skema !== 'nilai_lain' && skema !== 'mewah') {
-    inputLbl.textContent = arah === 'dari_total'
-      ? 'Harga Sudah Termasuk PPN (Rp)'
-      : 'Harga Jual / Nilai Transaksi (Rp)';
-  }
 
   if (!nilaiInput) { hide(); return; }
 
+  // Semua mode: input = harga SUDAH TERMASUK PPN (pisahkan PPN)
   let rows = [];
 
   // ── 1. BKP/JKP Non-Mewah (PMK 131/2024 Pasal 3) ──────
   if (skema === 'non_mewah') {
-    let hargaJual, dppNilaiLain, ppn, total;
+    // total = H × 1.11 → H = total / 1.11
+    const total        = nilaiInput;
+    const hargaJual    = total / 1.11;
+    const dppNilaiLain = hargaJual * (11 / 12);
+    const ppn          = total - hargaJual;
+    const efektifPct   = (ppn / hargaJual * 100).toFixed(2);
 
-    if (arah === 'dari_harga') {
-      // Input = harga jual (belum termasuk PPN)
-      hargaJual    = nilaiInput;
-      dppNilaiLain = hargaJual * (11 / 12);
-      ppn          = dppNilaiLain * 0.12;           // 12% × (11/12 × H) = 11% × H
-      total        = hargaJual + ppn;
-    } else {
-      // Input = total harga sudah termasuk PPN efektif 11%
-      // total = H + 11%×H = 1.11 × H
-      total        = nilaiInput;
-      hargaJual    = total / 1.11;
-      dppNilaiLain = hargaJual * (11 / 12);
-      ppn          = total - hargaJual;
-    }
-
-    const efektifPct = (ppn / hargaJual * 100).toFixed(2);
     rows = [
-      { label: 'Dasar Regulasi',                         value: 'PMK 131/2024 Pasal 3 — BKP/JKP Non-Mewah' },
-      ...(arah === 'dari_total' ? [
-        { label: 'Total Harga Input (include PPN)',       value: fmt(total) },
-        { label: 'Harga Jual (ekskl. PPN)',               value: fmt(hargaJual) },
-      ] : [
-        { label: 'Harga Jual / Nilai Transaksi',          value: fmt(hargaJual) },
-      ]),
-      { label: 'DPP Nilai Lain (11/12 × Harga)',         value: fmt(dppNilaiLain) },
-      { label: 'Tarif PPN (sesuai UU)',                  value: '12%' },
-      { label: 'PPN Terutang (12% × DPP Nilai Lain)',    value: fmt(ppn), total: true },
-      { label: 'Tarif Efektif PPN',                      value: efektifPct + '% ≈ 11%' },
-      { label: 'Total Harga (termasuk PPN)',              value: fmt(total) },
+      { label: 'Dasar Regulasi',                          value: 'PMK 131/2024 Pasal 3 — BKP/JKP Non-Mewah' },
+      { label: 'Total Harga Input (include PPN)',          value: fmt(total) },
+      { label: 'Harga Jual (ekskl. PPN)',                  value: fmt(hargaJual) },
+      { label: 'DPP Nilai Lain (11/12 × Harga)',          value: fmt(dppNilaiLain) },
+      { label: 'Tarif PPN (sesuai UU)',                   value: '12%' },
+      { label: 'PPN Terutang (12% × DPP Nilai Lain)',     value: fmt(ppn), total: true },
+      { label: 'Tarif Efektif PPN',                       value: efektifPct + '% ≈ 11%' },
       { label: 'Selisih vs PPN 12% atas harga penuh (penghematan)', value: fmt(hargaJual * 0.12 - ppn) },
     ];
 
   // ── 2. BKP Mewah — PMK 131/2024 Pasal 2 ──────────────
   } else if (skema === 'mewah') {
-    let hargaJual, ppn, total;
-
-    if (arah === 'dari_harga') {
-      hargaJual = nilaiInput;
-      ppn       = hargaJual * 0.12;
-      total     = hargaJual + ppn;
-    } else {
-      // total = H × 1.12
-      total     = nilaiInput;
-      hargaJual = total / 1.12;
-      ppn       = total - hargaJual;
-    }
+    // total = H × 1.12 → H = total / 1.12
+    const total     = nilaiInput;
+    const hargaJual = total / 1.12;
+    const ppn       = total - hargaJual;
 
     rows = [
-      { label: 'Dasar Regulasi',                   value: 'PMK 131/2024 Pasal 2 — BKP Mewah (PPnBM)' },
-      ...(arah === 'dari_total' ? [
-        { label: 'Total Harga Input (include PPN)', value: fmt(total) },
-        { label: 'Harga Jual BKP Mewah (ekskl. PPN)', value: fmt(hargaJual) },
-      ] : [
-        { label: 'Harga Jual BKP Mewah',           value: fmt(hargaJual) },
-      ]),
-      { label: 'DPP',                              value: 'Harga Jual Penuh (tanpa diskon nilai lain)' },
-      { label: 'Tarif PPN',                        value: '12%' },
-      { label: 'PPN Terutang (12% × Harga Jual)',  value: fmt(ppn) },
-      { label: 'Total Harga (termasuk PPN)',        value: fmt(total), total: true },
+      { label: 'Dasar Regulasi',                        value: 'PMK 131/2024 Pasal 2 — BKP Mewah (PPnBM)' },
+      { label: 'Total Harga Input (include PPN)',        value: fmt(total) },
+      { label: 'Harga Jual BKP Mewah (ekskl. PPN)',     value: fmt(hargaJual) },
+      { label: 'DPP',                                   value: 'Harga Jual Penuh (tanpa diskon nilai lain)' },
+      { label: 'Tarif PPN',                             value: '12%' },
+      { label: 'PPN Terutang (12% × Harga Jual)',       value: fmt(ppn) },
+      { label: 'Total Harga (termasuk PPN)',             value: fmt(total), total: true },
     ];
 
   // ── 3. Ekspor ─────────────────────────────────────────
   } else if (skema === 'ekspor') {
-    // PPN = 0, jadi total = nilai ekspor, dari_total = dari_harga
-    const nilaiEkspor = nilaiInput;
     rows = [
       { label: 'Dasar Regulasi', value: 'Pasal 7 ayat (2) UU PPN — Ekspor BKP/JKP' },
-      { label: 'Nilai Ekspor',   value: fmt(nilaiEkspor) },
+      { label: 'Nilai Ekspor',   value: fmt(nilaiInput) },
       { label: 'Tarif PPN',      value: '0%' },
       { label: 'PPN Terutang',   value: fmt(0), total: true },
     ];
@@ -3011,41 +2936,36 @@ function hitungPPN() {
     const cfg      = PPN_BESARAN[jenisKey];
 
     if (jenisKey === 'pemakaian_sendiri') {
-      // DPP = HPP → PPN = 12% × (11/12) × HPP = 11% × HPP
-      // dari_total: total = HPP + 11%×HPP = 1.11×HPP → HPP = total/1.11
-      const hpp   = arah === 'dari_total' ? nilaiInput / 1.11 : nilaiInput;
+      // total = HPP × 1.11 → HPP = total / 1.11
+      const hpp   = nilaiInput / 1.11;
       const dppNL = hpp * (11 / 12);
       const ppn   = dppNL * 0.12;
       rows = [
         { label: 'Dasar Regulasi',                  value: cfg.dasar },
         { label: 'Jenis',                           value: cfg.label },
-        ...(arah === 'dari_total' ? [
-          { label: 'Total Input (include PPN)',      value: fmt(nilaiInput) },
-        ] : []),
+        { label: 'Total Input (include PPN)',        value: fmt(nilaiInput) },
         { label: 'DPP (= HPP / Harga Perolehan)',   value: fmt(hpp) },
         { label: 'DPP Nilai Lain (11/12 × HPP)',    value: fmt(dppNL) },
         { label: 'Formula PPN',                     value: '12% × (11/12) × HPP = 11% × HPP' },
         { label: 'PPN Terutang',                    value: fmt(ppn), total: true },
-        { label: 'Total (HPP + PPN)',               value: fmt(hpp + ppn) },
+        { label: 'Total (HPP + PPN)',                value: fmt(hpp + ppn) },
         { label: 'Tarif Efektif (atas HPP)',         value: '11%' },
       ];
     } else {
-      // PPN besaran = f × 11/12 × 12% × nilai = f × 11% × nilai
-      // dari_total: total = nilai × (1 + f×11%) → nilai = total / (1 + f×11%)
-      const f = cfg.faktor / 100;
-      const efRate = f * (11 / 12) * 0.12;   // tarif efektif atas nilai transaksi
-      const nilai  = arah === 'dari_total' ? nilaiInput / (1 + efRate) : nilaiInput;
-      const dppNL  = nilai * f;
-      const ppn    = nilai * efRate;
-      const total  = nilai + ppn;
+      // total = nilai × (1 + f×11%) → nilai = total / (1 + f×11%)
+      const f       = cfg.faktor / 100;
+      const efRate  = f * (11 / 12) * 0.12;
+      const nilai   = nilaiInput / (1 + efRate);
+      const dppNL   = nilai * f;
+      const ppn     = nilai * efRate;
+      const total   = nilai + ppn;
       const efektif = (efRate * 100).toFixed(2);
 
       rows = [
         { label: 'Dasar Regulasi',                                        value: cfg.dasar },
         { label: 'Jenis',                                                 value: cfg.label },
-        { label: arah === 'dari_total' ? 'Total (termasuk PPN)' : 'DPP (Nilai Transaksi / Tagihan)',
-                                                                          value: fmt(arah === 'dari_total' ? nilaiInput : nilai) },
-        ...(arah === 'dari_total' ? [{ label: 'Nilai Transaksi (DPP)', value: fmt(nilai) }] : []),
+        { label: 'Total Input (termasuk PPN)',                            value: fmt(nilaiInput) },
+        { label: 'Nilai Transaksi (DPP)',                                 value: fmt(nilai) },
         { label: `DPP Nilai Lain (${cfg.faktor}% × Nilai Transaksi)`,    value: fmt(dppNL) },
         { label: 'Formula PPN Besaran Tertentu',                          value: `${cfg.faktor}% × 11/12 × 12% × Nilai` },
         { label: 'PPN Terutang',                                          value: fmt(ppn), total: true },
@@ -3373,15 +3293,48 @@ const P3B_DB = {
   'Zimbabwe':       { dividen:[20,null,''],      bunga:[10,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
 };
 
-// Isi dropdown negara
-(function() {
-  const sel = document.getElementById('p3b_negara');
-  Object.keys(P3B_DB).sort().forEach(n => {
-    const opt = document.createElement('option');
-    opt.value = n; opt.textContent = n;
-    sel.appendChild(opt);
-  });
-})();
+// Isi & logika searchable dropdown negara P3B
+const _p3bNegaraList = Object.keys(P3B_DB).sort();
+
+function renderNegaraList(filter) {
+  const list = document.getElementById('p3b_negara_list');
+  const q = (filter || '').toLowerCase();
+  const matches = q ? _p3bNegaraList.filter(n => n.toLowerCase().includes(q)) : _p3bNegaraList;
+  if (!matches.length) {
+    list.innerHTML = `<div style="padding:10px 14px;color:#94a3b8;font-size:0.88rem;">Negara tidak ditemukan</div>`;
+    return;
+  }
+  list.innerHTML = matches.map(n =>
+    `<div onclick="pilihNegaraP3B('${n}')" style="padding:9px 14px;cursor:pointer;font-size:0.9rem;border-bottom:1px solid var(--border);"
+      onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background=''">${n}</div>`
+  ).join('');
+}
+
+function filterNegaraP3B() {
+  const q = document.getElementById('p3b_negara_input').value;
+  renderNegaraList(q);
+  document.getElementById('p3b_negara_list').style.display = 'block';
+  // Clear selection jika user edit ulang
+  document.getElementById('p3b_negara').value = '';
+  document.getElementById('p3b_result').style.display = 'none';
+  document.getElementById('p3b_notfound').style.display = 'none';
+}
+
+function showNegaraDropdown() {
+  renderNegaraList(document.getElementById('p3b_negara_input').value);
+  document.getElementById('p3b_negara_list').style.display = 'block';
+}
+
+function hideNegaraDropdown() {
+  document.getElementById('p3b_negara_list').style.display = 'none';
+}
+
+function pilihNegaraP3B(nama) {
+  document.getElementById('p3b_negara_input').value = nama;
+  document.getElementById('p3b_negara').value = nama;
+  document.getElementById('p3b_negara_list').style.display = 'none';
+  lookupP3B();
+}
 
 let _p3bTarifSuggested = null;
 
