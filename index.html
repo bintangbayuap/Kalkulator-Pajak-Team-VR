@@ -1217,9 +1217,90 @@
         <div class="field">
           <label>Jenis Penghasilan</label>
           <select id="pph23_jenis" onchange="hitung23()">
-            <option value="15_npwp">Dividen / Bunga / Royalti / Hadiah — 15%</option>
-            <option value="2_jasa">Jasa — 2%</option>
-            <option value="2_sewa">Sewa Harta Selain Tanah/Bangunan — 2%</option>
+            <optgroup label="── 15% — Dividen / Bunga / Royalti / Hadiah ──">
+              <option value="24-101-01|15">24-101-01 | Dividen</option>
+              <option value="24-102-01|15">24-102-01 | Bunga (selain PPh 4(2))</option>
+              <option value="24-103-01|15">24-103-01 | Royalti</option>
+              <option value="24-100-01|15">24-100-01 | Hadiah / Penghargaan / Bonus</option>
+            </optgroup>
+            <optgroup label="── 2% — Sewa Harta ──">
+              <option value="24-100-02|2">24-100-02 | Sewa Harta (selain Tanah/Bangunan)</option>
+            </optgroup>
+            <optgroup label="── 2% — Jasa ──">
+              <option value="24-104-01|2">24-104-01 | Jasa Teknik</option>
+              <option value="24-104-02|2">24-104-02 | Jasa Manajemen</option>
+              <option value="24-104-03|2">24-104-03 | Jasa Konsultan</option>
+              <option value="24-104-04|2">24-104-04 | Jasa Penilai (Appraisal)</option>
+              <option value="24-104-05|2">24-104-05 | Jasa Aktuaris</option>
+              <option value="24-104-06|2">24-104-06 | Jasa Akuntansi / Pembukuan / Atestasi</option>
+              <option value="24-104-07|2">24-104-07 | Jasa Hukum</option>
+              <option value="24-104-08|2">24-104-08 | Jasa Arsitektur</option>
+              <option value="24-104-09|2">24-104-09 | Jasa Perencanaan Kota &amp; Arsitektur Landscape</option>
+              <option value="24-104-10|2">24-104-10 | Jasa Perancang (Design)</option>
+              <option value="24-104-11|2">24-104-11 | Jasa Pengeboran (Drilling) — Migas, bukan BUT</option>
+              <option value="24-104-12|2">24-104-12 | Jasa Penunjang — Panas Bumi &amp; Migas</option>
+              <option value="24-104-13|2">24-104-13 | Jasa Penambangan &amp; Penunjang Panas Bumi/Migas</option>
+              <option value="24-104-14|2">24-104-14 | Jasa Penunjang Penerbangan &amp; Bandar Udara</option>
+              <option value="24-104-15|2">24-104-15 | Jasa Penebangan Hutan</option>
+              <option value="24-104-16|2">24-104-16 | Jasa Pengolahan Limbah</option>
+              <option value="24-104-17|2">24-104-17 | Jasa Penyedia Tenaga Kerja / Outsourcing</option>
+              <option value="24-104-18|2">24-104-18 | Jasa Perantara / Keagenan</option>
+              <option value="24-104-19|2">24-104-19 | Jasa Perdagangan Surat Berharga (selain Bursa)</option>
+              <option value="24-104-20|2">24-104-20 | Jasa Kustodian / Penyimpanan / Penitipan</option>
+              <option value="24-104-21|2">24-104-21 | Jasa Pengisian Suara (Dubbing) / Sulih Suara</option>
+              <option value="24-104-22|2">24-104-22 | Jasa Mixing Film</option>
+              <option value="24-104-23|2">24-104-23 | Jasa Pembuatan Sarana Promosi (Film, Iklan, Poster, Banner)</option>
+              <option value="24-104-24|2">24-104-24 | Jasa Software / Hardware / Sistem Komputer</option>
+              <option value="24-104-25|2">24-104-25 | Jasa Pembuatan / Pengelolaan Website</option>
+              <option value="24-104-26|2">24-104-26 | Jasa Internet</option>
+              <option value="24-104-27|2">24-104-27 | Jasa Penyimpanan / Pengolahan / Penyaluran Data</option>
+              <option value="24-104-28|2">24-104-28 | Jasa Instalasi/Pemasangan Mesin, Listrik, Telepon (non-konstruksi)</option>
+              <option value="24-104-29|2">24-104-29 | Jasa Perawatan/Perbaikan Mesin, Listrik, AC, TV Kabel (non-konstruksi)</option>
+              <option value="24-104-30|2">24-104-30 | Jasa Perawatan Kendaraan / Alat Transportasi</option>
+              <option value="24-104-31|2">24-104-31 | Jasa Maklon</option>
+              <option value="24-104-32|2">24-104-32 | Jasa Penyelidikan &amp; Keamanan</option>
+              <option value="24-104-33|2">24-104-33 | Jasa Penyelenggara Kegiatan / Event Organizer</option>
+              <option value="24-104-34|2">24-104-34 | Jasa Penyediaan Tempat/Waktu di Media / Jasa Periklanan</option>
+              <option value="24-104-35|2">24-104-35 | Jasa Pembasmian Hama</option>
+              <option value="24-104-36|2">24-104-36 | Jasa Kebersihan / Cleaning Service</option>
+              <option value="24-104-37|2">24-104-37 | Jasa Sedot Septic Tank</option>
+              <option value="24-104-38|2">24-104-38 | Jasa Pemeliharaan Kolam</option>
+              <option value="24-104-39|2">24-104-39 | Jasa Katering / Tata Boga</option>
+              <option value="24-104-40|2">24-104-40 | Jasa Freight Forwarding</option>
+              <option value="24-104-41|2">24-104-41 | Jasa Logistik</option>
+              <option value="24-104-42|2">24-104-42 | Jasa Pengurusan Dokumen</option>
+              <option value="24-104-43|2">24-104-43 | Jasa Pengepakan</option>
+              <option value="24-104-44|2">24-104-44 | Jasa Loading &amp; Unloading</option>
+              <option value="24-104-45|2">24-104-45 | Jasa Laboratorium / Pengujian</option>
+              <option value="24-104-46|2">24-104-46 | Jasa Pengelolaan Parkir</option>
+              <option value="24-104-47|2">24-104-47 | Jasa Penyondiran Tanah</option>
+              <option value="24-104-48|2">24-104-48 | Jasa Penyiapan / Pengolahan Lahan</option>
+              <option value="24-104-49|2">24-104-49 | Jasa Pembibitan / Penanaman Bibit</option>
+              <option value="24-104-50|2">24-104-50 | Jasa Pemeliharaan Tanaman</option>
+              <option value="24-104-51|2">24-104-51 | Jasa Pemanenan</option>
+              <option value="24-104-52|2">24-104-52 | Jasa Pengolahan Hasil Pertanian / Perkebunan / Perikanan</option>
+              <option value="24-104-53|2">24-104-53 | Jasa Dekorasi</option>
+              <option value="24-104-54|2">24-104-54 | Jasa Pencetakan / Penerbitan</option>
+              <option value="24-104-55|2">24-104-55 | Jasa Penerjemahan</option>
+              <option value="24-104-56|2">24-104-56 | Jasa Pengangkutan / Ekspedisi (selain PPh 15)</option>
+              <option value="24-104-57|2">24-104-57 | Jasa Pelayanan Pelabuhan</option>
+              <option value="24-104-58|2">24-104-58 | Jasa Pengangkutan Melalui Jalur Pipa</option>
+              <option value="24-104-59|2">24-104-59 | Jasa Pengelolaan Penitipan Anak</option>
+              <option value="24-104-60|2">24-104-60 | Jasa Pelatihan / Kursus</option>
+              <option value="24-104-61|2">24-104-61 | Jasa Pengiriman &amp; Pengisian Uang ke ATM</option>
+              <option value="24-104-62|2">24-104-62 | Jasa Sertifikasi</option>
+              <option value="24-104-63|2">24-104-63 | Jasa Survey</option>
+              <option value="24-104-64|2">24-104-64 | Jasa Tester</option>
+              <option value="24-104-65|2">24-104-65 | Jasa Lainnya dibebanka pada APBN/APBD</option>
+              <option value="24-104-66|2">24-104-66 | Jasa Penyelenggaraan Layanan Distribusi Token</option>
+              <option value="24-104-67|2">24-104-67 | Jasa Pemasaran dengan Media Voucher</option>
+              <option value="24-104-68|2">24-104-68 | Jasa Distribusi Voucher (Penyelenggara &amp; Distributor)</option>
+              <option value="24-104-69|2">24-104-69 | Jasa Program Loyalitas / Reward Pelanggan</option>
+            </optgroup>
+            <optgroup label="── 0% (Bebas / Dikecualikan) ──">
+              <option value="24-105-01|0">24-105-01 | Bunga Pinjaman P2P Lending (dikecualikan)</option>
+              <option value="24-106-01|0">24-106-01 | Kontraktor Utama — Proyek Pemerintah Hibah/PLN</option>
+            </optgroup>
           </select>
         </div>
         <div class="field">
@@ -1272,19 +1353,58 @@
         <div class="field">
           <label>Jenis Penghasilan</label>
           <select id="pph4_jenis" onchange="hitung4()">
-            <option value="10">Bunga Deposito / Tabungan (10%)</option>
-            <option value="25">Hadiah Undian (25%)</option>
-            <option value="0.1">Jual Saham di Bursa Efek (0,1%)</option>
-            <option value="2.5">Penjualan Tanah/Bangunan (2,5%)</option>
-            <option value="10_sewa">Sewa Tanah/Bangunan (10%)</option>
+            <optgroup label="── Sewa &amp; Pengalihan Tanah/Bangunan ──">
+              <option value="28-403-02|10">28-403-02 | Sewa Tanah dan/atau Bangunan (10%)</option>
+              <option value="28-402-01|2.5">28-402-01 | Pengalihan Hak atas Tanah/Bangunan (2,5%)</option>
+              <option value="28-402-02|1">28-402-02 | Pengalihan Rumah Sederhana / Rusun Sederhana (1%)</option>
+            </optgroup>
+            <optgroup label="── Bunga Deposito &amp; Tabungan ──">
+              <option value="28-404-01|20">28-404-01 | Bunga Tabungan &amp; Deposito — Selain DHE (20%)</option>
+              <option value="28-404-09|20">28-404-09 | Bunga Deposito/Tabungan — Ditempatkan di LN (20%)</option>
+              <option value="28-404-02|7.5">28-404-02 | Bunga Deposito IDR dari DHE — tenor 1 bulan (7,5%)</option>
+              <option value="28-404-03|5">28-404-03 | Bunga Deposito IDR dari DHE — tenor 3 bulan (5%)</option>
+              <option value="28-404-04|0">28-404-04 | Bunga Deposito IDR dari DHE — tenor ≥ 6 bulan (0%)</option>
+              <option value="28-404-05|10">28-404-05 | Bunga Deposito USD dari DHE — tenor 1 bulan (10%)</option>
+              <option value="28-404-06|7.5">28-404-06 | Bunga Deposito USD dari DHE — tenor 3 bulan (7,5%)</option>
+              <option value="28-404-07|2.5">28-404-07 | Bunga Deposito USD dari DHE — tenor 6 bulan (2,5%)</option>
+              <option value="28-404-08|0">28-404-08 | Bunga Deposito USD dari DHE — tenor &gt; 6 bulan (0%)</option>
+              <option value="28-404-10|20">28-404-10 | Diskonto Sertifikat Bank Indonesia (20%)</option>
+              <option value="28-404-11|20">28-404-11 | Jasa Giro (20%)</option>
+            </optgroup>
+            <optgroup label="── Obligasi &amp; Surat Utang ──">
+              <option value="28-401-01|15">28-401-01 | Bunga Obligasi / SUN / Obligasi Daerah — WPDN &amp; BUT (15%)</option>
+              <option value="28-401-03|10">28-401-03 | Bunga Obligasi WPDN &amp; BUT — diadministrasikan BI (10%)</option>
+              <option value="28-401-06|10">28-401-06 | Bunga Obligasi WPDN &amp; BUT (10%)</option>
+              <option value="28-401-04|20">28-401-04 | Diskonto SPN — WPDN &amp; BUT (20%)</option>
+              <option value="28-401-05|20">28-401-05 | Diskonto SPN — WP LN (20%)</option>
+            </optgroup>
+            <optgroup label="── Saham ──">
+              <option value="28-406-01|0.1">28-406-01 | Penjualan Saham di Bursa (Bukan Pendiri) (0,1%)</option>
+              <option value="28-407-01|0.5">28-407-01 | Penjualan Saham Pendiri di Bursa (0,5%)</option>
+              <option value="28-408-01|0.1">28-408-01 | Penjualan Saham Modal Ventura — Tidak di Bursa (0,1%)</option>
+            </optgroup>
+            <optgroup label="── Dividen &amp; Hadiah ──">
+              <option value="28-419-01|10">28-419-01 | Dividen yang Diterima WP OP Dalam Negeri (10%)</option>
+              <option value="28-405-01|25">28-405-01 | Hadiah Undian (25%)</option>
+              <option value="28-417-01|10">28-417-01 | Bunga Simpanan Koperasi — WP OP (10%)</option>
+            </optgroup>
             <optgroup label="── Jasa Konstruksi (PP 9/2022) ──">
-              <option value="1.75">Konstruksi — Pelaksanaan, Kualifikasi Kecil (1,75%)</option>
-              <option value="2.65">Konstruksi — Pelaksanaan, Kualifikasi Menengah/Besar (2,65%)</option>
-              <option value="4">Konstruksi — Pelaksanaan, Tanpa Sertifikat (4%)</option>
-              <option value="2.65_ti">Konstruksi Terintegrasi — Dengan Sertifikat (2,65%)</option>
-              <option value="4_ti">Konstruksi Terintegrasi — Tanpa Sertifikat (4%)</option>
-              <option value="3.5">Konsultansi Konstruksi — Dengan Sertifikat (3,5%)</option>
-              <option value="6">Konsultansi Konstruksi — Tanpa Sertifikat (6%)</option>
+              <option value="28-409-22|1.75">28-409-22 | Konstruksi — Pelaksanaan, Kualifikasi Kecil / Sertifikat OP (1,75%)</option>
+              <option value="28-409-24|2.65">28-409-24 | Konstruksi — Pelaksanaan, Kualifikasi Selain Kecil (2,65%)</option>
+              <option value="28-409-23|4">28-409-23 | Konstruksi — Pelaksanaan, Tanpa Sertifikat (4%)</option>
+              <option value="28-409-25|2.65">28-409-25 | Konstruksi Terintegrasi — Dengan Sertifikat BU (2,65%)</option>
+              <option value="28-409-26|4">28-409-26 | Konstruksi Terintegrasi — Tanpa Sertifikat (4%)</option>
+              <option value="28-409-27|3.5">28-409-27 | Konsultansi Konstruksi — Dengan Sertifikat (3,5%)</option>
+              <option value="28-409-28|6">28-409-28 | Konsultansi Konstruksi — Tanpa Sertifikat (6%)</option>
+            </optgroup>
+            <optgroup label="── PPh Final UMKM — PP 55/2022 ──">
+              <option value="28-423-01|0.5">28-423-01 | UMKM — Peredaran Bruto Tertentu, tarif 0,5% (PP 23/2018 / PP 55/2022)</option>
+              <option value="28-423-03|0.5">28-423-03 | UMKM OP — s.d. Rp 500 Juta: tarif 0,5% atas kelebihan 500 Juta</option>
+              <option value="28-423-14|0.5">28-423-14 | UMKM — Proyek Pemerintah dibiayai Hibah / PLN (0,5%)</option>
+            </optgroup>
+            <optgroup label="── Lainnya ──">
+              <option value="28-499-02|7.5">28-499-02 | Kerja Sama dengan LPI (7,5%)</option>
+              <option value="28-421-01|20">28-421-01 | Uplift Hulu Migas (20%)</option>
             </optgroup>
           </select>
         </div>
@@ -1350,11 +1470,23 @@
         <div class="field">
           <label>Jenis WP / Usaha</label>
           <select id="p15_jenis" onchange="hitungP15()">
-            <option value="pelayaran_dn">Pelayaran Dalam Negeri (1,2%)</option>
-            <option value="penerbangan_dn">Penerbangan Dalam Negeri / Charter (1,8%)</option>
-            <option value="pelayaran_ln">Pelayaran / Penerbangan Luar Negeri (2,64%)</option>
-            <option value="perwakilan_dagang">WP LN — Kantor Perwakilan Dagang (0,44%)</option>
-            <option value="maklon">Jasa Maklon Internasional — Mainan Anak (7% × 25%)</option>
+            <optgroup label="── Pelayaran Dalam Negeri (1,2%) ──">
+              <option value="28-410-01|1.2">28-410-01 | Pelayaran DN — Pengangkutan Orang/Barang / Sewa Kapal (disetor sendiri)</option>
+              <option value="28-410-02|1.2">28-410-02 | Pelayaran DN — Imbalan dari Pemotong Pihak Lain</option>
+            </optgroup>
+            <optgroup label="── Pelayaran / Penerbangan Luar Negeri ──">
+              <option value="28-411-02|2.64">28-411-02 | Charter Kapal Laut / Pesawat — Perusahaan LN melalui BUT (2,64%)</option>
+              <option value="28-411-01|0">28-411-01 | Pelayaran / Penerbangan LN — Pengangkutan Orang/Barang Reguler (0%)</option>
+            </optgroup>
+            <optgroup label="── Penerbangan Dalam Negeri (1,8%) ──">
+              <option value="penerbangan_dn|1.8">PPh 15 | Penerbangan Dalam Negeri / Charter (1,8%) — norma 6% × tarif PPh</option>
+            </optgroup>
+            <optgroup label="── Perwakilan Dagang Luar Negeri (0,44%) ──">
+              <option value="28-413-01|0.44">28-413-01 | Kantor Perwakilan Dagang WPLN di Indonesia (0,44%)</option>
+            </optgroup>
+            <optgroup label="── Jasa Maklon Internasional (1,75%) ──">
+              <option value="maklon|1.75">PPh 15 | Jasa Maklon Internasional — Mainan Anak (7% × 25% = 1,75%)</option>
+            </optgroup>
           </select>
         </div>
         <div class="field">
@@ -1537,12 +1669,25 @@
         <div class="field">
           <label>Jenis Barang Mewah</label>
           <select id="ppnbm_jenis" onchange="hitungPPnBM()">
-            <option value="10">Kendaraan Bermotor Tertentu (10%)</option>
-            <option value="20">Hunian Mewah / Apartemen (20%)</option>
-            <option value="40">Kendaraan Bermotor Kapasitas ≥ 3.000 cc (40%)</option>
-            <option value="50">Kapal Pesiar / Yacht (50%)</option>
-            <option value="75">Pesawat Terbang Pribadi (75%)</option>
-            <option value="95">Rumah & Tanah Sangat Mewah (95%)</option>
+            <optgroup label="── Kendaraan Bermotor (PP 73/2019 jo PP 74/2021) ──">
+              <option value="3">LCGC / Kendaraan Hemat Energi &amp; Emisi Rendah (3%)</option>
+              <option value="6">Sedan / Wagon / Hatchback ≤ 1.500cc Bensin (6%)</option>
+              <option value="10">Sedan / Wagon ≤ 1.500cc 4WD Bensin (10%)</option>
+              <option value="15">MPV / Pick-Up / SUV ≤ 1.500cc Bensin (15%)</option>
+              <option value="20">Kendaraan 1.500–2.500cc Bensin (20%)</option>
+              <option value="25">Kendaraan 1.500–2.500cc 4WD Bensin (25%)</option>
+              <option value="40">Kendaraan 2.500–3.000cc Bensin (40%)</option>
+              <option value="50">Kendaraan &gt; 3.000cc Bensin (50%)</option>
+              <option value="60">Kendaraan CBU Impor — Kategori Tertentu (60%)</option>
+              <option value="70">Kendaraan CBU Impor Mewah &gt; 3.000cc 4WD (70%)</option>
+            </optgroup>
+            <optgroup label="── Non-Kendaraan ──">
+              <option value="20">Hunian / Properti Mewah ≥ Rp 20 Miliar (20%)</option>
+              <option value="50">Kapal Pesiar / Yacht / Hovercraft (50%)</option>
+              <option value="75">Pesawat Terbang Pribadi / Helikopter (75%)</option>
+              <option value="75">Senjata Api (kecuali keperluan negara) (75%)</option>
+              <option value="95">Rumah &amp; Tanah Sangat Mewah ≥ Rp 30 Miliar (95%)</option>
+            </optgroup>
           </select>
         </div>
         <div class="field">
@@ -1550,7 +1695,10 @@
           <input type="number" id="ppnbm_dpp" placeholder="0" oninput="hitungPPnBM()">
         </div>
       </div>
-      <div class="tarif-info" id="ppnbm_tarif_info">Tarif PPnBM: 10%</div>
+      <div class="tarif-info" id="ppnbm_tarif_info">Tarif PPnBM: 3%</div>
+      <div class="grossup-info" style="border-color:rgba(250,204,21,0.3);background:rgba(250,204,21,0.06);color:#fde68a;">
+        ℹ️ <b>PP 73/2019 jo PP 74/2021:</b> Tarif kendaraan bermotor ditentukan oleh kapasitas mesin, jenis bahan bakar, dan tipe kendaraan. Konsultasikan dengan tabel resmi untuk kepastian tarif spesifik kendaraan Anda.
+      </div>
     </div>
 
     <div class="result-box" id="resultPPnBM" style="display:none">
@@ -1614,19 +1762,47 @@
     </div>
 
     <div class="card">
-      <div class="card-title">Tarif Umum PPh 26</div>
+      <div class="card-title">Tarif Umum PPh 26 (Tanpa P3B)</div>
       <table class="tarif-table">
         <tr><th>Jenis Penghasilan</th><th>Tarif</th></tr>
         <tr><td>Dividen</td><td>20%</td></tr>
         <tr><td>Bunga, Royalti, Hadiah, Pensiun</td><td>20%</td></tr>
-        <tr><td>Sewa & Penghasilan atas Harta</td><td>20%</td></tr>
+        <tr><td>Sewa &amp; Penghasilan atas Harta</td><td>20%</td></tr>
         <tr><td>Imbalan Jasa, Pekerjaan, Kegiatan</td><td>20%</td></tr>
         <tr><td>Keuntungan Penjualan Harta</td><td>20%</td></tr>
         <tr><td>Premi Asuransi / Reasuransi</td><td>20%</td></tr>
-        <tr><td>Penghasilan dari Penjualan Saham (BUT)</td><td>20%</td></tr>
       </table>
       <div class="ter-note" style="margin-top:1rem;">
-        ℹ️ Tarif 20% dapat dikurangi jika ada <strong>Tax Treaty (P3B/Tax Treaty)</strong> antara Indonesia dan negara domisili WPLN. Masukkan tarif P3B yang berlaku di kolom tarif.
+        ℹ️ Tarif 20% dapat dikurangi berdasarkan <strong>Perjanjian Penghindaran Pajak Berganda (P3B / Tax Treaty)</strong>. Gunakan lookup di bawah untuk menemukan tarif P3B yang berlaku.
+      </div>
+    </div>
+
+    <!-- P3B LOOKUP DATABASE -->
+    <div class="card">
+      <div class="card-title">🔍 Lookup Tarif P3B / Tax Treaty</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Negara Domisili WPLN</label>
+          <select id="p3b_negara" onchange="lookupP3B()">
+            <option value="">— Pilih Negara —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Jenis Penghasilan</label>
+          <select id="p3b_jenis" onchange="lookupP3B()">
+            <option value="dividen">Dividen</option>
+            <option value="bunga">Bunga (Interest)</option>
+            <option value="royalti">Royalti</option>
+            <option value="jasa">Imbalan Jasa / Kegiatan</option>
+          </select>
+        </div>
+      </div>
+      <div id="p3b_result" style="display:none; margin-top:1rem;">
+        <div id="p3b_info" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;font-size:0.92rem;line-height:1.7;"></div>
+        <button onclick="p3bPakaiTarif()" style="margin-top:10px;padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:600;">✓ Pakai Tarif Ini untuk Hitung PPh 26</button>
+      </div>
+      <div id="p3b_notfound" style="display:none;margin-top:1rem;color:#f87171;font-size:0.9rem;">
+        ⚠️ Negara ini belum/tidak memiliki P3B dengan Indonesia — gunakan tarif umum 20%.
       </div>
     </div>
 
@@ -1638,7 +1814,7 @@
           <select id="p26_jenis" onchange="hitungP26()">
             <option value="20_dividen">Dividen (20%)</option>
             <option value="20_bunga">Bunga / Royalti / Hadiah (20%)</option>
-            <option value="20_sewa">Sewa & Penghasilan atas Harta (20%)</option>
+            <option value="20_sewa">Sewa &amp; Penghasilan atas Harta (20%)</option>
             <option value="20_jasa">Imbalan Jasa / Pekerjaan / Kegiatan (20%)</option>
             <option value="20_premi">Premi Asuransi / Reasuransi (20%)</option>
             <option value="20_saham">Keuntungan Penjualan Saham BUT (20%)</option>
@@ -1672,6 +1848,7 @@
         </div>
       </div>
       <div class="tarif-info" id="p26_tarif_info">Tarif: 20%</div>
+      <div id="p26_treaty_badge" style="display:none;margin-top:8px;padding:6px 12px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:0.85rem;color:#6ee7b7;"></div>
       <div class="grossup-info" id="p26_gu_box" style="display:none">
         ℹ️ <b>Gross Up:</b> Input nilai neto yang ingin diterima WPLN. Bruto dihitung otomatis = Neto ÷ (1 − Tarif).
       </div>
@@ -1742,7 +1919,7 @@ document.addEventListener('click', function(e) {
 function renderTable(tableId, rows) {
   const el = document.getElementById(tableId);
   el.innerHTML = rows.map(r => {
-    const cls = r.total ? ' class="total"' : '';
+    const cls = r.total ? ' class="total"' : r.warn ? ' style="color:#f59e0b"' : '';
     return `<tr${cls}><td>${r.label}</td><td>${r.value}</td></tr>`;
   }).join('');
 }
@@ -1919,6 +2096,7 @@ function hitung21() {
       : tarifPPh21(pkp) * (N / 12);
     const pphMasaTerakhir = Math.round(pphTerutang - pphDP);
     const gajiBulanIni = gajiPB + tunjPB + premiPB;
+    const thp = gajiBulanIni - pphMasaTerakhir;
     const modeLabel = inputMode === 'setahun' ? ' (dari total setahun)' : '';
 
     renderTable('table21', [
@@ -1936,7 +2114,9 @@ function hitung21() {
       { label: 'PPh 21 Terutang (total)', value: fmt(pphTerutang) },
       { label: 'PPh 21 Sudah Dipotong (TER sebelumnya)', value: fmt(pphDP) },
       { label: 'PPh 21 Masa Pajak Terakhir', value: fmt(pphMasaTerakhir), total: true },
-      { label: 'Take Home Pay Bulan Ini (Gaji − PPh MT)', value: fmt(gajiBulanIni - pphMasaTerakhir) },
+      { label: 'Gaji Bulan Terakhir', value: fmt(gajiBulanIni) },
+      { label: 'Take Home Pay Bulan Terakhir (Gaji − PPh MT)', value: fmt(thp), ...(thp < 0 ? {warn: true} : {}) },
+      ...(thp < 0 ? [{ label: '⚠️ THP negatif karena PPh dipotong sekaligus di masa terakhir. Isi "PPh 21 Sudah Dipotong Sebelumnya" sesuai potongan TER bulan-bulan sebelumnya.', value: '', warn: true }] : []),
     ]);
 
   // ── NETTO: perusahaan tanggung PPh masa terakhir ───────────────────
@@ -2453,20 +2633,23 @@ function hitungBP() {
 // ── PPH 23 ─────────────────────────────────────────────
 function hitung23() {
   const input  = parseFloat(document.getElementById('pph23_bruto').value) || 0;
-  const jenis  = document.getElementById('pph23_jenis').value;
+  const jenisVal = document.getElementById('pph23_jenis').value;
   const skema  = document.getElementById('pph23_skema').value;
-  let tarif = 0, label = '';
-  if (jenis === '15_npwp') { tarif = 0.15; label = '15%'; }
-  else if (jenis === '2_jasa') { tarif = 0.02; label = '2%'; }
-  else if (jenis === '2_sewa') { tarif = 0.02; label = '2%'; }
 
-  // Update label input
+  const [kode, tarifStr] = jenisVal.split('|');
+  const tarifPct = parseFloat(tarifStr) || 0;
+  const tarif    = tarifPct / 100;
+  const tarifLabel = tarifPct + '%';
+
+  const sel = document.getElementById('pph23_jenis');
+  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| /, '');
+
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
   document.getElementById('pph23_input_label').textContent = isGrossUp
     ? 'Nilai Neto yang Ingin Diterima (Rp)'
     : 'Penghasilan Bruto (Rp)';
-  document.getElementById('pph23_tarif_info').textContent = 'Tarif: ' + label;
+  document.getElementById('pph23_tarif_info').textContent = `[${kode}] Tarif: ${tarifLabel}`;
   document.getElementById('pph23_gu_icon').style.display  = isGrossUp ? 'inline-flex' : 'none';
   document.getElementById('pph23_gu_box').style.display   = isGrossUp ? 'block' : 'none';
   document.getElementById('pph23_netto_box').style.display = isNetto  ? 'block' : 'none';
@@ -2476,19 +2659,16 @@ function hitung23() {
   let bruto, pph, neto, totalBeban;
 
   if (isGrossUp) {
-    // Input = neto yg ingin diterima; bruto = neto / (1 - tarif)
     neto       = input;
-    bruto      = neto / (1 - tarif);
+    bruto      = tarif < 1 ? neto / (1 - tarif) : neto;
     pph        = bruto - neto;
-    totalBeban = bruto; // pemberi bayar bruto (sudah include PPh)
+    totalBeban = bruto;
   } else if (isNetto) {
-    // Input = bruto; PPh ditanggung pemberi; penerima terima bruto penuh
     bruto      = input;
     pph        = bruto * tarif;
-    neto       = bruto; // penerima terima penuh
-    totalBeban = bruto + pph; // beban total pemberi
+    neto       = bruto;
+    totalBeban = bruto + pph;
   } else {
-    // Gross: penerima tanggung pajak
     bruto      = input;
     pph        = bruto * tarif;
     neto       = bruto - pph;
@@ -2499,23 +2679,29 @@ function hitung23() {
 
   if (isGrossUp) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Nilai Neto yang Ingin Diterima', value: fmt(neto) },
-      { label: `✦ PPh 23 Gross Up (${label})`, value: fmt(pph) },
+      { label: `✦ PPh 23 Gross Up (${tarifLabel})`, value: fmt(pph) },
       { label: 'Penghasilan Bruto (setelah dinaikkan)', value: fmt(bruto) },
       { label: 'PPh 23 yang Dipotong', value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto), total: true },
     ];
   } else if (isNetto) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Penghasilan Bruto', value: fmt(bruto) },
-      { label: `PPh 23 (${label}) — Ditanggung Pemberi`, value: fmt(pph) },
+      { label: `PPh 23 (${tarifLabel}) — Ditanggung Pemberi`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto) },
       { label: 'Total Beban Pemberi (Bruto + PPh)', value: fmt(totalBeban), total: true },
     ];
   } else {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Penghasilan Bruto', value: fmt(bruto) },
-      { label: `PPh 23 (${label}) — Dipotong dari Penerima`, value: fmt(pph) },
+      { label: `PPh 23 (${tarifLabel}) — Dipotong dari Penerima`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto), total: true },
     ];
   }
@@ -2527,13 +2713,16 @@ function hitung23() {
 // ── PPH 4(2) ───────────────────────────────────────────
 function hitung4() {
   const input  = parseFloat(document.getElementById('pph4_bruto').value) || 0;
-  const jenis  = document.getElementById('pph4_jenis').value;
+  const jenisVal = document.getElementById('pph4_jenis').value;
   const skema  = document.getElementById('pph4_skema').value;
 
-  // parseFloat handles "2.65_ti" → 2.65, "10_sewa" → 10, "0.1" → 0.1
-  const tarifPct  = parseFloat(jenis);
+  const [kode, tarifStr] = jenisVal.split('|');
+  const tarifPct  = parseFloat(tarifStr) || 0;
   const tarif     = tarifPct / 100;
   const tarifLabel = tarifPct + '%';
+
+  const sel = document.getElementById('pph4_jenis');
+  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| /, '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
@@ -2541,7 +2730,7 @@ function hitung4() {
   document.getElementById('pph4_input_label').textContent = isGrossUp
     ? 'Nilai Neto yang Ingin Diterima (Rp)'
     : 'Penghasilan Bruto / Nilai Transaksi (Rp)';
-  document.getElementById('pph4_tarif_info').textContent = 'Tarif: ' + tarifLabel + ' (Final)';
+  document.getElementById('pph4_tarif_info').textContent = `[${kode}] Tarif: ${tarifLabel} (Final)`;
   document.getElementById('pph4_gu_icon').style.display  = isGrossUp ? 'inline-flex' : 'none';
   document.getElementById('pph4_gu_box').style.display   = isGrossUp ? 'block' : 'none';
   document.getElementById('pph4_netto_box').style.display = isNetto  ? 'block' : 'none';
@@ -2552,7 +2741,7 @@ function hitung4() {
 
   if (isGrossUp) {
     neto       = input;
-    bruto      = neto / (1 - tarif);
+    bruto      = tarif < 1 ? neto / (1 - tarif) : neto;
     pph        = bruto - neto;
     totalBeban = bruto;
   } else if (isNetto) {
@@ -2570,6 +2759,8 @@ function hitung4() {
   let rows = [];
   if (isGrossUp) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Nilai Neto yang Ingin Diterima', value: fmt(neto) },
       { label: `✦ PPh 4(2) Gross Up (${tarifLabel})`, value: fmt(pph) },
       { label: 'Penghasilan Bruto (setelah dinaikkan)', value: fmt(bruto) },
@@ -2578,6 +2769,8 @@ function hitung4() {
     ];
   } else if (isNetto) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Penghasilan Bruto', value: fmt(bruto) },
       { label: `PPh 4(2) Final (${tarifLabel}) — Ditanggung Pemotong`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto) },
@@ -2585,6 +2778,8 @@ function hitung4() {
     ];
   } else {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kode },
+      { label: 'Jenis Penghasilan',         value: namaJenis },
       { label: 'Nilai Transaksi / Penghasilan Bruto', value: fmt(bruto) },
       { label: `PPh 4(2) Final (${tarifLabel}) — Dipotong dari Penerima`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto), total: true },
@@ -2705,6 +2900,7 @@ function switchPPNSkema() {
   inputLbl.textContent = skema === 'ekspor' ? 'Nilai Ekspor (Rp)'
     : skema === 'nilai_lain' ? 'Nilai Transaksi / Tagihan (Rp)'
     : skema === 'mewah' ? 'Harga Jual BKP Mewah (Rp)'
+    : arahSel.value === 'dari_total' ? 'Harga Sudah Termasuk PPN (Rp)'
     : 'Harga Jual / Nilai Transaksi (Rp)';
 
   document.getElementById('ppn_dpp').placeholder = skema === 'nilai_lain'
@@ -2720,6 +2916,15 @@ function hitungPPN() {
   const skema = document.getElementById('ppn_skema').value;
   const arah  = document.getElementById('ppn_arah').value;
   const hide  = () => { document.getElementById('resultPPN').style.display = 'none'; };
+
+  // Update label input setiap kali hitungPPN dipanggil (termasuk saat arah berubah)
+  const inputLbl = document.getElementById('ppn_input_label');
+  if (skema !== 'ekspor' && skema !== 'nilai_lain' && skema !== 'mewah') {
+    inputLbl.textContent = arah === 'dari_total'
+      ? 'Harga Sudah Termasuk PPN (Rp)'
+      : 'Harga Jual / Nilai Transaksi (Rp)';
+  }
+
   if (!nilaiInput) { hide(); return; }
 
   let rows = [];
@@ -2743,16 +2948,20 @@ function hitungPPN() {
       ppn          = total - hargaJual;
     }
 
-    const efektifPct = (ppn / hargaJual * 100).toFixed(4);
+    const efektifPct = (ppn / hargaJual * 100).toFixed(2);
     rows = [
       { label: 'Dasar Regulasi',                         value: 'PMK 131/2024 Pasal 3 — BKP/JKP Non-Mewah' },
-      { label: arah === 'dari_total' ? 'Total Harga (termasuk PPN)' : 'Harga Jual / Nilai Transaksi',
-                                                         value: fmt(hargaJual) },
+      ...(arah === 'dari_total' ? [
+        { label: 'Total Harga Input (include PPN)',       value: fmt(total) },
+        { label: 'Harga Jual (ekskl. PPN)',               value: fmt(hargaJual) },
+      ] : [
+        { label: 'Harga Jual / Nilai Transaksi',          value: fmt(hargaJual) },
+      ]),
       { label: 'DPP Nilai Lain (11/12 × Harga)',         value: fmt(dppNilaiLain) },
       { label: 'Tarif PPN (sesuai UU)',                  value: '12%' },
-      { label: 'PPN Terutang (12% × DPP Nilai Lain)',    value: fmt(ppn) },
-      { label: 'Tarif Efektif PPN',                      value: efektifPct + '%  ≈ 11%' },
-      { label: 'Total Harga (termasuk PPN)',              value: fmt(total), total: true },
+      { label: 'PPN Terutang (12% × DPP Nilai Lain)',    value: fmt(ppn), total: true },
+      { label: 'Tarif Efektif PPN',                      value: efektifPct + '% ≈ 11%' },
+      { label: 'Total Harga (termasuk PPN)',              value: fmt(total) },
       { label: 'Selisih vs PPN 12% atas harga penuh (penghematan)', value: fmt(hargaJual * 0.12 - ppn) },
     ];
 
@@ -2773,8 +2982,12 @@ function hitungPPN() {
 
     rows = [
       { label: 'Dasar Regulasi',                   value: 'PMK 131/2024 Pasal 2 — BKP Mewah (PPnBM)' },
-      { label: arah === 'dari_total' ? 'Total Harga (termasuk PPN 12%)' : 'Harga Jual BKP Mewah',
-                                                   value: fmt(hargaJual) },
+      ...(arah === 'dari_total' ? [
+        { label: 'Total Harga Input (include PPN)', value: fmt(total) },
+        { label: 'Harga Jual BKP Mewah (ekskl. PPN)', value: fmt(hargaJual) },
+      ] : [
+        { label: 'Harga Jual BKP Mewah',           value: fmt(hargaJual) },
+      ]),
       { label: 'DPP',                              value: 'Harga Jual Penuh (tanpa diskon nilai lain)' },
       { label: 'Tarif PPN',                        value: '12%' },
       { label: 'PPN Terutang (12% × Harga Jual)',  value: fmt(ppn) },
@@ -2806,6 +3019,9 @@ function hitungPPN() {
       rows = [
         { label: 'Dasar Regulasi',                  value: cfg.dasar },
         { label: 'Jenis',                           value: cfg.label },
+        ...(arah === 'dari_total' ? [
+          { label: 'Total Input (include PPN)',      value: fmt(nilaiInput) },
+        ] : []),
         { label: 'DPP (= HPP / Harga Perolehan)',   value: fmt(hpp) },
         { label: 'DPP Nilai Lain (11/12 × HPP)',    value: fmt(dppNL) },
         { label: 'Formula PPN',                     value: '12% × (11/12) × HPP = 11% × HPP' },
@@ -2822,7 +3038,7 @@ function hitungPPN() {
       const dppNL  = nilai * f;
       const ppn    = nilai * efRate;
       const total  = nilai + ppn;
-      const efektif = (efRate * 100).toFixed(4);
+      const efektif = (efRate * 100).toFixed(2);
 
       rows = [
         { label: 'Dasar Regulasi',                                        value: cfg.dasar },
@@ -3004,24 +3220,32 @@ tambahNegara();
 
 // ── PPH 15 ─────────────────────────────────────────────
 const P15_TARIF = {
-  pelayaran_dn:      { efektif: 1.2,  label: '1,2% (efektif)' },
-  penerbangan_dn:    { efektif: 1.8,  label: '1,8% (efektif)' },
-  pelayaran_ln:      { efektif: 2.64, label: '2,64% (efektif)' },
-  perwakilan_dagang: { efektif: 0.44, label: '0,44% (efektif)' },
-  maklon:            { efektif: 1.75, label: '1,75% (7% × 25%, efektif)' },
+  'penerbangan_dn': { label: '1,8% (efektif, norma 6% × PPh)' },
+  'maklon':         { label: '1,75% (efektif, 7% × 25%)' },
 };
 
 function hitungP15() {
   const input  = parseFloat(document.getElementById('p15_bruto').value) || 0;
-  const jenis  = document.getElementById('p15_jenis').value;
+  const jenisVal = document.getElementById('p15_jenis').value;
   const skema  = document.getElementById('p15_skema').value;
-  const info   = P15_TARIF[jenis];
-  const tarif  = info.efektif / 100;
+
+  const [kode, tarifStr] = jenisVal.split('|');
+  const tarifPct = parseFloat(tarifStr) || 0;
+  const tarif    = tarifPct / 100;
+
+  const isLegacy = kode === 'penerbangan_dn' || kode === 'maklon';
+  const kodeDisplay = isLegacy ? 'PPh 15' : kode;
+  const tarifInfo   = isLegacy
+    ? P15_TARIF[kode].label
+    : tarifPct.toFixed(2).replace('.', ',').replace(/,?0+$/, '') + '% (efektif)';
+
+  const sel = document.getElementById('p15_jenis');
+  const namaJenis = sel.options[sel.selectedIndex].text.replace(/^[\d-]+ \| |^PPh 15 \| /, '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
 
-  document.getElementById('p15_tarif_info').textContent = 'Tarif Efektif: ' + info.label;
+  document.getElementById('p15_tarif_info').textContent = `[${kodeDisplay}] Tarif Efektif: ${tarifInfo}`;
   document.getElementById('p15_input_label').textContent = isGrossUp ? 'Nilai Neto yang Ingin Diterima (Rp)' : 'Peredaran Bruto / Imbalan (Rp)';
   document.getElementById('p15_gu_icon').style.display = isGrossUp ? 'inline-flex' : 'none';
   document.getElementById('p15_gu_box').style.display  = isGrossUp ? 'block' : 'none';
@@ -3031,38 +3255,196 @@ function hitungP15() {
 
   let bruto, pph, neto, totalBeban;
   if (isGrossUp) {
-    neto = input; bruto = neto / (1 - tarif); pph = bruto - neto; totalBeban = bruto;
+    neto = input; bruto = tarif < 1 ? neto / (1 - tarif) : neto; pph = bruto - neto; totalBeban = bruto;
   } else if (isNetto) {
     bruto = input; pph = bruto * tarif; neto = bruto; totalBeban = bruto + pph;
   } else {
     bruto = input; pph = bruto * tarif; neto = bruto - pph; totalBeban = bruto;
   }
 
+  const tarifRow = { label: 'Tarif Efektif PPh 15', value: tarifInfo };
+
   let rows = [];
   if (isGrossUp) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kodeDisplay },
+      { label: 'Jenis',                    value: namaJenis },
       { label: 'Nilai Neto yang Ingin Diterima', value: fmt(neto) },
-      { label: `✦ PPh 15 Gross Up (${info.label})`, value: fmt(pph) },
+      { label: `✦ PPh 15 Gross Up (${tarifInfo})`, value: fmt(pph) },
       { label: 'Imbalan Bruto (setelah dinaikkan)', value: fmt(bruto) },
       { label: 'PPh 15 Dipotong', value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto), total: true },
     ];
   } else if (isNetto) {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kodeDisplay },
+      { label: 'Jenis',                    value: namaJenis },
       { label: 'Peredaran Bruto / Imbalan', value: fmt(bruto) },
-      { label: `PPh 15 (${info.label}) — Ditanggung Pemberi`, value: fmt(pph) },
+      tarifRow,
+      { label: `PPh 15 (${tarifInfo}) — Ditanggung Pemberi`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto) },
       { label: 'Total Beban Pemberi (Bruto + PPh)', value: fmt(totalBeban), total: true },
     ];
   } else {
     rows = [
+      { label: 'Kode Objek Pajak Coretax', value: kodeDisplay },
+      { label: 'Jenis',                    value: namaJenis },
       { label: 'Peredaran Bruto / Imbalan', value: fmt(bruto) },
-      { label: `PPh 15 (${info.label})`, value: fmt(pph) },
+      tarifRow,
+      { label: `PPh 15`, value: fmt(pph) },
       { label: 'Nilai Bersih Diterima Penerima', value: fmt(neto), total: true },
     ];
   }
   renderTable('tableP15', rows);
   document.getElementById('resultP15').style.display = 'block';
+}
+
+// ── DATABASE P3B / TAX TREATY INDONESIA ────────────────
+// Sumber: Peraturan DJP, DJP Online, SE-03/PJ/2024
+// Format: { dividen: [tarif_rendah, tarif_tinggi|null, catatan], bunga: [...], royalti: [...], jasa: [...] }
+// dividen: [tarif umum, tarif holding signifikan (biasanya 25%+), catatan]
+const P3B_DB = {
+  'Algeria':        { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[15,null,''] },
+  'Australia':      { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[10,15,'Tergantung jenis royalti'], jasa:[null,null,'Dikenakan sesuai ketentuan domestik masing-masing'] },
+  'Austria':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Bangladesh':     { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Belarus':        { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Belgium':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Brunei Darussalam': { dividen:[15,null,''],   bunga:[15,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Bulgaria':       { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Canada':         { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'China (RRT)':    { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Croatia':        { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Czech Republic': { dividen:[10,null,''],      bunga:[12.5,null,''],royalti:[12.5,null,''],jasa:[null,null,''] },
+  'Denmark':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Egypt':          { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Finland':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'France':         { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Germany':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Hong Kong':      { dividen:[5,10,'5% jika kepemilikan ≥25%'],   bunga:[10,null,''],  royalti:[5,null,''],   jasa:[null,null,''] },
+  'Hungary':        { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'India':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Iran':           { dividen:[7,null,''],       bunga:[10,null,''],  royalti:[12,null,''],  jasa:[null,null,''] },
+  'Italy':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Japan':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Jordan':         { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Korea Selatan':  { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Kuwait':         { dividen:[10,null,''],      bunga:[5,null,''],   royalti:[20,null,''],  jasa:[null,null,''] },
+  'Luxembourg':     { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,12.5,'Tergantung jenis'], jasa:[null,null,''] },
+  'Malaysia':       { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Mexico':         { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Mongolia':       { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Morocco':        { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Netherlands':    { dividen:[5,10,'5% jika kepemilikan ≥25%; 10% lainnya; 15% portofolio'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'New Zealand':    { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Norway':         { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Pakistan':       { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[15,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Papua Nugini':   { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Philippines':    { dividen:[15,20,'15% jika kepemilikan ≥10%'], bunga:[15,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Poland':         { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[15,null,''], jasa:[null,null,''] },
+  'Portugal':       { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Qatar':          { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[5,null,''],   jasa:[null,null,''] },
+  'Romania':        { dividen:[12.5,null,''],    bunga:[12.5,null,''],royalti:[15,null,''],  jasa:[null,null,''] },
+  'Rusia':          { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Saudi Arabia':   { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Serbia':         { dividen:[15,null,''],      bunga:[10,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Seychelles':     { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Singapura':      { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[8,10,'8% industrial; 10% lainnya'], jasa:[null,null,''] },
+  'Slovakia':       { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Afrika Selatan': { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Spanyol':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Sri Lanka':      { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Sudan':          { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Suriname':       { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Swedia':         { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Swiss':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Syria':          { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[18,null,''],  jasa:[null,null,''] },
+  'Taiwan':         { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Thailand':       { dividen:[15,20,'15% jika kepemilikan ≥25%'], bunga:[15,25,'15% bank; 25% lainnya'], royalti:[15,null,''], jasa:[null,null,''] },
+  'Tunisia':        { dividen:[12,null,''],      bunga:[12,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Turki':          { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Ukraina':        { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Uni Emirat Arab':{ dividen:[10,null,''],      bunga:[5,null,''],   royalti:[5,null,''],   jasa:[null,null,''] },
+  'Inggris (UK)':   { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,15,'Tergantung jenis'], jasa:[null,null,''] },
+  'Amerika Serikat':{ dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[10,null,''], jasa:[null,null,''] },
+  'Uzbekistan':     { dividen:[10,null,''],      bunga:[10,null,''],  royalti:[10,null,''],  jasa:[null,null,''] },
+  'Venezuela':      { dividen:[10,15,'10% jika kepemilikan ≥25%'], bunga:[10,null,''], royalti:[20,null,''], jasa:[null,null,''] },
+  'Vietnam':        { dividen:[15,null,''],      bunga:[15,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+  'Zimbabwe':       { dividen:[20,null,''],      bunga:[10,null,''],  royalti:[15,null,''],  jasa:[null,null,''] },
+};
+
+// Isi dropdown negara
+(function() {
+  const sel = document.getElementById('p3b_negara');
+  Object.keys(P3B_DB).sort().forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = n; opt.textContent = n;
+    sel.appendChild(opt);
+  });
+})();
+
+let _p3bTarifSuggested = null;
+
+function lookupP3B() {
+  const negara = document.getElementById('p3b_negara').value;
+  const jenis  = document.getElementById('p3b_jenis').value;
+  const resEl  = document.getElementById('p3b_result');
+  const nfEl   = document.getElementById('p3b_notfound');
+  const infoEl = document.getElementById('p3b_info');
+
+  resEl.style.display = 'none';
+  nfEl.style.display  = 'none';
+  _p3bTarifSuggested  = null;
+
+  if (!negara) return;
+
+  const data = P3B_DB[negara];
+  if (!data) { nfEl.style.display = 'block'; return; }
+
+  const d = data[jenis];
+  const jenisLabel = { dividen:'Dividen', bunga:'Bunga (Interest)', royalti:'Royalti', jasa:'Imbalan Jasa' }[jenis];
+
+  let html = `<strong>🌏 ${negara} — ${jenisLabel}</strong><br>`;
+
+  if (d[0] === null) {
+    html += `<span style="color:#94a3b8;">Tarif PPh 26 untuk jenis ini tidak diatur khusus dalam P3B — berlaku ketentuan domestik negara masing-masing atau tarif umum 20%.</span>`;
+    _p3bTarifSuggested = 20;
+  } else if (d[1] !== null) {
+    html += `Tarif P3B: <strong style="color:var(--accent2)">${d[0]}%</strong> (kepemilikan signifikan) / <strong style="color:var(--accent2)">${d[1]}%</strong> (lainnya)<br>`;
+    if (d[2]) html += `<span style="color:#94a3b8;font-size:0.88rem;">ℹ️ ${d[2]}</span><br>`;
+    html += `<span style="color:#94a3b8;font-size:0.88rem;">vs tarif umum PPh 26: <s>20%</s> — penghematan ${20 - d[0]}%–${20 - d[1]}%</span>`;
+    _p3bTarifSuggested = d[0]; // pakai tarif lebih rendah sebagai default
+  } else {
+    html += `Tarif P3B: <strong style="color:var(--accent2)">${d[0]}%</strong><br>`;
+    if (d[2]) html += `<span style="color:#94a3b8;font-size:0.88rem;">ℹ️ ${d[2]}</span><br>`;
+    if (d[0] < 20) html += `<span style="color:#94a3b8;font-size:0.88rem;">vs tarif umum PPh 26: <s>20%</s> — penghematan ${20 - d[0]}%</span>`;
+    else html += `<span style="color:#f87171;font-size:0.88rem;">Tarif P3B = tarif umum — tidak ada penghematan untuk jenis ini.</span>`;
+    _p3bTarifSuggested = d[0];
+  }
+
+  infoEl.innerHTML = html;
+  resEl.style.display = 'block';
+}
+
+function p3bPakaiTarif() {
+  if (_p3bTarifSuggested === null) return;
+  const negara = document.getElementById('p3b_negara').value;
+  const jenis  = document.getElementById('p3b_jenis').value;
+  const jenisLabel = { dividen:'Dividen', bunga:'Bunga/Royalti/Hadiah', royalti:'Royalti', jasa:'Imbalan Jasa' }[jenis];
+
+  // Pilih opsi custom di dropdown
+  document.getElementById('p26_jenis').value = 'custom';
+  document.getElementById('p26_custom_tarif').value = _p3bTarifSuggested;
+  document.getElementById('p26_custom_wrap').style.display = 'block';
+
+  // Tampilkan badge
+  const badge = document.getElementById('p26_treaty_badge');
+  badge.style.display = 'block';
+  badge.innerHTML = `✅ Menggunakan tarif P3B Indonesia–${negara}: <strong>${_p3bTarifSuggested}% (${jenisLabel})</strong>`;
+
+  hitungP26();
+  // Scroll ke kalkulatornya
+  document.getElementById('p26_bruto').focus();
 }
 
 // ── PPH 26 ─────────────────────────────────────────────
@@ -3071,14 +3453,15 @@ function hitungP26() {
   const jenis  = document.getElementById('p26_jenis').value;
   const skema  = document.getElementById('p26_skema').value;
 
-  // Handle custom P3B tarif
   const isCustom = jenis === 'custom';
   document.getElementById('p26_custom_wrap').style.display = isCustom ? 'block' : 'none';
+  if (!isCustom) document.getElementById('p26_treaty_badge').style.display = 'none';
+
   let tarifPct = isCustom
     ? (parseFloat(document.getElementById('p26_custom_tarif').value) || 0)
     : 20;
   const tarif = tarifPct / 100;
-  const tarifLabel = tarifPct + '%' + (isCustom ? ' (P3B/Tax Treaty)' : '');
+  const tarifLabel = tarifPct + '%' + (isCustom ? ' (P3B)' : '');
 
   const isGrossUp = skema === 'gross_up';
   const isNetto   = skema === 'netto';
@@ -3100,29 +3483,34 @@ function hitungP26() {
     bruto = input; pph = bruto * tarif; neto = bruto - pph; totalBeban = bruto;
   }
 
-  const jenisLabel = document.getElementById('p26_jenis').options[document.getElementById('p26_jenis').selectedIndex].text;
+  const badge  = document.getElementById('p26_treaty_badge');
+  const treaty = isCustom && badge.style.display !== 'none' ? badge.innerText.replace('✅ ','') : '';
+  const treatyRow = treaty ? [{ label: 'Dasar Tarif', value: treaty }] : [];
 
   let rows = [];
   if (isGrossUp) {
     rows = [
+      ...treatyRow,
       { label: 'Nilai Neto yang Ingin Diterima WPLN', value: fmt(neto) },
-      { label: `✦ PPh 26 Gross Up (${tarifLabel})`, value: fmt(pph) },
-      { label: 'Penghasilan Bruto (setelah dinaikkan)', value: fmt(bruto) },
-      { label: 'PPh 26 Dipotong', value: fmt(pph) },
-      { label: 'Nilai Bersih Diterima WPLN', value: fmt(neto), total: true },
+      { label: `✦ PPh 26 Gross Up (${tarifLabel})`,   value: fmt(pph) },
+      { label: 'Penghasilan Bruto (setelah dinaikkan)',value: fmt(bruto) },
+      { label: 'PPh 26 Dipotong',                      value: fmt(pph) },
+      { label: 'Nilai Bersih Diterima WPLN',           value: fmt(neto), total: true },
     ];
   } else if (isNetto) {
     rows = [
-      { label: 'Penghasilan Bruto', value: fmt(bruto) },
+      ...treatyRow,
+      { label: 'Penghasilan Bruto',                    value: fmt(bruto) },
       { label: `PPh 26 (${tarifLabel}) — Ditanggung Pemberi`, value: fmt(pph) },
-      { label: 'Nilai Bersih Diterima WPLN', value: fmt(neto) },
-      { label: 'Total Beban Pemberi (Bruto + PPh)', value: fmt(totalBeban), total: true },
+      { label: 'Nilai Bersih Diterima WPLN',           value: fmt(neto) },
+      { label: 'Total Beban Pemberi (Bruto + PPh)',     value: fmt(totalBeban), total: true },
     ];
   } else {
     rows = [
-      { label: 'Penghasilan Bruto', value: fmt(bruto) },
+      ...treatyRow,
+      { label: 'Penghasilan Bruto',                    value: fmt(bruto) },
       { label: `PPh 26 (${tarifLabel}) — Dipotong dari WPLN`, value: fmt(pph) },
-      { label: 'Nilai Bersih Diterima WPLN', value: fmt(neto), total: true },
+      { label: 'Nilai Bersih Diterima WPLN',           value: fmt(neto), total: true },
     ];
   }
 
