@@ -378,7 +378,22 @@
   }
   .mode-btn.active.ter { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; }
 
-  /* ── ACCORDION PPh 21 ─────────────────────────── */
+  /* ── TOGGLE INPUT MODE (per bulan / total setahun) ── */
+  .input-mode-toggle {
+    display: inline-flex; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); margin-left: auto;
+  }
+  .imt-btn {
+    padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+    border: none; cursor: pointer; font-family: inherit;
+    background: transparent; color: var(--text-muted); transition: all 0.18s;
+  }
+  .imt-btn.active { background: var(--blue); color: #fff; }
+  .card-title-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .card-title-row .card-title { margin-bottom: 0; }
   .pph21-accordion { display:flex; flex-direction:column; gap:0.5rem; }
   .acc-item { border-radius:14px; border:1px solid var(--border); overflow:hidden; transition:border-color .2s; }
   .acc-item.open { border-color:var(--accent); }
@@ -884,26 +899,32 @@
       </div>
 
       <div class="card">
-        <div class="card-title">Komponen Penghasilan</div>
+        <div class="card-title-row">
+          <div class="card-title">Komponen Penghasilan</div>
+          <div class="input-mode-toggle">
+            <button class="imt-btn active" id="imt_bulan" onclick="setInputMode21('bulan')">Per Bulan</button>
+            <button class="imt-btn" id="imt_setahun" onclick="setInputMode21('setahun')">Total Setahun</button>
+          </div>
+        </div>
         <div class="grid-2">
           <div class="field">
-            <label>Gaji Pokok per Bulan (Rp)</label>
+            <label id="lbl21_gaji">Gaji Pokok per Bulan (Rp)</label>
             <input type="number" id="pph21_gaji" placeholder="0" oninput="hitung21()">
           </div>
           <div class="field">
-            <label>Tunjangan Lainnya per Bulan (Rp)</label>
+            <label id="lbl21_tunj">Tunjangan Lainnya per Bulan (Rp)</label>
             <input type="number" id="pph21_tunjangan" placeholder="0" oninput="hitung21()">
           </div>
           <div class="field">
-            <label>Premi Asuransi Dibayar Perusahaan per Bulan (Rp)</label>
+            <label id="lbl21_premi">Premi Asuransi Dibayar Perusahaan per Bulan (Rp)</label>
             <input type="number" id="pph21_premi" placeholder="0" oninput="hitung21()">
           </div>
           <div class="field">
-            <label>Bonus / THR (total, bukan per bulan) (Rp)</label>
+            <label>Bonus / THR — Total (Rp)</label>
             <input type="number" id="pph21_bonus" placeholder="0" oninput="hitung21()">
           </div>
           <div class="field">
-            <label>Iuran Pensiun / JHT per Bulan (Rp)</label>
+            <label id="lbl21_iuran">Iuran Pensiun / JHT per Bulan (Rp)</label>
             <input type="number" id="pph21_iuran" placeholder="0" oninput="hitung21()">
           </div>
           <div class="field">
@@ -1801,6 +1822,17 @@ function getPTKP21() {
   return parseInt(v.replace('_k',''));
 }
 
+function setInputMode21(mode) {
+  document.getElementById('imt_bulan').classList.toggle('active', mode === 'bulan');
+  document.getElementById('imt_setahun').classList.toggle('active', mode === 'setahun');
+  const perBulan = mode === 'bulan';
+  document.getElementById('lbl21_gaji').textContent  = perBulan ? 'Gaji Pokok per Bulan (Rp)'                      : 'Gaji Pokok — Total Setahun (Rp)';
+  document.getElementById('lbl21_tunj').textContent  = perBulan ? 'Tunjangan Lainnya per Bulan (Rp)'               : 'Tunjangan Lainnya — Total Setahun (Rp)';
+  document.getElementById('lbl21_premi').textContent = perBulan ? 'Premi Asuransi Dibayar Perusahaan per Bulan (Rp)': 'Premi Asuransi — Total Setahun (Rp)';
+  document.getElementById('lbl21_iuran').textContent = perBulan ? 'Iuran Pensiun / JHT per Bulan (Rp)'             : 'Iuran Pensiun / JHT — Total Setahun (Rp)';
+  hitung21();
+}
+
 function hitung21() {
   const gaji    = parseFloat(document.getElementById('pph21_gaji').value)         || 0;
   const tunj    = parseFloat(document.getElementById('pph21_tunjangan').value)    || 0;
@@ -1816,6 +1848,9 @@ function hitung21() {
     ? parseInt(document.getElementById('pph21_bulan_mulai').value)
     : 1;
 
+  // Mode input: 'bulan' = nilai per bulan (×N), 'setahun' = nilai sudah total aktual
+  const inputMode = document.getElementById('imt_setahun').classList.contains('active') ? 'setahun' : 'bulan';
+
   const ptkpLabel = document.getElementById('pph21_ptkp').options[document.getElementById('pph21_ptkp').selectedIndex].text.split('—')[0].trim();
   const bulanNames = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
@@ -1828,6 +1863,14 @@ function hitung21() {
   }
 
   const N = bulanTerakhir - bulanMulai + 1; // jumlah bulan kerja
+
+  // Konversi ke nilai "per bulan efektif" untuk perhitungan internal
+  // Mode setahun: user input total aktual, dibagi N untuk dapat per-bulan ekuivalen
+  const gajiPB   = inputMode === 'setahun' ? gaji  / N : gaji;
+  const tunjPB   = inputMode === 'setahun' ? tunj  / N : tunj;
+  const premiPB  = inputMode === 'setahun' ? premi / N : premi;
+  const iuranPB  = inputMode === 'setahun' ? iuran / N : iuran;
+  // bonus selalu total, tidak berubah
 
   // ── Fungsi bantu hitung PPh terutang berdasarkan skenario ──────────
   function hitungPPHTerutang(gajiEff, tunjEff, premiEff, iuranEff, bonusEff) {
@@ -1857,17 +1900,17 @@ function hitung21() {
 
   // ── GROSS: karyawan tanggung PPh masa terakhir ─────────────────────
   if (skema === 'gross') {
-    const brutoAktual = (gaji + tunj + premi) * N + bonus;
+    const brutoAktual = (gajiPB + tunjPB + premiPB) * N + bonus;
     let bj, iurAktual, neto, pkp;
     if (skenario === 'A') {
       bj = Math.min(brutoAktual * 0.05, N * 500000);
-      iurAktual = iuran * N;
+      iurAktual = iuranPB * N;
       neto = brutoAktual - bj - iurAktual;
       pkp  = Math.max(neto - ptkp, 0);
     } else {
       const brutoSetahun = brutoAktual * (12 / N);
       bj = Math.min(brutoSetahun * 0.05, 6000000);
-      const iurSetahun = iuran * 12;
+      const iurSetahun = iuranPB * 12;
       neto = brutoSetahun - bj - iurSetahun;
       pkp  = Math.max(neto - ptkp, 0);
     }
@@ -1875,15 +1918,16 @@ function hitung21() {
       ? tarifPPh21(pkp)
       : tarifPPh21(pkp) * (N / 12);
     const pphMasaTerakhir = Math.round(pphTerutang - pphDP);
-    const gajiBulanIni = gaji + tunj + premi;
+    const gajiBulanIni = gajiPB + tunjPB + premiPB;
+    const modeLabel = inputMode === 'setahun' ? ' (dari total setahun)' : '';
 
     renderTable('table21', [
       { label: `Skenario`, value: skenario === 'A' ? 'A — Dari Januari / Resign tengah tahun' : `B — Mulai bekerja ${bulanNames[bulanMulai]}` },
       { label: 'Masa Pajak Terakhir', value: bulanNames[bulanTerakhir] },
       { label: `Jumlah Bulan Kerja (${bulanNames[bulanMulai]}–${bulanNames[bulanTerakhir]})`, value: N + ' bulan' },
-      { label: 'Penghasilan Bruto Aktual (total)', value: fmt(brutoAktual) },
+      { label: 'Penghasilan Bruto Aktual (total)' + modeLabel, value: fmt(brutoAktual) },
       { label: 'Biaya Jabatan', value: fmt(skenario === 'A' ? Math.min(brutoAktual * 0.05, N * 500000) : Math.min(brutoAktual * (12/N) * 0.05, 6000000)) },
-      { label: 'Iuran Pensiun / JHT', value: fmt(skenario === 'A' ? iuran * N : iuran * 12) },
+      { label: 'Iuran Pensiun / JHT', value: fmt(skenario === 'A' ? iuranPB * N : iuranPB * 12) },
       ...(skenario === 'B' ? [
         { label: 'Penghasilan Bruto Disetahunkan', value: fmt(brutoAktual * 12 / N) },
       ] : []),
@@ -1897,8 +1941,8 @@ function hitung21() {
 
   // ── NETTO: perusahaan tanggung PPh masa terakhir ───────────────────
   } else if (skema === 'netto') {
-    const brutoAktual = (gaji + tunj + premi) * N + bonus;
-    const pphTerutang = hitungPPHTerutang(gaji, tunj, premi, iuran, bonus);
+    const brutoAktual = (gajiPB + tunjPB + premiPB) * N + bonus;
+    const pphTerutang = hitungPPHTerutang(gajiPB, tunjPB, premiPB, iuranPB, bonus);
     const pphMasaTerakhir = Math.round(pphTerutang - pphDP);
 
     renderTable('table21', [
@@ -1910,8 +1954,8 @@ function hitung21() {
       { label: 'PPh 21 Sudah Dipotong (TER sebelumnya)', value: fmt(pphDP) },
       { label: 'PPh 21 Masa Pajak Terakhir', value: fmt(pphMasaTerakhir), total: true },
       { label: 'PPh Ditanggung Perusahaan (biaya tambahan)', value: fmt(pphMasaTerakhir) },
-      { label: 'Take Home Pay Karyawan (Gaji penuh diterima)', value: fmt(gaji + tunj + premi) },
-      { label: 'Total Biaya Perusahaan Bulan Ini', value: fmt(gaji + tunj + premi + pphMasaTerakhir) },
+      { label: 'Take Home Pay Karyawan (Gaji penuh diterima)', value: fmt(gajiPB + tunjPB + premiPB) },
+      { label: 'Total Biaya Perusahaan Bulan Ini', value: fmt(gajiPB + tunjPB + premiPB + pphMasaTerakhir) },
     ]);
 
   // ── GROSS UP: cari tunjangan PPh masa terakhir ─────────────────────
@@ -1919,28 +1963,28 @@ function hitung21() {
     // Iterasi: cari T (tunjangan PPh) sehingga PPh_terutang(bruto + T) - pphDP = T
     let T = 0;
     for (let i = 0; i < 300; i++) {
-      const pphTerutangBaru = hitungPPHTerutang(gaji, tunj + T/N, premi, iuran, bonus);
+      const pphTerutangBaru = hitungPPHTerutang(gajiPB, tunjPB + T/N, premiPB, iuranPB, bonus);
       const newT = Math.max(pphTerutangBaru - pphDP, 0);
       if (Math.abs(newT - T) < 1) { T = newT; break; }
       T = newT;
     }
     const tunjanganPPh = Math.round(T);
-    const pphTerutangFinal = hitungPPHTerutang(gaji, tunj + tunjanganPPh/N, premi, iuran, bonus);
+    const pphTerutangFinal = hitungPPHTerutang(gajiPB, tunjPB + tunjanganPPh/N, premiPB, iuranPB, bonus);
     const pphMasaTerakhir = Math.round(pphTerutangFinal - pphDP);
-    const brutoAktualBaru = (gaji + tunj + premi) * N + bonus + tunjanganPPh;
+    const brutoAktualBaru = (gajiPB + tunjPB + premiPB) * N + bonus + tunjanganPPh;
 
     renderTable('table21', [
       { label: 'Skenario', value: skenario === 'A' ? 'A — Dari Januari / Resign tengah tahun' : `B — Mulai bekerja ${bulanNames[bulanMulai]}` },
       { label: 'Masa Pajak Terakhir', value: bulanNames[bulanTerakhir] },
       { label: 'Jumlah Bulan Kerja', value: N + ' bulan' },
-      { label: 'Gaji + Tunjangan Asli per Bulan', value: fmt(gaji + tunj + premi) },
+      { label: 'Gaji + Tunjangan Asli per Bulan', value: fmt(gajiPB + tunjPB + premiPB) },
       { label: '✦ Tunjangan PPh Gross Up (ditambahkan di masa terakhir)', value: fmt(tunjanganPPh) },
       { label: 'Penghasilan Bruto Baru Aktual (total)', value: fmt(brutoAktualBaru) },
       { label: 'PPh 21 Terutang (dengan tunjangan PPh)', value: fmt(pphTerutangFinal) },
       { label: 'PPh 21 Sudah Dipotong (TER sebelumnya)', value: fmt(pphDP) },
       { label: 'PPh 21 Masa Pajak Terakhir (= Tunjangan PPh)', value: fmt(pphMasaTerakhir), total: true },
-      { label: 'Take Home Pay Karyawan (terima gaji asli)', value: fmt(gaji + tunj + premi) },
-      { label: 'Total Biaya Perusahaan Bulan Ini', value: fmt(gaji + tunj + premi + tunjanganPPh) },
+      { label: 'Take Home Pay Karyawan (terima gaji asli)', value: fmt(gajiPB + tunjPB + premiPB) },
+      { label: 'Total Biaya Perusahaan Bulan Ini', value: fmt(gajiPB + tunjPB + premiPB + tunjanganPPh) },
     ]);
   }
 
