@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
 <title>Kalkulator Pajak Indonesia</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -339,8 +340,24 @@
   .tarif-table td {
     padding: 8px 12px;
     border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
   }
   .tarif-table td:last-child { font-family: 'DM Mono', monospace; color: var(--accent); }
+  /* Matikan auto-link styling mobile browser (iOS Safari / Chrome Android) */
+  .tarif-table td a,
+  .tarif-table td a:link,
+  .tarif-table td a:visited,
+  .tarif-table a[href],
+  .tarif-table * {
+    color: inherit !important;
+    text-decoration: none !important;
+    -webkit-text-decoration: none !important;
+    pointer-events: none;
+  }
+  .tarif-table td:last-child,
+  .tarif-table td:last-child * {
+    color: var(--accent) !important;
+  }
 
   .error-msg {
     color: var(--red);
