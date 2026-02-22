@@ -326,6 +326,26 @@
     margin: 1.5rem 0;
   }
 
+  /* ──────────────────────────────────────────────────────────────────────
+     GLOBAL: Matikan auto-detect "nomor telepon" mobile browser
+     iOS Safari & Chrome Android otomatis wrap teks berpola XX-XXX-XX
+     (seperti kode objek pajak "22-900-01", "21-100-35", dll) menjadi
+     <a href="tel:..."> berwarna biru. Rule ini override semua elemen —
+     berlaku di tarif-table, ter-note, card-title, result-table, tarif-info,
+     grossup-info, dan seluruh output yang digenerate oleh JavaScript.
+  ────────────────────────────────────────────────────────────────────── */
+  a[href^="tel:"],
+  a[href^="tel:"]:link,
+  a[href^="tel:"]:visited,
+  a[href^="tel:"]:hover,
+  a[href^="tel:"]:active {
+    color: inherit !important;
+    text-decoration: none !important;
+    -webkit-text-decoration: none !important;
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+
   /* TARIF TABLE */
   .tarif-table {
     width: 100%; border-collapse: collapse;
@@ -343,21 +363,8 @@
     color: var(--text);
   }
   .tarif-table td:last-child { font-family: 'DM Mono', monospace; color: var(--accent); }
-  /* Matikan auto-link styling mobile browser (iOS Safari / Chrome Android) */
-  .tarif-table td a,
-  .tarif-table td a:link,
-  .tarif-table td a:visited,
-  .tarif-table a[href],
-  .tarif-table * {
-    color: inherit !important;
-    text-decoration: none !important;
-    -webkit-text-decoration: none !important;
-    pointer-events: none;
-  }
-  .tarif-table td:last-child,
-  .tarif-table td:last-child * {
-    color: var(--accent) !important;
-  }
+  .tarif-table td a, .tarif-table td * { color: inherit !important; text-decoration: none !important; }
+  .tarif-table td:last-child, .tarif-table td:last-child * { color: var(--accent) !important; }
 
   .error-msg {
     color: var(--red);
