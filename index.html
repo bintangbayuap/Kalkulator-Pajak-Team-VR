@@ -189,27 +189,29 @@
   }
   input[type=number], select {
     background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
     padding: 10px 14px;
     color: var(--text);
-    font-family: inherit; font-size: 0.9rem;
+    font-family: inherit; font-size: 0.9rem; font-weight: 500;
     transition: border-color 0.2s, box-shadow 0.2s;
     width: 100%; outline: none;
     appearance: none;
     -webkit-appearance: none;
   }
   select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
   }
   select option { background: #1e2f48; color: var(--text); }
   input:focus, select:focus {
     border-color: var(--blue-light);
     box-shadow: 0 0 0 3px rgba(26,86,219,0.15);
   }
+  select:hover { border-color: rgba(255,255,255,0.2); }
   input::placeholder { color: var(--text-muted); opacity: 0.5; }
 
   /* BUTTON */
@@ -793,7 +795,8 @@
           <div class="field">
             <label>Status PTKP <span style="font-size:0.72rem;color:var(--text-muted);">(PMK 101/PMK.010/2016)</span></label>
             <select id="ter_ptkp" onchange="hitungTER()">
-              <option value="A_54000000">TK/0 — Rp 54.000.000 (Kategori A)</option>
+              <option value="" disabled selected>— Pilih Status PTKP —</option>
+                            <option value="A_54000000">TK/0 — Rp 54.000.000 (Kategori A)</option>
               <option value="A_58500000">TK/1 — Rp 58.500.000 (Kategori A)</option>
               <option value="B_63000000">TK/2 — Rp 63.000.000 (Kategori B)</option>
               <option value="B_67500000">TK/3 — Rp 67.500.000 (Kategori B)</option>
@@ -805,8 +808,9 @@
           </div>
           <div class="field">
             <label>Masa Pajak</label>
-            <select id="ter_masa">
-              <option value="1">Januari</option>
+            <select id="ter_masa" onchange="hitungTER()">
+              <option value="" disabled selected>— Pilih Masa Pajak —</option>
+                            <option value="1">Januari</option>
               <option value="2">Februari</option>
               <option value="3">Maret</option>
               <option value="4">April</option>
@@ -877,7 +881,8 @@
               </i>
             </label>
             <select id="ter_skema" onchange="hitungTER()">
-              <option value="gross">Gross — Karyawan Tanggung PPh</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                            <option value="gross">Gross — Karyawan Tanggung PPh</option>
               <option value="netto">Netto — Perusahaan Tanggung PPh</option>
               <option value="gross_up">Gross Up — Perusahaan Beri Tunjangan PPh</option>
             </select>
@@ -914,17 +919,14 @@
           <span class="acc-chevron" id="chev_umum">▼</span>
         </button>
         <div class="acc-body" id="body_umum" style="display:none">
-      <div class="ter-note" style="margin-bottom:1rem;">
-        📋 <strong>Masa Pajak Terakhir (PMK 168/2023):</strong> Khusus <b>Pegawai Tetap</b>. Berlaku untuk masa Desember (full year) atau masa terakhir jika pegawai resign/pensiun/meninggal di tengah tahun. PPh dihitung ulang secara tahunan menggunakan Tarif Pasal 17, dikurangi PPh yang sudah dipotong via TER bulan-bulan sebelumnya.
-      </div>
-
       <div class="card">
         <div class="card-title">Data Pegawai Tetap</div>
         <div class="grid-2">
           <div class="field">
             <label>Status PTKP</label>
             <select id="pph21_ptkp" onchange="hitung21()">
-              <option value="54000000">TK/0 — Rp 54.000.000</option>
+              <option value="" disabled selected>— Pilih Status PTKP —</option>
+                            <option value="54000000">TK/0 — Rp 54.000.000</option>
               <option value="58500000">TK/1 — Rp 58.500.000</option>
               <option value="63000000">TK/2 — Rp 63.000.000</option>
               <option value="67500000">TK/3 — Rp 67.500.000</option>
@@ -945,14 +947,16 @@
               </i>
             </label>
             <select id="pph21_skenario" onchange="toggleSkenario(); hitung21()">
-              <option value="A">Skenario A — Bekerja dari Januari (atau resign tengah tahun)</option>
+              <option value="" disabled selected>— Pilih Skenario —</option>
+                            <option value="A">Skenario A — Bekerja dari Januari (atau resign tengah tahun)</option>
               <option value="B">Skenario B — Mulai bekerja pertengahan tahun</option>
             </select>
           </div>
           <div class="field" id="field_bulan_mulai" style="display:none">
             <label>Bulan Mulai Bekerja</label>
             <select id="pph21_bulan_mulai" onchange="hitung21()">
-              <option value="2">Februari</option><option value="3">Maret</option>
+              <option value="" disabled selected>— Pilih Bulan —</option>
+                            <option value="2">Februari</option><option value="3">Maret</option>
               <option value="4">April</option><option value="5">Mei</option>
               <option value="6">Juni</option><option value="7">Juli</option>
               <option value="8">Agustus</option><option value="9">September</option>
@@ -963,12 +967,13 @@
           <div class="field">
             <label>Bulan Masa Pajak Terakhir</label>
             <select id="pph21_bulan_terakhir" onchange="hitung21()">
-              <option value="1">Januari</option><option value="2">Februari</option>
+              <option value="" disabled selected>— Pilih Bulan —</option>
+                            <option value="1">Januari</option><option value="2">Februari</option>
               <option value="3">Maret</option><option value="4">April</option>
               <option value="5">Mei</option><option value="6">Juni</option>
               <option value="7">Juli</option><option value="8">Agustus</option>
               <option value="9">September</option><option value="10">Oktober</option>
-              <option value="11">November</option><option value="12" selected>Desember</option>
+              <option value="11">November</option><option value="12">Desember</option>
             </select>
           </div>
         </div>
@@ -1032,7 +1037,8 @@
               </i>
             </label>
             <select id="pph21_skema" onchange="toggleGrossUpInfo21(); hitung21()">
-              <option value="gross">Gross — Karyawan Tanggung PPh</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                            <option value="gross">Gross — Karyawan Tanggung PPh</option>
               <option value="netto">Netto — Perusahaan Tanggung PPh</option>
               <option value="gross_up">Gross Up — Perusahaan Beri Tunjangan PPh</option>
             </select>
@@ -1044,6 +1050,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="ter-note" style="margin-bottom:1rem;">
+        📋 <strong>Masa Pajak Terakhir (PMK 168/2023):</strong> Khusus <b>Pegawai Tetap</b>. Berlaku untuk masa Desember (full year) atau masa terakhir jika pegawai resign/pensiun/meninggal di tengah tahun. PPh dihitung ulang secara tahunan menggunakan Tarif Pasal 17, dikurangi PPh yang sudah dipotong via TER bulan-bulan sebelumnya.
       </div>
 
       <div class="result-box" id="result21" style="display:none">
@@ -1071,14 +1081,16 @@
           <div class="field">
             <label>Jenis</label>
             <select id="nt_jenis" onchange="hitungNonTetap()">
-              <option value="ptt_harian">Upah Harian</option>
+              <option value="" disabled selected>— Pilih Jenis Upah —</option>
+                            <option value="ptt_harian">Upah Harian</option>
               <option value="ptt_bulanan">Upah Bulanan</option>
             </select>
           </div>
           <div class="field">
             <label>Status PTKP</label>
             <select id="nt_ptkp" onchange="hitungNonTetap()">
-              <option value="54000000">TK/0 — Rp 54.000.000</option>
+              <option value="" disabled selected>— Pilih Status PTKP —</option>
+                            <option value="54000000">TK/0 — Rp 54.000.000</option>
               <option value="58500000">TK/1 — Rp 58.500.000</option>
               <option value="63000000">TK/2 — Rp 63.000.000</option>
               <option value="67500000">TK/3 — Rp 67.500.000</option>
@@ -1107,7 +1119,8 @@
               </i>
             </label>
             <select id="nt_skema" onchange="hitungNonTetap()">
-              <option value="gross">Gross — Karyawan Tanggung PPh</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                            <option value="gross">Gross — Karyawan Tanggung PPh</option>
               <option value="netto">Netto — Perusahaan Tanggung PPh</option>
               <option value="gross_up">Gross Up — Perusahaan Beri Tunjangan PPh</option>
             </select>
@@ -1170,15 +1183,11 @@
           <span class="acc-chevron" id="chev_bp">▼</span>
         </button>
         <div class="acc-body" id="body_bp" style="display:none">
-<div class="ter-note" style="margin-bottom:1rem;">
-        📋 <strong>PMK 168/2023 — Bukan Pegawai:</strong> Tidak lagi dibedakan berkesinambungan vs tidak berkesinambungan. Tidak ada lagi penghitungan kumulatif antar bulan. <b>Rumus tunggal: PPh = Tarif Psl 17 × (50% × Penghasilan Bruto)</b> per masa pajak/pembayaran.
-      </div>
-
       <div class="card">
         <div class="card-title">Jenis Bukan Pegawai</div>
         <div class="grid-2">
           <div class="field">
-            <label>Jenis Bukan Pegawai (Kode Objek Pajak Coretax)</label>
+            <label>Jenis Bukan Pegawai</label>
             <select id="bp_kop_val" onchange="hitungBP()">
               <option value="">— Pilih Jenis Bukan Pegawai —</option>
               <optgroup label="Deemed 50% × Bruto (DPP = 50%)">
@@ -1219,7 +1228,8 @@
               </i>
             </label>
             <select id="bp_skema" onchange="hitungBP()">
-              <option value="gross">Gross — Bukan Pegawai Tanggung PPh</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                            <option value="gross">Gross — Bukan Pegawai Tanggung PPh</option>
               <option value="netto">Netto — Pemberi Kerja Tanggung PPh</option>
               <option value="gross_up">Gross Up — Honorarium Dinaikkan</option>
             </select>
@@ -1252,6 +1262,10 @@
             ℹ️ <strong>DPP = 100% Bruto:</strong> Untuk jenis ini, Dasar Pengenaan Pajak = <b>seluruh penghasilan bruto</b> (bukan 50%). Tarif Psl 17 dikenakan atas bruto penuh. Tidak ada pengurangan deemed expense.
           </div>
         </div>
+      </div>
+
+      <div class="ter-note" style="margin-bottom:1rem;">
+        📋 <strong>PMK 168/2023 — Bukan Pegawai:</strong> Tidak lagi dibedakan berkesinambungan vs tidak berkesinambungan. Tidak ada lagi penghitungan kumulatif antar bulan. <b>Rumus tunggal: PPh = Tarif Psl 17 × (50% × Penghasilan Bruto)</b> per masa pajak/pembayaran.
       </div>
 
       <div class="result-box" id="resultBP" style="display:none; margin-top:1.5rem; border-color:rgba(245,158,11,0.3); background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(251,191,36,0.03))">
@@ -1349,7 +1363,8 @@
             </i>
           </label>
           <select id="p22_skema" onchange="hitungP22()">
-            <option value="gross">Gross — Dipungut atas Nilai Sebenarnya</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                          <option value="gross">Gross — Dipungut atas Nilai Sebenarnya</option>
             <option value="netto">Netto — Pemungut Tanggung PPh</option>
             <option value="gross_up">Gross Up — Nilai Dinaikkan</option>
           </select>
@@ -1486,7 +1501,8 @@
             </i>
           </label>
           <select id="pph23_skema" onchange="hitung23()">
-            <option value="gross">Gross — Penerima Tanggung Pajak</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                          <option value="gross">Gross — Penerima Tanggung Pajak</option>
             <option value="netto">Netto — Pemberi Tanggung Pajak</option>
             <option value="gross_up">Gross Up — Bruto Dinaikkan agar Neto Terjaga</option>
           </select>
@@ -1592,7 +1608,8 @@
             </i>
           </label>
           <select id="pph4_skema" onchange="hitung4()">
-            <option value="gross">Gross — Penerima Tanggung Pajak</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                          <option value="gross">Gross — Penerima Tanggung Pajak</option>
             <option value="netto">Netto — Pemotong Tanggung Pajak</option>
             <option value="gross_up">Gross Up — Bruto Dinaikkan agar Neto Terjaga</option>
           </select>
@@ -1663,7 +1680,8 @@
             </i>
           </label>
           <select id="p15_skema" onchange="hitungP15()">
-            <option value="gross">Gross — Penerima Tanggung Pajak</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                          <option value="gross">Gross — Penerima Tanggung Pajak</option>
             <option value="netto">Netto — Pemberi Tanggung Pajak</option>
             <option value="gross_up">Gross Up — Imbalan Dinaikkan</option>
           </select>
@@ -1705,7 +1723,8 @@
         <div class="field">
           <label>PTKP</label>
           <select id="p24_ptkp" onchange="hitungP24()">
-            <option value="54000000">TK/0 — Rp 54.000.000</option>
+              <option value="" disabled selected>— Pilih Status PTKP —</option>
+                          <option value="54000000">TK/0 — Rp 54.000.000</option>
             <option value="58500000">TK/1 — Rp 58.500.000</option>
             <option value="63000000">TK/2 — Rp 63.000.000</option>
             <option value="67500000">TK/3 — Rp 67.500.000</option>
@@ -1822,7 +1841,8 @@
         <div class="field">
           <label>Jenis Penghasilan</label>
           <select id="p3b_jenis" onchange="lookupP3B()">
-            <option value="dividen">Dividen</option>
+              <option value="" disabled selected>— Pilih Jenis Penghasilan —</option>
+                          <option value="dividen">Dividen</option>
             <option value="bunga">Bunga (Interest)</option>
             <option value="royalti">Royalti</option>
             <option value="jasa">Imbalan Jasa / Technical Services</option>
@@ -1871,7 +1891,8 @@
             </i>
           </label>
           <select id="p26_skema" onchange="hitungP26()">
-            <option value="gross">Gross — WPLN Tanggung Pajak</option>
+              <option value="" disabled selected>— Pilih Skema —</option>
+                          <option value="gross">Gross — WPLN Tanggung Pajak</option>
             <option value="netto">Netto — Pemberi Tanggung Pajak</option>
             <option value="gross_up">Gross Up — Imbalan Dinaikkan</option>
           </select>
@@ -1921,7 +1942,8 @@
             </i>
           </label>
           <select id="ppn_skema" onchange="switchPPNSkema()">
-            <option value="non_mewah">BKP/JKP Non-Mewah — DPP Nilai Lain 11/12 (Efektif 11%)</option>
+              <option value="" disabled selected>— Pilih Jenis PPN —</option>
+                          <option value="non_mewah">BKP/JKP Non-Mewah — DPP Nilai Lain 11/12 (Efektif 11%)</option>
             <option value="mewah">BKP Mewah (PPnBM) — DPP Harga Jual Penuh (12%)</option>
             <option value="ekspor">Ekspor BKP/JKP — Tarif 0%</option>
             <option value="nilai_lain">Besaran Tertentu (PMK 11/2025)</option>
@@ -1930,7 +1952,8 @@
         <div class="field">
           <label>Arah Perhitungan</label>
           <select id="ppn_arah" onchange="hitungPPN()">
-            <option value="dari_harga">Harga Belum Termasuk PPN → Hitung PPN</option>
+              <option value="" disabled selected>— Pilih Arah Hitung —</option>
+                          <option value="dari_harga">Harga Belum Termasuk PPN → Hitung PPN</option>
             <option value="dari_total">Harga Sudah Termasuk PPN → Pisahkan PPN</option>
           </select>
         </div>
@@ -2199,6 +2222,12 @@ function setInputMode21(mode) {
 }
 
 function hitung21() {
+  if (!document.getElementById('pph21_ptkp').value ||
+      !document.getElementById('pph21_skenario').value ||
+      !document.getElementById('pph21_bulan_terakhir').value ||
+      !document.getElementById('pph21_skema').value) {
+    document.getElementById('result21').style.display = 'none'; return;
+  }
   const gaji    = parseFloat(document.getElementById('pph21_gaji').value)         || 0;
   const tunj    = parseFloat(document.getElementById('pph21_tunjangan').value)    || 0;
   const premi   = parseFloat(document.getElementById('pph21_premi').value)        || 0;
@@ -2458,6 +2487,10 @@ function toggleTerTable() {
 }
 
 function hitungTER() {
+  const ptkpVal  = document.getElementById('ter_ptkp').value;
+  const skemaVal = document.getElementById('ter_skema').value;
+  const masaVal  = document.getElementById('ter_masa').value;
+  if (!ptkpVal || !skemaVal || !masaVal) { document.getElementById('resultTER').style.display = 'none'; return; }
   const gaji     = parseFloat(document.getElementById('ter_gaji').value) || 0;
   const tunj     = parseFloat(document.getElementById('ter_tunjangan').value) || 0;
   const bonus    = parseFloat(document.getElementById('ter_bonus').value) || 0;
@@ -2548,6 +2581,7 @@ function hitungNonTetap() {
   const jenis  = document.getElementById('nt_jenis').value;
   const skema  = document.getElementById('nt_skema').value;
   const ptkpRaw = document.getElementById('nt_ptkp').value;
+  if (!jenis || !ptkpRaw) { document.getElementById('resultNonTetap').style.display = 'none'; return; }
   const ptkp   = parseInt(ptkpRaw.replace('_k',''));
 
   document.getElementById('nt_card_harian').style.display  = jenis === 'ptt_harian'  ? 'block' : 'none';
@@ -2745,7 +2779,7 @@ function hitungBP() {
   document.getElementById('bp_gu_icon').style.display   = skema === 'gross_up' ? 'inline-flex' : 'none';
 
   const hide = () => document.getElementById('resultBP').style.display = 'none';
-  if (!bruto) { hide(); return; }
+  if (!jenis || !bruto) { hide(); return; }
 
   const brutoBersihAsli = bruto;
   const deemedLabel = deemed === 50 ? '50%' : '100%';
@@ -3080,6 +3114,7 @@ function hitungBadan() {
   const pb    = parseFloat(document.getElementById('pb_peredaran').value) || 0;
   const pkp   = parseFloat(document.getElementById('pb_pkp').value) || 0;
   const jenis = document.getElementById('pb_jenis').value;
+  if (!jenis) { document.getElementById('resultBadan').style.display = 'none'; return; }
 
   // Kredit pajak
   const k22    = parseFloat(document.getElementById('pb_kredit22').value) || 0;
@@ -3199,10 +3234,10 @@ function switchPPNSkema() {
   // Ekspor: PPN 0% → opsi "sudah termasuk PPN" tidak relevan, disable
   if (skema === 'ekspor' || skema === 'nilai_lain') {
     // nilai_lain & ekspor: selalu dari_harga / nilai transaksi
-    arahSel.options[1].disabled = (skema === 'ekspor');
+    arahSel.options[2].disabled = (skema === 'ekspor');
     if (skema === 'ekspor' && arahSel.value === 'dari_total') arahSel.value = 'dari_harga';
   } else {
-    arahSel.options[1].disabled = false;
+    arahSel.options[2].disabled = false;
   }
 
   const infoMap = {
@@ -3243,6 +3278,7 @@ function hitungPPN() {
   const nilaiInput = parseFloat(document.getElementById('ppn_dpp').value) || 0;
   const skema = document.getElementById('ppn_skema').value;
   const arah  = document.getElementById('ppn_arah').value;
+  if (!skema || !arah) { document.getElementById('resultPPN').style.display = 'none'; return; }
   const hide  = () => { document.getElementById('resultPPN').style.display = 'none'; };
 
   // Sync label saat arah berubah (tanpa reload skema)
@@ -3469,6 +3505,7 @@ function tarifPPh21_p24(pkp) {
 
 function hitungP24() {
   const totalNeto = parseFloat(document.getElementById('p24_total_neto').value) || 0;
+  if (!document.getElementById('p24_ptkp').value) { document.getElementById('resultP24').style.display = 'none'; return; }
   const ptkp      = parseFloat(document.getElementById('p24_ptkp').value) || 54000000;
 
   // Kumpulkan data semua negara
@@ -3560,6 +3597,7 @@ function hitungP15() {
   const input  = parseFloat(document.getElementById('p15_bruto').value) || 0;
   const jenisVal = document.getElementById('p15_kop_val').value;
   const skema  = document.getElementById('p15_skema').value;
+  if (!skema) { document.getElementById('resultP15').style.display = 'none'; return; }
 
   const [kode, tarifStr] = jenisVal.split('|');
   const tarifPct = parseFloat(tarifStr) || 0;
@@ -3845,6 +3883,7 @@ function hitungP26() {
   const input  = parseFloat(document.getElementById('p26_bruto').value) || 0;
   const jenis  = document.getElementById('p26_jenis').value;
   const skema  = document.getElementById('p26_skema').value;
+  if (!skema) { document.getElementById('resultP26').style.display = 'none'; return; }
 
   const isCustom = jenis === 'custom';
   document.getElementById('p26_custom_wrap').style.display = isCustom ? 'block' : 'none';
@@ -3990,9 +4029,9 @@ function kop_pph4_show()  { _kopShow('pph4_kop_drop','pph4_kop_search','pph4_kop
 function kop_pph4_hide()  { _kopHide('pph4_kop_drop'); }
 function kop_pph4_filter(){ _kopRender('pph4_kop_drop','pph4_kop_search','pph4_kop_val',_KOP_P4,'hitung4'); document.getElementById('pph4_kop_drop').style.display='block'; }
 
-function kop_p15_show()  { _kopShow('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitung15'); }
+function kop_p15_show()  { _kopShow('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitungP15'); }
 function kop_p15_hide()  { _kopHide('p15_kop_drop'); }
-function kop_p15_filter(){ _kopRender('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitung15'); document.getElementById('p15_kop_drop').style.display='block'; }
+function kop_p15_filter(){ _kopRender('p15_kop_drop','p15_kop_search','p15_kop_val',_KOP_P15,'hitungP15'); document.getElementById('p15_kop_drop').style.display='block'; }
 
 // ── getValue helpers: read from hidden KOP input or normal select ──
 function _kopVal(pfx) {
@@ -4174,7 +4213,8 @@ function kop_ppnbm_filter(){ _kopRender('ppnbm_kop_drop','ppnbm_kop_search','ppn
         <div class="field">
           <label>Jenis Badan</label>
           <select id="pb_jenis" onchange="hitungBadan()">
-            <option value="biasa">WP Badan Biasa</option>
+              <option value="" disabled selected>— Pilih Jenis Badan —</option>
+                          <option value="biasa">WP Badan Biasa</option>
             <option value="tbk">Perusahaan Tbk (Go Public)</option>
           </select>
         </div>
