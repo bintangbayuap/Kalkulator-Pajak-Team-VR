@@ -1995,10 +1995,7 @@ select {
         <label>Jenis Transaksi Besaran Tertentu <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted);">· PMK 11/2025</span></label>
         <select id="ppn_nilailain_kop_val" onchange="hitungPPN()">
           <option value="">— Pilih Jenis Transaksi —</option>
-          <optgroup label="BKP Khusus — Besaran Tetap">
-            <option value="tembakau">Hasil Tembakau (Rokok/Cerutu/Tembakau Iris dll) — 9,9% dari HJE</option>
-            <option value="lpg_subsidi">LPG Tertentu — Badan Usaha ke Agen — efektif 11% dari HJE</option>
-          </optgroup>
+
           <optgroup label="Jasa Tertentu — Efektif 1,1% (PMK 11/2025)">
             <option value="jasa_pengiriman">Jasa Pengiriman Paket — faktor 10% → efektif 1,1%</option>
             <option value="biro_perjalanan">Jasa Biro/Agen Perjalanan Wisata — faktor 10% → efektif 1,1%</option>
@@ -2130,7 +2127,7 @@ select {
           <input type="text" inputmode="numeric" id="ppnbm_dpp" placeholder="0" oninput="applyNumFmt(this);hitungPPnBM()">
         </div>
       </div>
-      <div class="tarif-info" id="ppnbm_tarif_info" style="margin-top:1rem;">Tarif PPnBM: —</div>
+      <div class="tarif-info" id="ppnbm_tarif_info" style="margin-top:1rem;">Tarif PPnBM: 0%</div>
       <div class="grossup-info" style="margin-top:0.75rem; border-color:rgba(250,204,21,0.3);background:rgba(250,204,21,0.06);color:#fde68a;">
         ℹ️ <b>PP 73/2019 jo PP 74/2021:</b> Tarif kendaraan ditentukan oleh jenis propulsi, kapasitas mesin, dan tipe kendaraan. Kendaraan listrik BEV = 0%. Konsultasikan tabel resmi untuk kepastian tarif spesifik.
       </div>
@@ -3334,8 +3331,6 @@ function hitungBadan() {
 // (menggantikan PMK 71/2022, PMK 121/2015, dll.)
 //
 const PPN_BESARAN = {
-  tembakau:           { type: 'besaran_tetap',  tarif: 9.9,  label: 'Hasil Tembakau (Rokok/Cerutu/Tembakau Iris dll)',    dasar: 'PMK 11/2025 jo. PMK 63/2022 — 9,9% dari HJE' },
-  lpg_subsidi:        { type: 'lpg_dppnl',                   label: 'LPG Tertentu — Badan Usaha ke Agen (Subsidi & Non-Subsidi)', dasar: 'PMK 11/2025 jo. PMK 62/2022 — DPP = 11/12 × HJE' },
   jasa_pengiriman:    { faktor: 10, label: 'Jasa Pengiriman Paket',                    dasar: 'PMK 11/2025 jo. PMK 71/2022' },
   biro_perjalanan:    { faktor: 10, label: 'Jasa Biro/Agen Perjalanan Wisata',          dasar: 'PMK 11/2025 jo. PMK 71/2022' },
   freight_forwarding: { faktor: 10, label: 'Jasa Pengurusan Transportasi (Freight Forwarding)', dasar: 'PMK 11/2025 jo. PMK 71/2022' },
@@ -3808,18 +3803,9 @@ function hitungPPN() {
     const jenisKey = document.getElementById('ppn_nilailain_kop_val').value;
     const cfg      = PPN_BESARAN[jenisKey];
 
-    if (!jenisKey || !cfg && jenisKey !== 'pemakaian_sendiri' && jenisKey !== 'tembakau' && jenisKey !== 'lpg_subsidi') { hide(); return; }
+    if (!jenisKey || !cfg && jenisKey !== 'pemakaian_sendiri') { hide(); return; }
 
-    // HJE untuk tembakau & lpg_subsidi selalu inklusif PPN — arah dropdown tidak berlaku
-    const _hjeFixed = ['tembakau', 'lpg_subsidi'];
-    if (_hjeFixed.includes(jenisKey)) {
-      const arahEl = document.getElementById('ppn_arah');
-      arahEl.value = 'dari_harga';          // paksa dari_harga
-      arahEl.options[2].disabled = true;    // nonaktifkan dari_total
-      document.getElementById('ppn_input_label').textContent = 'HJE (Harga Jual Eceran) — sudah termasuk PPN (Rp)';
-    } else {
-      document.getElementById('ppn_arah').options[2].disabled = false;
-    }
+    document.getElementById('ppn_arah').options[2].disabled = false;
 
     if (jenisKey === 'pemakaian_sendiri') {
       // DPP = HPP; PPN = 12% × 11/12 × HPP = 11% × HPP
@@ -3838,40 +3824,6 @@ function hitungPPN() {
         { label: 'PPN Terutang',                             value: fmt(ppn), total: true },
         { label: 'Total (HPP + PPN)',                        value: fmt(hpp + ppn) },
         { label: 'Tarif Efektif (atas HPP)',                  value: '11%' },
-      ];
-    } else if (jenisKey === 'tembakau') {
-      // PMK 11/2025 jo. PMK 63/2022 — Besaran Tertentu TETAP 9,9% dari HJE
-      // HJE sudah termasuk PPN, jadi tidak ada "dari_total" mode
-      const hje = nilaiInput;
-      const ppn = hje * 0.099;
-      const hargaTanpaPPN = hje - ppn;
-      rows = [
-        { label: 'Dasar Regulasi',                           value: 'PMK 11/2025 jo. PMK 63/2022 — Hasil Tembakau' },
-        { label: 'Jenis',                                    value: 'Hasil Tembakau (Rokok/Cerutu/Tembakau Iris/dll)' },
-        { label: 'HJE (Harga Jual Eceran) — input',          value: fmt(hje) },
-        { label: 'Formula PPN',                              value: '9,9% × HJE (Besaran Tertentu Tetap)' },
-        { label: 'Dasar Hukum Tarif',                        value: '100/111 × HJE = DPP → 11% × DPP ≈ 9,9% × HJE' },
-        { label: 'PPN Terutang',                             value: fmt(ppn), total: true },
-        { label: 'Harga Tanpa PPN (HJE − PPN)',              value: fmt(hargaTanpaPPN) },
-        { label: 'ℹ️ Catatan',                               value: 'HJE ditetapkan pemerintah & sudah termasuk PPN' },
-      ];
-    } else if (jenisKey === 'lpg_subsidi') {
-      // PMK 11/2025 jo. PMK 62/2022 — DPP Nilai Lain = 11/12 × HJE
-      // HJE = Harga Jual Eceran yang ditetapkan pemerintah (sudah termasuk PPN)
-      const hje   = nilaiInput;
-      const dppNL = hje * (11 / 12);
-      const ppn   = dppNL * 0.12; // = 11% × HJE
-      const hargaTanpaPPN = hje - ppn;
-      rows = [
-        { label: 'Dasar Regulasi',                           value: 'PMK 11/2025 jo. PMK 62/2022 — LPG Tertentu' },
-        { label: 'Jenis',                                    value: 'LPG Tertentu — Penyerahan Badan Usaha ke Agen' },
-        { label: 'HJE (Harga Jual Eceran) — input',          value: fmt(hje) },
-        { label: 'DPP Nilai Lain (11/12 × HJE)',             value: fmt(dppNL) },
-        { label: 'Tarif PPN (sesuai UU)',                    value: '12%' },
-        { label: 'PPN Terutang (12% × DPP Nilai Lain)',      value: fmt(ppn), total: true },
-        { label: 'Tarif Efektif (atas HJE)',                  value: '11%' },
-        { label: 'Harga Tanpa PPN (HJE − PPN)',              value: fmt(hargaTanpaPPN) },
-        { label: 'ℹ️ Catatan',                               value: 'HJE ditetapkan Menteri ESDM per titik serah agen. Kode faktur 040.' },
       ];
     } else {
       // PPN = f% × 11/12 × 12% × nilai = f% × 11% × nilai
@@ -3916,7 +3868,7 @@ function hitungPPN() {
 function hitungPPnBM() {
   const dpp = parseNumFmt(document.getElementById('ppnbm_dpp').value) || 0;
   const jenis = document.getElementById('ppnbm_kop_val').value;
-  if (!jenis) { document.getElementById('resultPPnBM').style.display = 'none'; return; }
+  if (!jenis) { document.getElementById('ppnbm_tarif_info').textContent = 'Tarif PPnBM: 0%'; document.getElementById('resultPPnBM').style.display = 'none'; return; }
   const tarif = parseFloat(jenis) / 100;
 
   document.getElementById('ppnbm_tarif_info').textContent = `Tarif PPnBM: ${jenis}%`;
@@ -4492,7 +4444,7 @@ function _kopVal(pfx) {
 
 
 // ── PPN Nilai Lain & PPnBM searchable KOP ───────────────
-const _KOP_PPNNL = [{"v": "tembakau", "t": "Hasil Tembakau (Rokok/Cerutu/Tembakau Iris dll) — 9,9% dari HJE", "g": "BKP Khusus — Besaran Tetap"}, {"v": "lpg_subsidi", "t": "LPG Tertentu — Badan Usaha ke Agen — efektif 11% dari HJE", "g": "BKP Khusus — Besaran Tetap"}, {"v": "jasa_pengiriman", "t": "Jasa Pengiriman Paket — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "biro_perjalanan", "t": "Jasa Biro/Agen Perjalanan Wisata — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "freight_forwarding", "t": "Jasa Pengurusan Transportasi / Freight Forwarding — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "voucher_marketing", "t": "Jasa Penyelenggaraan Pemasaran dengan Voucer — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_dirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Dirinci — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_tidakdirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Tidak Dirinci — faktor 5% → efektif 0,55%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "emas_konsumen", "t": "Emas ke Konsumen Akhir (Pabrikan/Pedagang) — faktor 15% → efektif 1,65%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "emas_antar_pkp", "t": "Emas Antar PKP (Pabrikan ↔ Pedagang) — faktor 10% → efektif 1,1%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "pertanian", "t": "Barang Hasil Pertanian Tertentu — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kendaraan_bekas", "t": "Kendaraan Bermotor Bekas — 1,1% dari Harga Jual", "g": "BKP Tertentu"}, {"v": "ayda", "t": "Agunan yang Diambil Alih (AYDA) — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kms", "t": "Kegiatan Membangun Sendiri (KMS) — faktor 20% → efektif 2,2%", "g": "Lainnya"}, {"v": "pemakaian_sendiri", "t": "Pemakaian Sendiri / Pemberian Cuma-Cuma — 12% × 11/12 × HPP = efektif 11% dari HPP", "g": "Lainnya"}];
+const _KOP_PPNNL = [{"v": "jasa_pengiriman", "t": "Jasa Pengiriman Paket — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "biro_perjalanan", "t": "Jasa Biro/Agen Perjalanan Wisata — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "freight_forwarding", "t": "Jasa Pengurusan Transportasi / Freight Forwarding — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "voucher_marketing", "t": "Jasa Penyelenggaraan Pemasaran dengan Voucer — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_dirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Dirinci — faktor 10% → efektif 1,1%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "ibadah_tidakdirinci", "t": "Jasa Perjalanan Ibadah — Tagihan Tidak Dirinci — faktor 5% → efektif 0,55%", "g": "Jasa Tertentu — Efektif 1,1% (PMK 11/2025)"}, {"v": "emas_konsumen", "t": "Emas ke Konsumen Akhir (Pabrikan/Pedagang) — faktor 15% → efektif 1,65%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "emas_antar_pkp", "t": "Emas Antar PKP (Pabrikan ↔ Pedagang) — faktor 10% → efektif 1,1%", "g": "Emas Perhiasan (PMK 48/2023)"}, {"v": "pertanian", "t": "Barang Hasil Pertanian Tertentu — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kendaraan_bekas", "t": "Kendaraan Bermotor Bekas — 1,1% dari Harga Jual", "g": "BKP Tertentu"}, {"v": "ayda", "t": "Agunan yang Diambil Alih (AYDA) — faktor 10% → efektif 1,1%", "g": "BKP Tertentu"}, {"v": "kms", "t": "Kegiatan Membangun Sendiri (KMS) — faktor 20% → efektif 2,2%", "g": "Lainnya"}, {"v": "pemakaian_sendiri", "t": "Pemakaian Sendiri / Pemberian Cuma-Cuma — 12% × 11/12 × HPP = efektif 11% dari HPP", "g": "Lainnya"}];
 const _KOP_PPNBM = [{"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 4 (0%) — PP 73/2019", "g": "Kendaraan Listrik Baterai / BEV (PP 73/2019 jo PP 74/2021)"}, {"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 2 & 3 (0%) — PP 73/2019", "g": "Kendaraan Listrik Baterai / BEV (PP 73/2019 jo PP 74/2021)"}, {"v": "2", "t": "Full Hybrid ≤ 1.500cc — emisi rendah (2%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "5", "t": "Full Hybrid 1.500–2.500cc / PHEV ≤ 1.500cc (5%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "6", "t": "Mild Hybrid / HEV ≤ 1.500cc Bensin (6%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "8", "t": "Full Hybrid 2.500–3.000cc / PHEV 1.500–2.500cc (8%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "10", "t": "Mild Hybrid ≤ 1.500cc 4WD (10%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "12", "t": "Full Hybrid > 3.000cc / PHEV > 2.500cc (12%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Mild Hybrid 1.500–2.500cc Bensin (20%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "25", "t": "Mild Hybrid 1.500–2.500cc 4WD (25%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "30", "t": "Mild Hybrid 2.500–3.000cc Bensin (30%)", "g": "Kendaraan Hybrid (PP 73/2019 jo PP 74/2021)"}, {"v": "3", "t": "LCGC / Kendaraan Hemat Energi & Emisi Rendah (3%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "6", "t": "Sedan / Wagon / Hatchback ≤ 1.500cc Bensin (6%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "10", "t": "Sedan / Wagon ≤ 1.500cc 4WD Bensin (10%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "15", "t": "MPV / Pick-Up / SUV ≤ 1.500cc Bensin (15%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Kendaraan 1.500–2.500cc Bensin (20%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "25", "t": "Kendaraan 1.500–2.500cc 4WD Bensin (25%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "40", "t": "Kendaraan 2.500–3.000cc Bensin (40%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "50", "t": "Kendaraan > 3.000cc Bensin (50%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "60", "t": "Kendaraan CBU Impor — Kategori Tertentu (60%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "70", "t": "Kendaraan CBU Impor Mewah > 3.000cc 4WD (70%)", "g": "Kendaraan Bensin / Diesel (PP 73/2019 jo PP 74/2021)"}, {"v": "20", "t": "Hunian / Properti Mewah ≥ Rp 20 Miliar (20%)", "g": "Non-Kendaraan"}, {"v": "50", "t": "Kapal Pesiar / Yacht / Hovercraft (50%)", "g": "Non-Kendaraan"}, {"v": "75", "t": "Pesawat Terbang Pribadi / Helikopter (75%)", "g": "Non-Kendaraan"}, {"v": "75", "t": "Senjata Api (kecuali keperluan negara) (75%)", "g": "Non-Kendaraan"}, {"v": "20", "t": "Rumah & Tanah Sangat Mewah ≥ Rp 30 Miliar (20%)", "g": "Non-Kendaraan"}];
 
 
@@ -4534,6 +4486,7 @@ const _KOP_PPNBM = [{"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 4 (0%) �
     if (!raw) {
       tarifEl.textContent = '[] Tarif: 0%';
       thresholdInfoEl.style.display = 'none';
+      document.getElementById('p22_emas_info').style.display = 'none';
       document.getElementById('resultP22').style.display = 'none'; return;
     }
 
