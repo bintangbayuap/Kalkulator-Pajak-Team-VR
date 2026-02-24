@@ -4546,25 +4546,43 @@ const _KOP_PPNBM = [{"v": "0", "t": "BEV / Kendaraan Listrik Murni Roda 4 (0%) �
     const tarifLabel = tarif.toLocaleString('id-ID', { maximumFractionDigits: 4 }) + '%';
     tarifEl.textContent = `[${kode}] Tarif: ${tarifLabel}${isFinal ? ' (Final)' : ''}`;
 
-    // ── Info box khusus Emas Perhiasan (PMK 48/2023 Pasal 5) ──────────────────
-    const P22_EMAS_KODE = {
-      '22-100-26': { jenis: 'Emas Perhiasan',                     ref: 'PMK 48/2023 Pasal 5' },
-      '22-100-25': { jenis: 'Emas Batangan',                      ref: 'PMK 48/2023 Pasal 5' },
-      '22-100-27': { jenis: 'Perhiasan Bukan Emas / Batu Permata', ref: 'PMK 48/2023 Pasal 5' },
-      '22-100-14': { jenis: 'Emas Batangan (Badan Usaha)',         ref: 'PMK 48/2023 Pasal 5' },
-    };
+    // ── Info box khusus Emas — berbeda per jenis (PMK 48/2023 & PMK 52/2025) ─
     const emasInfoEl = document.getElementById('p22_emas_info');
-    const emasNoteData = P22_EMAS_KODE[kode];
-    if (emasNoteData) {
+    // Kode EMAS BATANGAN: 22-100-25 dan 22-100-14 → 6 pengecualian (termasuk Bank Indonesia & Bank Bulion)
+    const EMAS_BATANGAN_KODE = {
+      '22-100-25': { jenis: 'Emas Batangan',              ref: 'PMK 52/2025' },
+      '22-100-14': { jenis: 'Emas Batangan (Badan Usaha)', ref: 'PMK 52/2025' },
+    };
+    // Kode EMAS PERHIASAN: 22-100-26 dan 22-100-27 → 3 pengecualian saja
+    const EMAS_PERHIASAN_KODE = {
+      '22-100-26': { jenis: 'Emas Perhiasan',                      ref: 'PMK 48/2023 Pasal 5' },
+      '22-100-27': { jenis: 'Perhiasan Bukan Emas / Batu Permata',  ref: 'PMK 48/2023 Pasal 5' },
+    };
+
+    if (EMAS_BATANGAN_KODE[kode]) {
+      const d = EMAS_BATANGAN_KODE[kode];
       emasInfoEl.innerHTML =
-        `⚠️ <b>Pengecualian Pemungutan PPh 22 — ${emasNoteData.jenis} (${emasNoteData.ref}):</b><br>` +
+        `⚠️ <b>Pengecualian Pemungutan PPh 22 — ${d.jenis} (${d.ref}):</b><br>` +
         `PPh 22 <b>TIDAK dipungut</b> apabila penjualan dilakukan kepada salah satu dari berikut:<br>` +
         `<ol style="margin:4px 0 2px 18px;padding:0;line-height:1.7;">` +
         `<li><b>Konsumen Akhir</b> — pembeli akhir yang tidak melakukan penjualan kembali</li>` +
         `<li><b>WP PPh Final (Surat Keterangan PP 55/2022 eks PP 23/2018)</b> — WP UMKM dengan omset di bawah Rp 4,8M yang menggunakan PPh Final 0,5%</li>` +
         `<li><b>WP pemegang SKB Pemungutan PPh 22</b> — wajib pajak yang telah mendapat pembebasan dari DJP</li>` +
-        `<li><b>Bank Indonesia</b> (khusus emas batangan)</li>` +
+        `<li><b>Bank Indonesia</b></li>` +
         `<li><b>Penjualan melalui pasar fisik emas digital</b> sesuai UU Perdagangan Berjangka Komoditi</li>` +
+        `<li><b>Bank Bulion</b> — bank yang menjalankan kegiatan usaha bullion</li>` +
+        `</ol>` +
+        `Jika pembeli <b>bukan</b> dari kriteria di atas → PPh 22 dipungut <b>0,25%</b> dari harga jual (tidak final, dapat dikreditkan).`;
+      emasInfoEl.style.display = 'block';
+    } else if (EMAS_PERHIASAN_KODE[kode]) {
+      const d = EMAS_PERHIASAN_KODE[kode];
+      emasInfoEl.innerHTML =
+        `⚠️ <b>Pengecualian Pemungutan PPh 22 — ${d.jenis} (${d.ref}):</b><br>` +
+        `PPh 22 <b>TIDAK dipungut</b> apabila penjualan dilakukan kepada salah satu dari berikut:<br>` +
+        `<ol style="margin:4px 0 2px 18px;padding:0;line-height:1.7;">` +
+        `<li><b>Konsumen Akhir</b> — pembeli akhir yang tidak melakukan penjualan kembali</li>` +
+        `<li><b>WP PPh Final (Surat Keterangan PP 55/2022 eks PP 23/2018)</b> — WP UMKM dengan omset di bawah Rp 4,8M yang menggunakan PPh Final 0,5%</li>` +
+        `<li><b>WP pemegang SKB Pemungutan PPh 22</b> — wajib pajak yang telah mendapat pembebasan dari DJP</li>` +
         `</ol>` +
         `Jika pembeli <b>bukan</b> dari kriteria di atas → PPh 22 dipungut <b>0,25%</b> dari harga jual (tidak final, dapat dikreditkan).`;
       emasInfoEl.style.display = 'block';
