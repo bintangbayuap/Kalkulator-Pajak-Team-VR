@@ -1309,8 +1309,8 @@ select {
               <option value="22-100-13|1.5">22-100-13 | Komoditas Tambang Batubara, Mineral dari Pemegang IUP</option>
               <option value="22-404-01|1.5">22-404-01 | Ekspor Komoditas Tambang, Mineral Logam &amp; Bukan Logam</option>
             </optgroup>
-            <optgroup label="0,25%–0,45% — Emas &amp; Perhiasan">
-              <option value="22-100-14|0.45">22-100-14 | Penjualan Emas Batangan oleh Badan Usaha (0,45%)</option>
+            <optgroup label="0,25% — Emas &amp; Perhiasan">
+              <option value="22-100-14|0.25">22-100-14 | Penjualan Emas Batangan oleh Badan Usaha (0,25%)</option>
               <option value="22-100-25|0.25">22-100-25 | Penjualan Emas Batangan oleh Pengusaha Emas Perhiasan (0,25%)</option>
               <option value="22-100-26|0.25">22-100-26 | Penjualan Emas Perhiasan oleh Pengusaha Emas Perhiasan (0,25%)</option>
               <option value="22-100-27|0.25">22-100-27 | Penjualan Perhiasan Selain Emas &amp; Batu Permata (0,25%)</option>
@@ -3422,8 +3422,6 @@ function switchPPNSkema() {
     lpg_pangkalan:               'Harga Jual Pangkalan (HJP) — harga ditagihkan ke Konsumen (Rp)',
     pupuk_produsen:              'HET per kg (atau total nilai penyerahan) — Rp',
     pupuk_dist:                  'Nilai Penyerahan Pupuk (Rp)',
-    nilai_lain:                  arah === 'dari_total' ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)' : 'Nilai Transaksi / Tagihan (Rp)',
-    mewah:                       arah === 'dari_total' ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)' : 'Harga Jual BKP Mewah (Rp)',
     asuransi_kerugian:           arah === 'dari_total' ? 'Premi Bruto Sudah Termasuk PPN (Rp)' : 'Premi Bruto (Rp)',
     asuransi_jiwa:               'Nilai Premi (tidak dikenai PPN) (Rp)',
     asuransi_reasuransi:         'Nilai Premi Reasuransi (tidak dikenai PPN) (Rp)',
@@ -3450,9 +3448,6 @@ function hitungPPN() {
   // Sync label saat arah berubah (tanpa reload skema)
   const inputLbl = document.getElementById('ppn_input_label');
   const _lm = {
-    non_mewah:                  arah === 'dari_total' ? 'Harga Sudah Termasuk PPN (Rp)' : 'Harga Jual / Nilai Transaksi (Rp)',
-    mewah:                      arah === 'dari_total' ? 'Harga Jual BKP Mewah Sudah Termasuk PPN (Rp)' : 'Harga Jual BKP Mewah (Rp)',
-    nilai_lain:                 arah === 'dari_total' ? 'Nilai Transaksi / Tagihan Sudah Termasuk PPN (Rp)' : 'Nilai Transaksi / Tagihan (Rp)',
     asuransi_kerugian:          arah === 'dari_total' ? 'Premi Bruto Sudah Termasuk PPN (Rp)' : 'Premi Bruto (Rp)',
     asuransi_jiwa:              'Nilai Premi (tidak dikenai PPN) (Rp)',
     asuransi_reasuransi:        'Nilai Premi Reasuransi (tidak dikenai PPN) (Rp)',
@@ -3469,7 +3464,7 @@ function hitungPPN() {
     ekspor_bkp_tidak_berwujud:  'Nilai Ekspor BKP Tidak Berwujud (Rp)',
     ekspor_jkp:                 'Nilai Ekspor JKP (Rp)',
   };
-  if (_lm[skema]) inputLbl.textContent = _lm[skema];
+  inputLbl.textContent = _lm[skema] || (arah === 'dari_total' ? 'Harga Sudah Termasuk PPN (Rp)' : 'Harga Jual / Nilai Transaksi (Rp)');
 
   if (!nilaiInput) { hide(); return; }
 
